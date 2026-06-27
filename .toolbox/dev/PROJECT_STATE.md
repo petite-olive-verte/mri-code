@@ -2,103 +2,83 @@
 
 > **À lire en premier par une nouvelle instance qui REPREND LE DÉVELOPPEMENT de la toolbox**
 > (≠ `AGENTS.md`, qui s'adresse à l'utilisateur d'un projet *généré* à partir du template).
-> Dernière mise à jour : 2026-06-27.
+> Dernière mise à jour : 2026-06-28.
 
 ## Ce qu'est ce projet
 
-Un **repo template GitHub « open-and-go »** : on fait *Use this template*, on ouvre un agent de code
-dans le dossier, et l'interaction démarre (idée → spec → plan → scaffold → implémentation TDD avec
-feedback visuel) avant contrôle humain. Orienté **one-shot** (front-load de la précision).
+Un **repo template GitHub piloté par commandes** : *Use this template*, on ouvre un agent dans le
+dossier, un **message d'accueil** présente les commandes, et l'utilisateur pilote le flux
+(idée → spec → plan → scaffold → implémentation TDD → review), avant contrôle humain. Orienté one-shot.
 
-Le **moteur méthodologique** est [Superpowers](https://github.com/obra/superpowers) (MIT, vendoré en
-**submodule** `superpowers/`). Notre couche ajoute : amorçage, feedback MCP, scaffold Python éditable,
-constitution, meta-prompt. **Décision ferme : on garde le submodule.**
+Moteur : [Superpowers](https://github.com/obra/superpowers) (MIT, **submodule** dans
+`.toolbox/superpowers`). Notre couche : amorçage command-driven, feedback MCP, scaffold Python
+éditable, constitution, meta-prompt. **Décisions fermes : on garde le submodule ; mode command-driven.**
 
-## Direction validée — refactor à venir (non encore implémenté)
+## Statut : BUILD + A1 + A2 FAITS
 
-Deux évolutions validées avec l'utilisateur (voir `docs/WORKFLOW.md` pour l'expérience cible) :
-
-- **A1 — mode command-driven** (au lieu de l'auto-déclenchement de Superpowers) : un seul automatisme
-  = un **message d'accueil** au SessionStart (liste les commandes, suggère `/brainstorm`, ou propose de
-  reprendre si un plan a des cases non cochées). Sinon, l'utilisateur pilote via des **commandes
-  wrapper** (`/brainstorm /plan /scaffold /implement /review /finish /debug` + `/meta-prompt`), chacune
-  invoquant la skill correspondante et **suggérant la suivante**. `AGENTS.md` établit ce mode (il prime
-  sur l'auto-déclenchement de Superpowers). Reprise = basée sur l'artefact de plan explicite, pas de
-  sniffing de fichiers.
-- **A2 — tout ranger dans `.toolbox/` (committé)** : déplacer `superpowers/` (submodule),
-  `templates/`, `constitution.md`, `scripts/`, et les méta-docs (`SEARCH_RESULTS/DECISIONS/PLAN/
-  PROJECT_STATE/WORKFLOW`) dans `.toolbox/` (+ `.toolbox/dev/` pour les méta-docs). Maj des chemins :
-  `.gitmodules`, marketplace dans `.claude/settings.json` (`./.toolbox/superpowers`), skill
-  `scaffold-python`, `AGENTS.md`. Supprimer le `skills/` racine redondant (garder `.claude/skills` +
-  `.agents/skills`). Restent forcément à la racine : `AGENTS.md`, `CLAUDE.md`, `README.md`, `.claude/`,
-  `.mcp.json`, `.agents/`, `.gitmodules`.
-
-## Statut : BUILD TERMINÉ (couche initiale ; A1/A2 à venir)
-
-Tout est construit et committé sur `main` (working tree propre). 8 commits :
+Tout est construit et committé sur `main` (working tree propre). Commits clés :
 
 ```
-c69d8e0 Activation self-contained de Superpowers (option A)
-b1f5caf Lot 6: portabilité (Codex) + README final
-43f9a69 Lot 5: skill meta-prompt autonome + commande /meta-prompt
-f38a779 Lot 4: feedback visuel/runtime (MCP) + hooks lint/test
-f2c3997 Lot 3: scaffold Python (template uv) + skill scaffold-python
-55fdb9c Lot 2: constitution.md
-76883f1 Lot 1: bootstrap open-and-go + orientation one-shot
-b8d4b93 Lot 0: squelette + Superpowers en submodule
+c27405d A1: mode piloté par commandes (command-driven)
+228b8c9 A2: ranger toute la toolchain dans .toolbox/
+fc0cc6f docs: WORKFLOW.md + maj PROJECT_STATE
+c69d8e0 Activation self-contained de Superpowers
+b1f5caf..b8d4b93  Lots 0-6 (build initial)
 ```
 
 ### Vérifié ✅
 - Scaffold Python d'essai : `uv sync` + `pytest` (100% cov) + `ruff` verts ; aucun jeton résiduel.
-- Hooks `format.sh`/`lint-test.sh` : silencieux sans `pyproject.toml`, PASS dans un projet, non-bloquants.
-- Activation Superpowers : marketplace local déclaré en **chemin relatif** dans `.claude/settings.json`,
-  `claude plugin list` → `superpowers@superpowers-dev` **enabled (scope projet)** ; skills `superpowers:*`
-  visibles après `/reload-plugins`.
+- Hooks `format.sh`/`lint-test.sh` : no-op sans `pyproject.toml`, PASS dans un projet, non-bloquants.
+- `welcome.sh` (SessionStart) : produit un JSON `additionalContext` valide, détecte un plan inachevé
+  (`docs/specs/*/tasks.md` avec `- [ ]`) → suggère `/implement`, sinon `/brainstorm`.
+- A2 : submodule déplacé (`git mv`), `.gitmodules`/settings/skill/setup à jour, marketplace.json présent.
 
-### Pas encore testé en live (nécessite une session interactive / une action humaine)
-- **Flux end-to-end complet** (idée → brainstorm → spec → plan → scaffold → TDD).
-- **MCP** Playwright / Chrome DevTools : nécessite un **redémarrage** de Claude Code (approbation du
-  `.mcp.json` au prompt de confiance) + un projet web pour être exercé.
+### Pas encore testé en live (session interactive requise)
+- **Mode command-driven en vrai** : que l'agent N'auto-déclenche PAS et attende les commandes
+  (override du bootstrap Superpowers via AGENTS.md — à confirmer ; sinon durcir, ex. ne pas charger
+  son hook).
+- **Flux E2E** via les commandes `/brainstorm → /plan → /scaffold → /implement → /review`.
+- **MCP** Playwright / Chrome DevTools : nécessite un redémarrage + approbation du `.mcp.json`.
+- **Activation self-contained** : sur un clone neuf, le prompt de confiance installe Superpowers
+  depuis `extraKnownMarketplaces` (relatif). (En local, état réinstallable via `--plugin-dir` ou
+  `claude plugin install superpowers@superpowers-dev --scope project`.)
 
-## Carte des fichiers
+## Carte des fichiers (après A2)
 
 | Chemin | Rôle |
 |---|---|
-| `AGENTS.md` / `CLAUDE.md` | Bootstrap portable (s'adresse à l'utilisateur du template) |
-| `superpowers/` | Submodule (moteur Superpowers) |
-| `.claude/settings.json` | Permissions, hooks, `extraKnownMarketplaces` (relatif) + `enabledPlugins` |
+| `AGENTS.md` | Bootstrap **command-driven** (n'auto-déclenche rien, liste les commandes, override Superpowers) |
+| `CLAUDE.md` | Importe `@AGENTS.md` + spécificités Claude |
+| `.claude/settings.json` | Permissions, hooks (SessionStart/PostToolUse/Stop), `extraKnownMarketplaces` (relatif) + `enabledPlugins` |
 | `.claude/skills/{scaffold-python,meta-prompt}/` | Nos skills (canoniques) |
-| `.claude/commands/meta-prompt.md` | Commande `/meta-prompt` |
-| `.claude/hooks/{format.sh,lint-test.sh}` | Auto-format à l'édition / lint+test à l'arrêt |
-| `skills/`, `.agents/skills/` | Exports portables (symlinks) des skills (Codex, etc.) |
+| `.claude/commands/` | 8 commandes : brainstorm, plan, scaffold, implement, review, finish, debug, meta-prompt |
+| `.claude/hooks/` | `welcome.sh` (accueil), `format.sh` (auto-format), `lint-test.sh` (lint+test) |
+| `.agents/skills/` | Miroir portable des skills (Codex) |
 | `.mcp.json` | Playwright MCP + Chrome DevTools MCP |
-| `constitution.md` | Règles de projet éditables, respectées par l'agent |
-| `templates/python-uv/` | Scaffold Python (uv+ruff+pytest+mypy, src/), jetons `__PROJECT_NAME__`/`__PACKAGE_NAME__` |
-| `scripts/setup.sh` | Init submodule + guidage (ne touche plus aux settings perso) |
-| `docs/SEARCH_RESULTS.md` | État de l'art (recherche) |
-| `docs/DECISIONS.md` | Les 8 décisions d'archi + justifications |
-| `PLAN.md` | Plan de build (lots) |
+| `.toolbox/superpowers/` | Submodule (moteur) |
+| `.toolbox/constitution.md` | Règles de projet éditables, respectées par l'agent |
+| `.toolbox/templates/python-uv/` | Scaffold (uv+ruff+pytest+mypy, src/), jetons `__PROJECT_NAME__`/`__PACKAGE_NAME__` |
+| `.toolbox/scripts/setup.sh` | Init submodule + guidage |
+| `.toolbox/dev/` | Méta-docs : SEARCH_RESULTS, DECISIONS, PLAN, WORKFLOW, PROJECT_STATE |
 | `docs/specs/` | Mémoire des runs (spec/plan/tasks générés) — vide pour l'instant |
 
 ## Pour reprendre
+1. Lis ce fichier, puis `.toolbox/dev/DECISIONS.md` (le pourquoi) et `.toolbox/dev/WORKFLOW.md` (le flux).
+2. `git status` / `git log`.
+3. Si Superpowers inactif : `git submodule update --init` puis `/reload-plugins`
+   (ou `claude --plugin-dir ./.toolbox/superpowers`).
 
-1. Lis ce fichier, puis `docs/DECISIONS.md` (le pourquoi) et `PLAN.md` (le quoi).
-2. `git status` / `git log` pour l'état.
-3. Si le plugin n'est pas chargé : `git submodule update --init` puis `/reload-plugins`
-   (ou `claude plugin install superpowers@superpowers-dev --scope project`).
-
-## Prochaines étapes possibles (hors périmètre du build initial)
-- **Test E2E** sur une idée jouet (voir « Plan de test » ci-dessous) — à faire dans une **copie**
-  du repo pour garder le template propre.
+## Prochaines étapes possibles
+- **Test E2E live** (voir ci-dessous) — dans une **copie** du repo pour garder le template propre.
 - Adaptateurs Codex/ZCode dédiés ; orchestration multi-agents (Claude cerveau / GLM bras) ;
   distribution en plugin installable ; skill `refine-prompt` si besoin réel.
 
 ## Plan de test (E2E)
-> Faire dans une **copie** du repo (`cp -r` ou un clone), pour ne pas transformer le template en projet.
-1. Ouvre Claude Code dans la copie ; `/reload-plugins` doit montrer le plugin + les skills `superpowers:*`.
-2. Dis : « Je veux une petite CLI todo en Python ». Attendu : `superpowers:brainstorming` se déclenche
-   (pas de code immédiat) → questions → spec.
-3. Laisse aller jusqu'au plan (validation en plan mode), puis au scaffold : la skill `scaffold-python`
-   doit générer `src/`, `tests/`, `pyproject.toml` (selon `constitution.md`) ; `uv run pytest` vert.
-4. Implémentation en TDD (`superpowers:test-driven-development`). Vérifie que les hooks tournent.
-5. (Optionnel, projet web) redémarre Claude, approuve les MCP, teste un screenshot / lecture console.
+> Dans une **copie** du repo (`cp -r` ou clone), pour ne pas transformer le template en projet.
+1. Ouvre Claude Code ; le message d'accueil doit s'afficher (commandes + `/brainstorm`).
+2. `/brainstorm une petite CLI todo en python` → questions, puis `docs/specs/<projet>/spec.md`.
+   Vérifie que l'agent **n'a pas** auto-déclenché de skill avant la commande.
+3. `/plan` → `plan.md` + `tasks.md` (cases) validés en plan mode.
+4. `/scaffold` → `src/`/`tests/`/`pyproject.toml` selon `.toolbox/constitution.md` ; `uv run pytest` vert.
+5. `/implement` → TDD, cases cochées au fur et à mesure ; hooks actifs.
+6. `/review` → `/finish`. (Web : redémarrer + approuver MCP pour le feedback visuel.)

@@ -1,8 +1,8 @@
 # Workflow — utiliser la toolbox (mode piloté par commandes)
 
-> **Statut : workflow cible.** Le mode command-driven (commandes wrapper + message d'accueil) et le
-> rangement `.toolbox/` sont la direction validée ; leur implémentation (améliorations 1 & 2) suit.
-> Ce document est la référence de l'expérience visée.
+> **Statut : implémenté.** Le mode command-driven (commandes wrapper + message d'accueil) et le
+> rangement `.toolbox/` sont en place (améliorations 1 & 2 livrées). Ce document décrit l'expérience
+> réelle ; reste à valider en live interactif (commandes / MCP).
 
 ## Principe
 
