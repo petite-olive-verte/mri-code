@@ -1,71 +1,70 @@
-# Toolbox IA — « idée → projet » (template open-and-go)
+# Toolbox IA — « idée → projet » (template piloté par commandes)
 
-Repo **template** pour démarrer un projet Python avec un agent de code. Le principe : `Use this
-template`, tu **ouvres un agent de code dans le dossier**, et l'interaction démarre — brainstorm →
-spec précise → plan → scaffold → implémentation en **TDD** avec **feedback visuel**, avant ton contrôle.
+Repo **template** pour démarrer un projet Python avec un agent de code. Tu fais *Use this template*,
+tu ouvres un agent dans le dossier, un **message d'accueil** te présente les commandes, et tu pilotes
+le flux pas à pas : `brainstorm → plan → scaffold → implémentation TDD → review → finish`, avec
+feedback visuel pour les UI web.
 
-> **Orienté one-shot** : on front-load la précision (brainstorm + spec + `constitution.md`), puis on
-> laisse l'agent construire l'essentiel de façon autonome. Seul point de contrôle obligatoire : la
-> validation du plan.
+> **Mode piloté par commandes** : l'agent n'auto-déclenche rien ; tu lances une slash command à chaque
+> étape, et il te suggère la suivante. Le seul automatisme est le message d'accueil au démarrage.
 
-Le moteur méthodologique est [**Superpowers**](https://github.com/obra/superpowers) (MIT, vendoré en
-submodule) ; cette couche ajoute l'amorçage « open-and-go », le **feedback visuel** (MCP), un
-**scaffold Python éditable** et une **constitution** de projet. Voir `docs/DECISIONS.md` pour le pourquoi.
+Moteur méthodologique : [**Superpowers**](https://github.com/obra/superpowers) (MIT, vendoré en
+submodule dans `.toolbox/superpowers`). Détails des choix dans `.toolbox/dev/DECISIONS.md` ; le
+déroulé complet dans `.toolbox/dev/WORKFLOW.md`.
 
 ## Démarrage
 
 ```bash
-# 1. Crée ton repo depuis ce template (bouton "Use this template" sur GitHub), puis :
 git clone <ton-repo> && cd <ton-repo>
-
-# 2. Récupère le submodule Superpowers :
-./scripts/setup.sh        # = git submodule update --init --recursive
-
-# 3. Ouvre un agent dans le dossier et décris ton idée :
-claude          # au prompt de confiance, accepte l'installation de Superpowers ; le brainstorm démarre
+./.toolbox/scripts/setup.sh        # init du submodule Superpowers
+claude                             # ouvre l'agent → message d'accueil → /brainstorm
 ```
 
-Le marketplace local + l'activation du plugin sont **déclarés dans `.claude/settings.json`** (chemin
-relatif) : un clone neuf est donc auto-suffisant — à la confiance du dossier, Claude propose
-d'installer Superpowers. Installation non-interactive : `claude plugin install superpowers@superpowers-dev --scope project`.
+Le marketplace local + le plugin sont **déclarés dans `.claude/settings.json`** (chemin relatif
+`./.toolbox/superpowers`) : un clone neuf est auto-suffisant — à la confiance du dossier, Claude
+propose d'installer Superpowers.
+**Fallback fiable (sans install)** : `claude --plugin-dir ./.toolbox/superpowers`.
+**Codex** : `git submodule update --init` puis ouvre Codex (lit `AGENTS.md` + `.agents/skills/`).
 
-**Alternative open-and-go (sans install)** : `claude --plugin-dir ./superpowers`
-**Avec Codex** : `git submodule update --init` puis ouvre Codex ; il lit `AGENTS.md` et les skills
-(`.agents/skills/`, plus le `.codex-plugin/` de Superpowers).
+## Les commandes
 
-## Le flux
+| Commande | Rôle | Suggère ensuite |
+|---|---|---|
+| `/brainstorm <idée>` | clarifier l'idée → spec + critères d'acceptation | `/plan` |
+| `/plan` | plan technique + `tasks.md` (cases à cocher), validé en plan mode | `/scaffold` ou `/implement` |
+| `/scaffold` | structure Python (uv/ruff/pytest/mypy) selon `constitution.md` | `/implement` |
+| `/implement` | implémentation **en TDD**, coche les tâches au fur et à mesure | `/review` |
+| `/review` | revue vs spec/plan | `/finish` |
+| `/finish` | merge / PR / cleanup | — |
+| `/debug` | débogage systématique (cause racine d'abord) | — |
+| `/meta-prompt <texte>` | optimiser un prompt ponctuel | — |
 
-`brainstorm → spec (critères d'acceptation) → plan (validé en plan mode) → scaffold Python → TDD
-(red-green-refactor) → review + feedback navigateur`. Les artefacts sont persistés dans `docs/specs/`
-(c'est la mémoire du projet : on ne compte pas sur `/compact`).
+**Reprise** : la mémoire vit dans `docs/specs/<projet>/` (`tasks.md` avec cases). À la réouverture, le
+message d'accueil détecte un plan inachevé et propose `/implement` pour reprendre.
 
-## Contenu
+## Structure
 
-| Élément | Rôle |
-|---|---|
-| `AGENTS.md` / `CLAUDE.md` | Bootstrap portable : oriente le flux + le one-shot |
-| `superpowers/` (submodule) | Moteur : brainstorm, planning, TDD, sous-agents, review, debugging — MIT |
-| `constitution.md` | **Tes règles** éditables (stack, qualité, tests, archi) que l'agent respecte |
-| `templates/python-uv/` | Scaffold Python éditable (uv + ruff + pytest + mypy, layout `src/`) |
-| `.claude/skills/` (+ `skills/`, `.agents/skills/`) | Skills `scaffold-python` et `meta-prompt` |
-| `.claude/commands/meta-prompt.md` | Commande `/meta-prompt` (optimise un prompt ponctuel) |
-| `.claude/hooks/` | `format.sh` (auto-format à l'édition) + `lint-test.sh` (résumé lint+tests à l'arrêt) |
-| `.mcp.json` | Feedback visuel/runtime : Playwright MCP + Chrome DevTools MCP |
-| `docs/` | `SEARCH_RESULTS.md` (état de l'art), `DECISIONS.md` (choix), `specs/` (mémoire de run) |
+```
+mon-projet/
+  README.md  AGENTS.md  CLAUDE.md      ← entrées (racine)
+  src/  tests/  pyproject.toml          ← TON projet
+  docs/specs/<projet>/                  ← spec / plan / tasks (mémoire)
+  .toolbox/                             ← toolchain (caché, committé)
+    superpowers/  templates/python-uv/  constitution.md  scripts/  dev/
+  .claude/  .mcp.json  .agents/         ← dotfiles agents (cachés)
+```
 
 ## Personnaliser
 
-- **`constitution.md`** — impose tes conventions (structure, nommage, stack…). C'est le levier principal.
-- **`templates/python-uv/`** — ta structure de projet concrète.
+- **`.toolbox/constitution.md`** — tes conventions (stack, structure, tests…). Levier principal.
+- **`.toolbox/templates/python-uv/`** — ta structure de projet concrète.
 - **`.claude/settings.json`** — permissions et hooks (retire la section `Stop` si le lint+test
   automatique te dérange).
 
 ## Notes
 
-- Le feedback visuel via MCP nécessite Node/`npx` (Playwright/Chrome DevTools sont récupérés à la volée).
-- L'auto-déclenchement des skills Superpowers suit son mécanisme officiel (hook SessionStart) ; il
-  s'active après `setup.sh` ou via `--plugin-dir`. Test d'acceptation : ouvrir une session et dire
-  « Let's make a react todo list » doit lancer le brainstorm.
+- Le feedback visuel via MCP (Playwright + Chrome DevTools) nécessite Node/`npx`.
+- Le mode command-driven est établi par `AGENTS.md`, qui prime sur l'auto-déclenchement de Superpowers.
 
 ## Crédits
 
