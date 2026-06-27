@@ -14,7 +14,26 @@ Le **moteur méthodologique** est [Superpowers](https://github.com/obra/superpow
 **submodule** `superpowers/`). Notre couche ajoute : amorçage, feedback MCP, scaffold Python éditable,
 constitution, meta-prompt. **Décision ferme : on garde le submodule.**
 
-## Statut : BUILD TERMINÉ
+## Direction validée — refactor à venir (non encore implémenté)
+
+Deux évolutions validées avec l'utilisateur (voir `docs/WORKFLOW.md` pour l'expérience cible) :
+
+- **A1 — mode command-driven** (au lieu de l'auto-déclenchement de Superpowers) : un seul automatisme
+  = un **message d'accueil** au SessionStart (liste les commandes, suggère `/brainstorm`, ou propose de
+  reprendre si un plan a des cases non cochées). Sinon, l'utilisateur pilote via des **commandes
+  wrapper** (`/brainstorm /plan /scaffold /implement /review /finish /debug` + `/meta-prompt`), chacune
+  invoquant la skill correspondante et **suggérant la suivante**. `AGENTS.md` établit ce mode (il prime
+  sur l'auto-déclenchement de Superpowers). Reprise = basée sur l'artefact de plan explicite, pas de
+  sniffing de fichiers.
+- **A2 — tout ranger dans `.toolbox/` (committé)** : déplacer `superpowers/` (submodule),
+  `templates/`, `constitution.md`, `scripts/`, et les méta-docs (`SEARCH_RESULTS/DECISIONS/PLAN/
+  PROJECT_STATE/WORKFLOW`) dans `.toolbox/` (+ `.toolbox/dev/` pour les méta-docs). Maj des chemins :
+  `.gitmodules`, marketplace dans `.claude/settings.json` (`./.toolbox/superpowers`), skill
+  `scaffold-python`, `AGENTS.md`. Supprimer le `skills/` racine redondant (garder `.claude/skills` +
+  `.agents/skills`). Restent forcément à la racine : `AGENTS.md`, `CLAUDE.md`, `README.md`, `.claude/`,
+  `.mcp.json`, `.agents/`, `.gitmodules`.
+
+## Statut : BUILD TERMINÉ (couche initiale ; A1/A2 à venir)
 
 Tout est construit et committé sur `main` (working tree propre). 8 commits :
 
