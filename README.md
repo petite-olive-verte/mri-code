@@ -18,12 +18,16 @@ submodule) ; cette couche ajoute l'amorçage « open-and-go », le **feedback vi
 # 1. Crée ton repo depuis ce template (bouton "Use this template" sur GitHub), puis :
 git clone <ton-repo> && cd <ton-repo>
 
-# 2. Setup unique (récupère Superpowers + l'active comme plugin Claude Code) :
-./scripts/setup.sh
+# 2. Récupère le submodule Superpowers :
+./scripts/setup.sh        # = git submodule update --init --recursive
 
 # 3. Ouvre un agent dans le dossier et décris ton idée :
-claude          # le brainstorm démarre (AGENTS.md)
+claude          # au prompt de confiance, accepte l'installation de Superpowers ; le brainstorm démarre
 ```
+
+Le marketplace local + l'activation du plugin sont **déclarés dans `.claude/settings.json`** (chemin
+relatif) : un clone neuf est donc auto-suffisant — à la confiance du dossier, Claude propose
+d'installer Superpowers. Installation non-interactive : `claude plugin install superpowers@superpowers-dev --scope project`.
 
 **Alternative open-and-go (sans install)** : `claude --plugin-dir ./superpowers`
 **Avec Codex** : `git submodule update --init` puis ouvre Codex ; il lit `AGENTS.md` et les skills

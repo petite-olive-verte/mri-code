@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
-# Setup unique du template : récupère Superpowers (submodule) et l'active comme plugin Claude Code.
-# Idempotent — peut être relancé sans risque.
+# Setup du template. Le marketplace local + l'activation du plugin Superpowers sont déjà
+# déclarés dans .claude/settings.json (self-contained). Ce script ne fait que l'essentiel.
+# Idempotent.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-echo "==> 1/2 Initialisation du submodule Superpowers…"
+echo "==> Initialisation du submodule Superpowers…"
 git submodule update --init --recursive
 
-if command -v claude >/dev/null 2>&1; then
-  echo "==> 2/2 Marketplace local + installation du plugin Superpowers (scope projet)…"
-  claude plugin marketplace add ./superpowers || true
-  claude plugin install superpowers@superpowers-dev --scope project || true
-  echo
-  echo "OK. Ouvre Claude Code dans ce dossier et décris ton idée — le brainstorm démarrera."
-  echo "Si les skills 'superpowers:*' n'apparaissent pas, lance /reload-plugins."
-else
-  echo "!! CLI 'claude' introuvable."
-  echo "   Alternative sans installation (open-and-go) :"
-  echo "     claude --plugin-dir ./superpowers"
-fi
+cat <<'EOF'
+
+OK. Ouvre Claude Code dans ce dossier :
+  - au prompt de confiance du dossier, accepte l'installation du plugin Superpowers
+    (marketplace local + plugin sont déclarés dans .claude/settings.json) ;
+  - puis décris ton idée — le brainstorm démarrera.
+
+Installation non-interactive (si pas de prompt) :
+  claude plugin install superpowers@superpowers-dev --scope project
+Si les skills 'superpowers:*' n'apparaissent pas : /reload-plugins
+Alternative sans installation : claude --plugin-dir ./superpowers
+EOF
