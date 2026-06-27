@@ -62,6 +62,25 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 | `.toolbox/dev/` | Méta-docs : SEARCH_RESULTS, DECISIONS, PLAN, WORKFLOW, PROJECT_STATE |
 | `docs/specs/` | Mémoire des runs (spec/plan/tasks générés) — vide pour l'instant |
 
+## Pièges techniques (appris à la dure — ne pas re-découvrir)
+- **Gestion du marketplace = à la main dans `.claude/settings.json`** (chemin relatif). NE PAS utiliser
+  les commandes CLI pour ça : `claude plugin marketplace add <path>` écrit un chemin **absolu** dans
+  `~/.claude/settings.json` (perso, non committé) ; `claude plugin marketplace remove` **vide**
+  `enabledPlugins`/`extraKnownMarketplaces` du settings **projet**. La source de vérité committée est
+  le fichier édité à la main.
+- **`extraKnownMarketplaces` (relatif) ne s'enregistre qu'au TRUST interactif** d'une session, pas via
+  un appel CLI headless (`marketplace list` ne le montre pas tant que le dossier n'est pas trusté).
+  → impossible de valider l'install self-contained en non-interactif ; c'est un test live.
+- **`superpowers/CLAUDE.md` = règles de contribution, PAS le bootstrap.** Le vrai bootstrap est la skill
+  `using-superpowers`, injectée par le hook SessionStart de Superpowers (qui calcule sa racine depuis
+  son propre chemin, pas via `CLAUDE_PLUGIN_ROOT`).
+- **Superpowers auto-déclenche agressivement** ; le mode command-driven le neutralise via la priorité
+  AGENTS.md (sa propre règle : instructions utilisateur > skills). À confirmer en live ; sinon durcir.
+- **Ce repo est à la fois le DEV de la toolbox ET la source du template** → tester le flux ici le
+  pollue. Toujours tester dans une **copie**.
+- Détails techniques OK : `git mv` du submodule met bien à jour `.gitmodules` ; le cwd du Bash persiste
+  (un `cd` composé le décale) → utiliser des chemins absolus.
+
 ## Pour reprendre
 1. Lis ce fichier, puis `.toolbox/dev/DECISIONS.md` (le pourquoi) et `.toolbox/dev/WORKFLOW.md` (le flux).
 2. `git status` / `git log`.
