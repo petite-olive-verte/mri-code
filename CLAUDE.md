@@ -11,5 +11,5 @@ Ce projet est piloté par `AGENTS.md` (bootstrap portable). Lis-le et applique-l
 - **Plan mode** : utilise le plan mode pour l'étape « Plan » (validation humaine avant implémentation).
 - **Sous-agents** : préfère des sous-agents spécialisés pour l'exploration et l'implémentation isolée
   (garde le contexte principal court).
-- **Setup** : si les skills `superpowers:*` sont absentes, lance `./scripts/setup.sh` (une fois),
-  puis `/reload-plugins` — ou relance avec `claude --plugin-dir ./superpowers`.
+- **Setup** : si les skills `superpowers:*` sont absentes, lance `./.toolbox/scripts/setup.sh` (une fois),
+  puis `/reload-plugins` — ou relance avec `claude --plugin-dir ./.toolbox/superpowers`.

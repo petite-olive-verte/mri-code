@@ -1,15 +1,15 @@
 ---
 name: scaffold-python
-description: Use when initializing/scaffolding the Python project structure (uv + ruff + pytest + mypy, src/ layout) from templates/python-uv, once the spec and plan are ready and before writing feature code. Respects constitution.md.
+description: Use when initializing/scaffolding the Python project structure (uv + ruff + pytest + mypy, src/ layout) from .toolbox/templates/python-uv, once the spec and plan are ready and before writing feature code. Respects .toolbox/constitution.md.
 ---
 
 # Scaffold d'un projet Python (uv + ruff + pytest)
 
-Génère la structure d'un projet Python à partir de `templates/python-uv/`, en respectant
-`constitution.md`. À utiliser **après** la spec et le plan, **avant** d'écrire le code des features.
+Génère la structure d'un projet Python à partir de `.toolbox/templates/python-uv/`, en respectant
+`.toolbox/constitution.md`. À utiliser **après** la spec et le plan, **avant** d'écrire le code des features.
 
 ## Avant de commencer
-1. **Lis `constitution.md`** : applique sa stack et ses conventions. Si elles diffèrent du template,
+1. **Lis `.toolbox/constitution.md`** : applique sa stack et ses conventions. Si elles diffèrent du template,
    la constitution prime — adapte les fichiers générés en conséquence.
 2. Détermine deux noms (déduis-les de la spec, sinon demande à l'utilisateur) :
    - `PROJECT_NAME` : nom de distribution (peut contenir des tirets), ex. `todo-api`.
@@ -27,7 +27,7 @@ PROJECT_NAME="todo-api"
 PACKAGE_NAME="todo_api"
 PROJECT_DESCRIPTION="Petite API de todo."
 
-SRC="templates/python-uv"
+SRC=".toolbox/templates/python-uv"
 # Copie les fichiers du template sans écraser l'existant (-n), en incluant les fichiers cachés.
 cp -rn "$SRC/." . 2>/dev/null || true
 

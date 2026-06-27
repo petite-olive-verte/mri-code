@@ -56,7 +56,7 @@
     "superpowers-dev": {
       "source": {
         "source": "directory",
-        "path": "./superpowers"
+        "path": "./.toolbox/superpowers"
       }
     }
   },

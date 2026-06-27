@@ -4,7 +4,7 @@
 # Idempotent.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
 echo "==> Initialisation du submodule Superpowers…"
@@ -20,5 +20,5 @@ OK. Ouvre Claude Code dans ce dossier :
 Installation non-interactive (si pas de prompt) :
   claude plugin install superpowers@superpowers-dev --scope project
 Si les skills 'superpowers:*' n'apparaissent pas : /reload-plugins
-Alternative sans installation : claude --plugin-dir ./superpowers
+Alternative sans installation : claude --plugin-dir ./.toolbox/superpowers
 EOF
