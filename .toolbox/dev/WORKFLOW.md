@@ -18,7 +18,7 @@ mode command-driven est établi dans `AGENTS.md`, qui **prime sur l'auto-déclen
 
 | Commande | Invoque | Suggère ensuite |
 |---|---|---|
-| `/brainstorm` | `superpowers:brainstorming` | `/devplan` |
+| `/brainstorm` | skill `brainstorming` (notre facilitation, style BMAD) | `/devplan` |
 | `/devplan` | `superpowers:writing-plans` | `/scaffold` (nouveau projet) sinon `/implement` |
 | `/scaffold` | `scaffold-python` (notre skill) | `/implement` |
 | `/implement` | `superpowers:subagent-driven-development` (TDD inclus) | `/review` |

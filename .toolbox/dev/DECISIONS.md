@@ -139,6 +139,31 @@ pas un maillon du flux principal. L'amélioration du one-shot passe surtout par 
 
 ---
 
+## Décision 9 — Brainstorming maison (style BMAD) au lieu de `superpowers:brainstorming`
+
+**Choix** : la commande `/brainstorm` invoque désormais **notre skill `brainstorming`**
+(`.claude/skills/brainstorming/`, + miroir `.agents/skills/`), inspirée du workflow de brainstorming
+facilité de **BMAD-METHOD** (MIT), au lieu de `superpowers:brainstorming`. Elle apporte ce qui
+manquait : posture de **facilitateur** (l'agent fait émerger les idées, ne les génère pas), 3 modes,
+menu de techniques (`techniques.md`, catalogue curé), divergence une-technique-à-la-fois, **challenge**
+explicite (assumption listing, pre-mortem, contre-arguments), puis **convergence** → spec + critères
+d'acceptation. **Pourquoi** : le brainstorm de Superpowers était jugé trop « doux » au 1er test.
+**Conçue extraction-ready** (skill autonome) pour la Décision 10.
+
+## Décision 10 — Cap : extraire un **module méthodo curé** dans un repo séparé, version figée
+
+**Choix (validé, à exécuter en phase 2)** : plutôt que de dépendre du submodule Superpowers complet,
+**extraire uniquement les briques utiles** (de Superpowers, BMAD, Spec Kit…) dans **un repo séparé
+« pack méthodo » versionné**, intégré ici **en module** (submodule épinglé ou plugin/marketplace).
+**Se figer sur une version est assumé** : une méthodo ne périme pas, les updates upstream sont du
+nice-to-have. **Pourquoi** : légèreté (fini le « trop gros »), cohérence, contrôle du workflow,
+réutilisabilité multi-projets. **Nuances** : (1) extraire **après** l'E2E (les tests disent quoi
+garder) ; (2) garder le socle cross-tool (SKILL.md + AGENTS.md) et les **licences/attributions MIT**.
+**Supersede partiellement** la Décision « submodule Superpowers » : le submodule reste tant que la
+phase 2 n'est pas faite, puis sera remplacé par le module curé.
+
+---
+
 ## Synthèse des choix
 
 | Sujet | Décision |
@@ -152,6 +177,8 @@ pas un maillon du flux principal. L'amélioration du one-shot passe surtout par 
 | Structure projet | Template éditable + `constitution.md` respectée par l'agent |
 | Context management | Repo = store lossless + sous-agents + `tasks.md`/journal — **LCM abandonné** |
 | Meta-prompt | Skill autonome + commande `/meta-prompt`, **hors cœur** |
+| Brainstorming | Skill **maison** `brainstorming` (style BMAD, challengeante) au lieu de Superpowers |
+| Cap méthodo | Phase 2 : **module curé en repo séparé**, version figée (remplace le submodule complet) |
 
 ## Couche à construire au-dessus de Superpowers (récap)
 1. Repo template open-and-go (AGENTS.md + hook SessionStart).

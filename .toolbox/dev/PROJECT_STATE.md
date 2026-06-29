@@ -50,7 +50,7 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 | `AGENTS.md` | Bootstrap **command-driven** (n'auto-déclenche rien, liste les commandes, override Superpowers) |
 | `CLAUDE.md` | Importe `@AGENTS.md` + spécificités Claude |
 | `.claude/settings.json` | Permissions, hooks (SessionStart/PostToolUse/Stop), `extraKnownMarketplaces` (relatif) + `enabledPlugins` |
-| `.claude/skills/{scaffold-python,meta-prompt}/` | Nos skills (canoniques) |
+| `.claude/skills/{brainstorming,scaffold-python,meta-prompt}/` | Nos skills (canoniques). `brainstorming` = facilitation style BMAD |
 | `.claude/commands/` | 8 commandes : brainstorm, plan, scaffold, implement, review, finish, debug, meta-prompt |
 | `.claude/hooks/` | `welcome.sh` (accueil), `format.sh` (auto-format), `lint-test.sh` (lint+test) |
 | `.agents/skills/` | Miroir portable des skills (Codex) |
@@ -88,11 +88,12 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
    (ou `claude --plugin-dir ./.toolbox/superpowers`).
 
 ## Retours du 1er test E2E (2026-06-29)
-- **`/brainstorm` pas assez mordant** : Superpowers `brainstorming` challenge peu les choix de
-  l'utilisateur (BMAD est nettement plus élaboré : rôles analyst/PM qui poussent hypothèses,
-  pre-mortem, contre-arguments). → Piste : durcir notre wrapper `.claude/commands/brainstorm.md` avec
-  des consignes socratiques explicites (assumption listing, pre-mortem, « défends le contre-argument »)
-  et/ou s'inspirer des agents BMAD. À creuser.
+- **`/brainstorm` pas assez mordant → RÉGLÉ.** Créé une skill maison **`brainstorming`**
+  (`.claude/skills/brainstorming/SKILL.md` + `techniques.md`, miroir `.agents/skills/`), inspirée de
+  BMAD-METHOD (MIT) : posture facilitateur, 3 modes, menu de techniques, divergence une-à-la-fois,
+  challenge explicite (assumption listing, pre-mortem, contre-arguments), convergence → spec. La
+  commande `/brainstorm` invoque cette skill (plus `superpowers:brainstorming`). Voir Décision 9.
+  ⚠️ **Pas encore testé en live** (vérifier que la facilitation se déclenche bien et reste interactive).
 - **Collision `/plan`** avec la commande native de Claude Code → notre commande est renommée
   (voir `.claude/commands/`). Penser à propager tout renommage dans AGENTS.md, README, welcome.sh,
   brainstorm.md et les docs.
@@ -100,6 +101,10 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 
 ## Prochaines étapes possibles
 - **Test E2E live** (voir ci-dessous) — dans une **copie** du repo pour garder le template propre.
+- **Phase 2 — module méthodo curé (Décision 10)** : après l'E2E, extraire les briques retenues
+  (skills `brainstorming`/`meta-prompt`/`scaffold-python` + ce qu'on garde de Superpowers) dans un
+  **repo séparé versionné**, l'intégrer ici en module (submodule épinglé ou plugin), version figée.
+  Conserver le socle cross-tool (SKILL.md + AGENTS.md) et les attributions MIT.
 - Adaptateurs Codex/ZCode dédiés ; orchestration multi-agents (Claude cerveau / GLM bras) ;
   distribution en plugin installable ; skill `refine-prompt` si besoin réel.
 

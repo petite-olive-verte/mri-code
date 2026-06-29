@@ -68,4 +68,6 @@ mon-projet/
 
 ## Crédits
 
-[Superpowers](https://github.com/obra/superpowers) (Jesse Vincent, MIT).
+- [Superpowers](https://github.com/obra/superpowers) (Jesse Vincent, MIT) — moteur méthodologique.
+- [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (MIT) — la skill `brainstorming`
+  (facilitation) est inspirée de son workflow de brainstorming facilité.
