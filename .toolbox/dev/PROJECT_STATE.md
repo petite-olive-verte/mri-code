@@ -37,7 +37,7 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 - **Mode command-driven en vrai** : que l'agent N'auto-déclenche PAS et attende les commandes
   (override du bootstrap Superpowers via AGENTS.md — à confirmer ; sinon durcir, ex. ne pas charger
   son hook).
-- **Flux E2E** via les commandes `/brainstorm → /plan → /scaffold → /implement → /review`.
+- **Flux E2E** via les commandes `/brainstorm → /devplan → /scaffold → /implement → /review`.
 - **MCP** Playwright / Chrome DevTools : nécessite un redémarrage + approbation du `.mcp.json`.
 - **Activation self-contained** : sur un clone neuf, le prompt de confiance installe Superpowers
   depuis `extraKnownMarketplaces` (relatif). (En local, état réinstallable via `--plugin-dir` ou
@@ -108,7 +108,7 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 1. Ouvre Claude Code ; le message d'accueil doit s'afficher (commandes + `/brainstorm`).
 2. `/brainstorm une petite CLI todo en python` → questions, puis `docs/specs/<projet>/spec.md`.
    Vérifie que l'agent **n'a pas** auto-déclenché de skill avant la commande.
-3. `/plan` → `plan.md` + `tasks.md` (cases) validés en plan mode.
+3. `/devplan` → `plan.md` + `tasks.md` (cases) validés en plan mode.
 4. `/scaffold` → `src/`/`tests/`/`pyproject.toml` selon `.toolbox/constitution.md` ; `uv run pytest` vert.
 5. `/implement` → TDD, cases cochées au fur et à mesure ; hooks actifs.
 6. `/review` → `/finish`. (Web : redémarrer + approuver MCP pour le feedback visuel.)

@@ -16,8 +16,8 @@ Commence ta première réponse par le **message d'accueil** fourni dans le conte
 un plan inachevé). Puis **attends** une commande.
 
 ## Les commandes (→ skill invoquée ; suggère ensuite)
-- `/brainstorm` → `superpowers:brainstorming` → `/plan`
-- `/plan` → `superpowers:writing-plans` → `/scaffold` (nouveau projet) sinon `/implement`
+- `/brainstorm` → `superpowers:brainstorming` → `/devplan`
+- `/devplan` → `superpowers:writing-plans` → `/scaffold` (nouveau projet) sinon `/implement`
 - `/scaffold` → skill `scaffold-python` → `/implement`
 - `/implement` → `superpowers:subagent-driven-development` (TDD) → `/review`
 - `/review` → `superpowers:requesting-code-review` → `/finish`

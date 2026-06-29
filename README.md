@@ -30,8 +30,8 @@ propose d'installer Superpowers.
 
 | Commande | Rôle | Suggère ensuite |
 |---|---|---|
-| `/brainstorm <idée>` | clarifier l'idée → spec + critères d'acceptation | `/plan` |
-| `/plan` | plan technique + `tasks.md` (cases à cocher), validé en plan mode | `/scaffold` ou `/implement` |
+| `/brainstorm <idée>` | clarifier l'idée → spec + critères d'acceptation | `/devplan` |
+| `/devplan` | plan technique + `tasks.md` (cases à cocher), validé en plan mode | `/scaffold` ou `/implement` |
 | `/scaffold` | structure Python (uv/ruff/pytest/mypy) selon `constitution.md` | `/implement` |
 | `/implement` | implémentation **en TDD**, coche les tâches au fur et à mesure | `/review` |
 | `/review` | revue vs spec/plan | `/finish` |

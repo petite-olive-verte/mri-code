@@ -15,7 +15,7 @@ else
 fi
 
 msg="👋 Toolbox prête — mode piloté par commandes (j'attends tes commandes, je n'auto-déclenche rien).
-Commandes : /brainstorm · /plan · /scaffold · /implement · /review · /finish · /debug · /meta-prompt
+Commandes : /brainstorm · /devplan · /scaffold · /implement · /review · /finish · /debug · /meta-prompt
 ${resume}"
 
 esc() { python3 -c 'import json,sys;print(json.dumps(sys.stdin.read()))'; }

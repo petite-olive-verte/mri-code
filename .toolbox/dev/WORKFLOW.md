@@ -18,8 +18,8 @@ mode command-driven est établi dans `AGENTS.md`, qui **prime sur l'auto-déclen
 
 | Commande | Invoque | Suggère ensuite |
 |---|---|---|
-| `/brainstorm` | `superpowers:brainstorming` | `/plan` |
-| `/plan` | `superpowers:writing-plans` | `/scaffold` (nouveau projet) sinon `/implement` |
+| `/brainstorm` | `superpowers:brainstorming` | `/devplan` |
+| `/devplan` | `superpowers:writing-plans` | `/scaffold` (nouveau projet) sinon `/implement` |
 | `/scaffold` | `scaffold-python` (notre skill) | `/implement` |
 | `/implement` | `superpowers:subagent-driven-development` (TDD inclus) | `/review` |
 | `/review` | `superpowers:requesting-code-review` | `/finish` |
@@ -40,16 +40,16 @@ claude                        # ouvre l'agent
 ### 1. Lancement → message d'accueil (le seul automatisme)
 ```
 👋 Toolbox prête. Mode piloté par commandes.
-Commandes : /brainstorm · /plan · /scaffold · /implement · /review · /finish · /debug · /meta-prompt
+Commandes : /brainstorm · /devplan · /scaffold · /implement · /review · /finish · /debug · /meta-prompt
 Aucun travail en cours → démarrer une idée :  /brainstorm
 ```
 L'agent attend ta commande ; il ne lance rien d'autre seul.
 
 ### 2. `/brainstorm <ton idée>`
 Questions socratiques (stockage, commandes, format…), hypothèses et **critères d'acceptation**.
-Écrit `docs/specs/<projet>/spec.md`. → suggère `/plan`.
+Écrit `docs/specs/<projet>/spec.md`. → suggère `/devplan`.
 
-### 3. `/plan`
+### 3. `/devplan`
 Plan technique + **tâches ordonnées avec cases à cocher** (`docs/specs/<projet>/plan.md`, `tasks.md`).
 Validation **en plan mode** (ton point de contrôle). → suggère `/scaffold`.
 
