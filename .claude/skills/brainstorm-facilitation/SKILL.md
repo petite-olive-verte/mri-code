@@ -1,10 +1,11 @@
 ---
-name: brainstorming
+name: brainstorm-facilitation
 description: >-
   Facilitation de brainstorming structurée et challengeante (inspirée de BMAD-METHOD).
   L'agent est un FACILITATEUR/coach qui fait émerger les idées de l'utilisateur via des
   techniques choisies, pousse les hypothèses et contre-arguments, puis converge en une spec
-  avec critères d'acceptation. Invoquée par la commande /brainstorm.
+  avec critères d'acceptation. Invoquée par la commande /brainstorm. Remplace
+  `superpowers:brainstorming` — à ne PAS utiliser ici.
 ---
 
 # Brainstorming facilité (style BMAD)

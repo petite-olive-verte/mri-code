@@ -141,8 +141,8 @@ pas un maillon du flux principal. L'amélioration du one-shot passe surtout par 
 
 ## Décision 9 — Brainstorming maison (style BMAD) au lieu de `superpowers:brainstorming`
 
-**Choix** : la commande `/brainstorm` invoque désormais **notre skill `brainstorming`**
-(`.claude/skills/brainstorming/`, + miroir `.agents/skills/`), inspirée du workflow de brainstorming
+**Choix** : la commande `/brainstorm` invoque désormais **notre skill `brainstorm-facilitation`**
+(`.claude/skills/brainstorm-facilitation/`, + miroir `.agents/skills/`), inspirée du workflow de brainstorming
 facilité de **BMAD-METHOD** (MIT), au lieu de `superpowers:brainstorming`. Elle apporte ce qui
 manquait : posture de **facilitateur** (l'agent fait émerger les idées, ne les génère pas), 3 modes,
 menu de techniques (`techniques.md`, catalogue curé), divergence une-technique-à-la-fois, **challenge**
@@ -177,7 +177,7 @@ phase 2 n'est pas faite, puis sera remplacé par le module curé.
 | Structure projet | Template éditable + `constitution.md` respectée par l'agent |
 | Context management | Repo = store lossless + sous-agents + `tasks.md`/journal — **LCM abandonné** |
 | Meta-prompt | Skill autonome + commande `/meta-prompt`, **hors cœur** |
-| Brainstorming | Skill **maison** `brainstorming` (style BMAD, challengeante) au lieu de Superpowers |
+| Brainstorming | Skill **maison** `brainstorm-facilitation` (style BMAD) au lieu de `superpowers:brainstorming` |
 | Cap méthodo | Phase 2 : **module curé en repo séparé**, version figée (remplace le submodule complet) |
 
 ## Couche à construire au-dessus de Superpowers (récap)

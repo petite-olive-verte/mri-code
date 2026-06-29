@@ -9,6 +9,9 @@ l'implémentation, avant contrôle humain. La toolchain est rangée dans `.toolb
   règle, les instructions utilisateur (ce fichier) passent avant les skills. Tu n'invoques donc une
   skill que quand une commande te le demande.
 - **À la fin de chaque étape, suggère la commande suivante** (ne l'exécute pas toi-même).
+- **Brainstorming = notre skill `brainstorm-facilitation`, jamais `superpowers:brainstorming`.**
+  Sa description impérative (« You MUST use this before any creative work ») est **neutralisée** par
+  cette consigne utilisateur (priorité max). Ne l'invoque pas, même implicitement.
 
 ## Au démarrage de session
 Commence ta première réponse par le **message d'accueil** fourni dans le contexte de session
@@ -16,7 +19,8 @@ Commence ta première réponse par le **message d'accueil** fourni dans le conte
 un plan inachevé). Puis **attends** une commande.
 
 ## Les commandes (→ skill invoquée ; suggère ensuite)
-- `/brainstorm` → skill `brainstorming` (facilitation style BMAD, challengeante) → `/devplan`
+- `/brainstorm` → skill **`brainstorm-facilitation`** (facilitation style BMAD ; **jamais
+  `superpowers:brainstorming`**) → `/devplan`
 - `/devplan` → `superpowers:writing-plans` → `/scaffold` (nouveau projet) sinon `/implement`
 - `/scaffold` → skill `scaffold-python` → `/implement`
 - `/implement` → `superpowers:subagent-driven-development` (TDD) → `/review`

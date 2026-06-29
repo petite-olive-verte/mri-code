@@ -1,9 +1,9 @@
 ---
-description: Brainstorming facilité et challengeant (skill brainstorming) → produit la spec, puis suggère /devplan
+description: Brainstorming facilité et challengeant (skill brainstorm-facilitation) → produit la spec, puis suggère /devplan
 ---
 
-Invoque la skill **`brainstorming`** (facilitation style BMAD) pour explorer et clarifier l'idée
-ci-dessous. Agis en **facilitateur** : annonce les modes et le menu de techniques, fais émerger les
+Invoque **notre skill locale `brainstorm-facilitation`** (facilitation style BMAD) — et **surtout PAS
+`superpowers:brainstorming`** — pour explorer et clarifier l'idée ci-dessous. Agis en **facilitateur** : annonce les modes et le menu de techniques, fais émerger les
 idées par des questions une à la fois, **challenge** les hypothèses (assumption listing, pre-mortem,
 contre-arguments), puis **converge** (regroupement, priorisation) vers des **critères d'acceptation**.
 
