@@ -98,6 +98,10 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
   (voir `.claude/commands/`). Penser à propager tout renommage dans AGENTS.md, README, welcome.sh,
   brainstorm.md et les docs.
 - **`docs/` retiré du template** pour livrer un repo vraiment vide ; recréé à la volée au 1er run.
+- **`ruff check .` ramassait `.toolbox/superpowers/*.py` → RÉGLÉ.** Ajout de
+  `extend-exclude = [".toolbox"]` dans `[tool.ruff]` du template `pyproject.toml` (vérifié : ruff
+  ignore bien `.toolbox`, voit `src/`). Le hook `lint-test.sh` lance `ruff check .` depuis la racine,
+  donc il hérite de cette config une fois le projet scaffoldé.
 
 ## Prochaines étapes possibles
 - **Test E2E live** (voir ci-dessous) — dans une **copie** du repo pour garder le template propre.

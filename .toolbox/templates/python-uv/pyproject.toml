@@ -25,6 +25,9 @@ packages = ["src/__PACKAGE_NAME__"]
 [tool.ruff]
 line-length = 100
 src = ["src", "tests"]
+# Ne pas linter la toolchain vendorée (submodule Superpowers, templates, etc.) :
+# `ruff check .` depuis la racine ramasserait sinon des .py de .toolbox/superpowers/.
+extend-exclude = [".toolbox"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
