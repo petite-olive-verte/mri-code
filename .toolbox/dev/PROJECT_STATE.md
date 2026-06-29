@@ -60,7 +60,7 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 | `.toolbox/templates/python-uv/` | Scaffold (uv+ruff+pytest+mypy, src/), jetons `__PROJECT_NAME__`/`__PACKAGE_NAME__` |
 | `.toolbox/scripts/setup.sh` | Init submodule + guidage |
 | `.toolbox/dev/` | Méta-docs : SEARCH_RESULTS, DECISIONS, PLAN, WORKFLOW, PROJECT_STATE |
-| `docs/specs/` | Mémoire des runs (spec/plan/tasks générés) — vide pour l'instant |
+| `docs/specs/` | Mémoire des runs (spec/plan/tasks générés) — **n'existe pas au départ**, créé à la volée par `/brainstorm` (repo template laissé vide) |
 
 ## Pièges techniques (appris à la dure — ne pas re-découvrir)
 - **Gestion du marketplace = à la main dans `.claude/settings.json`** (chemin relatif). NE PAS utiliser
@@ -86,6 +86,17 @@ b1f5caf..b8d4b93  Lots 0-6 (build initial)
 2. `git status` / `git log`.
 3. Si Superpowers inactif : `git submodule update --init` puis `/reload-plugins`
    (ou `claude --plugin-dir ./.toolbox/superpowers`).
+
+## Retours du 1er test E2E (2026-06-29)
+- **`/brainstorm` pas assez mordant** : Superpowers `brainstorming` challenge peu les choix de
+  l'utilisateur (BMAD est nettement plus élaboré : rôles analyst/PM qui poussent hypothèses,
+  pre-mortem, contre-arguments). → Piste : durcir notre wrapper `.claude/commands/brainstorm.md` avec
+  des consignes socratiques explicites (assumption listing, pre-mortem, « défends le contre-argument »)
+  et/ou s'inspirer des agents BMAD. À creuser.
+- **Collision `/plan`** avec la commande native de Claude Code → notre commande est renommée
+  (voir `.claude/commands/`). Penser à propager tout renommage dans AGENTS.md, README, welcome.sh,
+  brainstorm.md et les docs.
+- **`docs/` retiré du template** pour livrer un repo vraiment vide ; recréé à la volée au 1er run.
 
 ## Prochaines étapes possibles
 - **Test E2E live** (voir ci-dessous) — dans une **copie** du repo pour garder le template propre.
