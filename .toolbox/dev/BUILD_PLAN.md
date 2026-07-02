@@ -37,13 +37,13 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 ---
 
 ## Lot 0 — Prépa, plan & conventions
-- [ ] Committer ce plan en `.toolbox/dev/BUILD_PLAN.md`.
-- [ ] Re-cloner BMAD si absent (`/tmp/bmad-probe`).
-- [ ] MAJ `MERGE_DESIGN.md` : convention → `.mri_devtools/docs/<projet>/`.
+- [x] Committer ce plan en `.toolbox/dev/BUILD_PLAN.md`.
+- [x] Re-cloner BMAD si absent (`/tmp/bmad-probe`).
+- [x] MAJ `MERGE_DESIGN.md` : convention → `.mri_devtools/docs/<projet>/`.
 
 ## Lot 1 — Front d'analyse (réimpl. BMAD, léger)
-- [ ] `mri-brainstorm` (base `brainstorm-facilitation` + lever brain-methods.csv, mode-*.md, converge/finalize, brief-template) → `brief.md`.
-- [ ] `mri-forge` (d'après bmad-forge-idea, panel FIXE de 5 personas, verdict) → notes dans `brief.md`.
+- [x] `mri-brainstorm` (base `brainstorm-facilitation` + lever brain-methods.csv, mode-*.md, converge/finalize, brief-template) → `brief.md`.
+- [x] `mri-forge` (d'après bmad-forge-idea, panel FIXE de 5 personas, verdict) → notes dans `brief.md`.
 
 ## Lot 2 — Pont + back (extract + adapt Superpowers)
 - [ ] `mri-design` (← brainstorming) : entrée `brief.md` → `spec.md`.
