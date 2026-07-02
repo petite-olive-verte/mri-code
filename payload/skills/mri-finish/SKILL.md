@@ -1,6 +1,7 @@
 ---
 name: mri-finish
 description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
+disable-model-invocation: true
 ---
 
 # Finishing a Development Branch
@@ -246,3 +247,8 @@ git worktree prune  # Self-healing: clean up any stale registrations
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
 file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
 the next step of the pipeline.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** any — see `.mri_devtools/models.md`.

@@ -4,6 +4,7 @@ description: >-
   Domain/industry research: expertise, terminology, patterns, regulatory constraints.
   On-demand, suggested after /mri-forge.
   Invoked by /mri-domain-research.
+disable-model-invocation: true
 ---
 
 # mri-domain-research — domain research
@@ -23,3 +24,8 @@ description: >-
 
 ## Follow-up
 Optional: log the call in `progress.md`. Return to the flow (typically `/mri-design`).
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet (web research) — see `.mri_devtools/models.md`.

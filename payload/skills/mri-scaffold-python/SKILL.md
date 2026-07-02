@@ -1,6 +1,7 @@
 ---
 name: mri-scaffold-python
 description: Use when initializing/scaffolding the Python project structure (uv + ruff + pytest + mypy, src/ layout) from .mri_devtools/templates/python-uv, once the spec and plan are ready and before writing feature code. Respects .mri_devtools/constitution.md.
+disable-model-invocation: true
 ---
 
 # Scaffolding a Python project (uv + ruff + pytest)
@@ -60,3 +61,8 @@ uv run ruff check .     # clean lint
 ## Next
 Move on to implementation **in TDD** via **/mri-implement** (skill `mri-tdd` per task), feature by feature,
 translating the **spec's acceptance criteria** into tests that fail first.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet / DeepSeek-v4 (mechanical) — see `.mri_devtools/models.md`.

@@ -3,6 +3,7 @@ name: mri-forge
 description: >-
   Pressure-test an idea through multi-persona interrogation until it hardens, clarifies, or
   dies cheaply. FIXED persona panel. Invoked by /mri-forge, usually after /mri-brainstorm.
+disable-model-invocation: true
 ---
 
 # mri-forge — harden an idea (pressure-test)
@@ -88,3 +89,8 @@ No HTML keepsake (stripped gadget). The `brief.md` carries the result. Write the
 ## Tracking
 - Start: `forge` `[~]` in `.mri_devtools/docs/<project>/progress.md`.
 - End: `forge` `[x] → <HARDENED|CLARIFIED|KILLED>`, point to the next step.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus (adversarial reasoning) — see `.mri_devtools/models.md`.

@@ -4,6 +4,7 @@ description: >-
   Turns the brief from /mri-brainstorm into a technical design (spec.md). This is the analysis→execution
   BRIDGE of the mri pipeline: it takes the product intent as given and focuses on architecture.
   Invoked by /mri-design.
+disable-model-invocation: true
 ---
 
 # mri-design — from brief to technical design (the bridge)
@@ -69,3 +70,8 @@ One question at a time · YAGNI ruthlessly · explore 2-3 approaches · incremen
 ## Tracking (progress.md)
 - Start: mark `design` `[~]` in `.mri_devtools/docs/<project>/progress.md`.
 - End: `design` `[x] → spec.md`, then: "**Next step → `/mri-devplan`**".
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus (architecture) — see `.mri_devtools/models.md`.

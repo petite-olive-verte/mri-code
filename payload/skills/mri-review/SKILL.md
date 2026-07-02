@@ -1,6 +1,7 @@
 ---
 name: mri-review
 description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
+disable-model-invocation: true
 ---
 
 # Requesting Code Review
@@ -108,3 +109,8 @@ See template at: [code-reviewer.md](code-reviewer.md)
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
 file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
 the next step of the pipeline.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet (or Opus for a demanding review) — see `.mri_devtools/models.md`.

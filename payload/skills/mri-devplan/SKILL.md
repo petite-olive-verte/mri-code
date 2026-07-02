@@ -1,6 +1,7 @@
 ---
 name: mri-devplan
 description: Use when you have a spec or requirements for a multi-step task, before touching code
+disable-model-invocation: true
 ---
 
 # Writing Plans
@@ -179,3 +180,8 @@ After saving the plan, offer execution choice:
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
 file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
 the next step of the pipeline.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus (planning) — see `.mri_devtools/models.md`.

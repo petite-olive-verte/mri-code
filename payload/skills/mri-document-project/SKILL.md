@@ -3,6 +3,7 @@ name: mri-document-project
 description: >-
   Documents an existing (brownfield) project to give the agent context: structure, stack,
   conventions, entry points, how to run/test.  On-demand, ahead of /mri-brainstorm on an existing repo.
+disable-model-invocation: true
 ---
 
 # mri-document-project — context of an existing project (brownfield)
@@ -25,3 +26,8 @@ This doc complements `.mri_devtools/constitution.md` (intended rules) by describ
 ## Follow-up
 Optional: log the call in `progress.md`. Then move on to `/mri-brainstorm` (the idea/evolution
 to design on this project).
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet — see `.mri_devtools/models.md`.

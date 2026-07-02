@@ -1,6 +1,7 @@
 ---
 name: mri-debug
 description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+disable-model-invocation: true
 ---
 
 # Systematic Debugging
@@ -301,3 +302,8 @@ From debugging sessions:
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
 file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
 the next step of the pipeline.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet / DeepSeek-v4 (Opus if the cause is stubborn) — see `.mri_devtools/models.md`.

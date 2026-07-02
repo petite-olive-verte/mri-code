@@ -1,6 +1,7 @@
 ---
 name: mri-implement
 description: Use when executing implementation plans with independent tasks in the current session
+disable-model-invocation: true
 ---
 
 # Subagent-Driven Development
@@ -64,7 +65,7 @@ digraph process {
 
     "Read plan, note context and global constraints, create todos" [shape=box];
     "More tasks remain?" [shape=diamond];
-    "Dispatch final code reviewer subagent (../requesting-code-review/code-reviewer.md)" [shape=box];
+    "Dispatch final code reviewer subagent (../mri-review/code-reviewer.md)" [shape=box];
     "Use mri-finish" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan, note context and global constraints, create todos" -> "Dispatch implementer subagent (./implementer-prompt.md)";
@@ -79,8 +80,8 @@ digraph process {
     "Task reviewer reports spec ✅ and quality approved?" -> "Mark task complete in todo list and progress ledger" [label="yes"];
     "Mark task complete in todo list and progress ledger" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
-    "More tasks remain?" -> "Dispatch final code reviewer subagent (../requesting-code-review/code-reviewer.md)" [label="no"];
-    "Dispatch final code reviewer subagent (../requesting-code-review/code-reviewer.md)" -> "Use mri-finish";
+    "More tasks remain?" -> "Dispatch final code reviewer subagent (../mri-review/code-reviewer.md)" [label="no"];
+    "Dispatch final code reviewer subagent (../mri-review/code-reviewer.md)" -> "Use mri-finish";
 }
 ```
 
@@ -269,7 +270,7 @@ a ledger file, not only in todos.
 
 - [implementer-prompt.md](implementer-prompt.md) - Dispatch implementer subagent
 - [task-reviewer-prompt.md](task-reviewer-prompt.md) - Dispatch task reviewer subagent (spec compliance + code quality)
-- Final whole-branch review: use mri-review's [code-reviewer.md](../requesting-code-review/code-reviewer.md)
+- Final whole-branch review: use mri-review's [code-reviewer.md](../mri-review/code-reviewer.md)
 
 ## Example Workflow
 
@@ -423,3 +424,8 @@ Done!
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
 file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
 the next step of the pipeline.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet / DeepSeek-v4 (code volume) — see `.mri_devtools/models.md`.

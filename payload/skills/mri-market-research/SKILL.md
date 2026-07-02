@@ -4,6 +4,7 @@ description: >-
   Market research (competition, customers, trends) on current web data with cited sources.
   On-demand, suggested after /mri-forge.
   Invoked by /mri-market-research.
+disable-model-invocation: true
 ---
 
 # mri-market-research — market research
@@ -27,3 +28,8 @@ the user brings the domain and the direction.
 ## Follow-up
 Optional: log the call in `progress.md` ("Optional calls" → `research-market.md`). Then return
 to the flow (typically `/mri-design`).
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Sonnet (web research) — see `.mri_devtools/models.md`.

@@ -1,6 +1,14 @@
 ---
-description: Resume the mri pipeline where it stopped (reads progress.md) → re-enter the current step
+name: mri-resume
+description: >-
+  Resume the mri pipeline where it stopped: reads progress.md and re-enters the current step.
+  Invoked by the user via /mri-resume.
+disable-model-invocation: true
 ---
+
+# mri-resume — resume the pipeline
+
+> ┌─ mri devtools ─┐
 
 Resume the work in progress on this project.
 
@@ -9,7 +17,7 @@ Resume the work in progress on this project.
    - **Missing** → no work in progress: suggest `/mri-brainstorm` (new project) and stop.
 2. **Read `progress.md`**: report the state to the user (steps done `[x]`, in progress `[~]`, to do `[ ]`, + optional calls).
 3. **Re-enter** the **`[~]` in-progress step** (or, failing that, the first **`[ ]`** after the last `[x]`):
-   reload the artifacts already on disk (`brief.md`, `spec.md`, `plan.md`…) and **invoke the matching
+   reload the artifacts already on disk (`brief.md`, `spec.md`, `plan.md`…) and **run the matching
    skill** to continue. If the step is `implement`, delegate the fine-grained detail to the checkboxes in
    `plan.md` (and to `.mri_devtools/state/sdd/` if present).
 4. Confirm the resumption in one sentence before continuing.
@@ -40,4 +48,7 @@ Resume the work in progress on this project.
 Markers: `[x]` done · `[~]` in progress · `[ ]` to do. Skills update this file at the start
 (`[~]`) and at the end (`[x]` + "Next step") of each phase.
 
-$ARGUMENTS
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** any — see `.mri_devtools/models.md`.

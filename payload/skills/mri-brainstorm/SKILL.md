@@ -4,6 +4,7 @@ description: >-
   Structured, challenging brainstorming facilitation. The agent is a FACILITATOR who draws ideas out
   of the user via a catalog of techniques, pushes on assumptions, then converges into a product brief.
   Analysis front of the mri pipeline. Invoked by /mri-brainstorm.
+disable-model-invocation: true
 ---
 
 # mri-brainstorm — facilitated brainstorming
@@ -69,3 +70,8 @@ of a specific idea, suggest `/mri-forge`; to deepen an output, `/mri-elicit`.)
 ## End
 Recap the brief, then: "**Next step → `/mri-forge`** (harden the idea) or **`/mri-design`** if
 it's already solid."
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus (ideation / framing) — see `.mri_devtools/models.md`.

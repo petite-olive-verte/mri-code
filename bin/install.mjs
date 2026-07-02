@@ -8,7 +8,7 @@
 //   En terminal interactif, les valeurs manquantes sont demandées ; sinon défauts (npx piped).
 //
 // Produit dans la cible :
-//   .claude/  = commands (à plat) · skills · hooks · settings.json  (VRAIS FICHIERS, copiés)
+//   .claude/  = skills · hooks · settings.json  (VRAIS FICHIERS, copiés ; les skills sont les slash /mri-*)
 //   .mri_devtools/ = config.json · constitution.md · models.md · templates/ · docs/ (généré)
 //   AGENTS.md CLAUDE.md .mcp.json à la racine ; .agents/skills/ (miroir Codex)
 import { fileURLToPath } from 'node:url';
@@ -51,9 +51,9 @@ cp(join(PAYLOAD, 'templates'), join(MRI, 'templates'));
 fs.writeFileSync(join(MRI, 'config.json'),
   JSON.stringify({ communication_language: lang, document_language: docLang, user_name: user }, null, 2) + '\n');
 
-// 2) .claude/ = vrais fichiers copiés
+// 2) .claude/ = vrais fichiers copiés (les skills SONT les slash commands /mri-*, pas de dossier commands)
 const cl = mkdirp(join(TARGET, '.claude'));
-for (const sub of ['skills', 'commands', 'hooks']) { fs.rmSync(join(cl, sub), { recursive: true, force: true }); cp(join(PAYLOAD, sub), join(cl, sub)); }
+for (const sub of ['skills', 'hooks']) { fs.rmSync(join(cl, sub), { recursive: true, force: true }); cp(join(PAYLOAD, sub), join(cl, sub)); }
 for (const h of fs.readdirSync(join(cl, 'hooks'))) fs.chmodSync(join(cl, 'hooks', h), 0o755);
 cp(join(PAYLOAD, 'settings.json'), join(cl, 'settings.json'));
 

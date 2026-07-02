@@ -35,3 +35,8 @@ first provide an "assumptions" version usable immediately, then offer to refine.
 - To build an **application**, don't go through here: use the brainstorm → spec
   flow (the spec is already the precise instruction). This meta-prompt is for **one-off
   prompts** outside a project.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus — see `.mri_devtools/models.md`.

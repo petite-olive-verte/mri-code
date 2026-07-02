@@ -12,31 +12,35 @@ before human control. The methodology is the **`mri` module** (self-contained sk
   language** above. (Reconfigure in `.mri_devtools/config.json`.)
 
 ## Mode: COMMAND-DRIVEN (important)
-- **Do NOT auto-trigger ANY skill.** Wait for the user to launch a slash command.
+- **Each step is a skill invoked as a slash command** `/mri-<name>`. The user-facing skills carry
+  `disable-model-invocation: true`, so **you never auto-trigger them** — the user launches each one.
 - **At the end of each step, suggest the next command** (do not run it yourself).
-- Skills are **local and self-contained**; there is no external plugin to invoke.
+- Skills are **local and self-contained**; there is no external plugin.
 
 ## At session start
 Begin your first reply with the **welcome message** provided in the session context (the `welcome.sh`
 hook: resume via `/mri-resume` if an unfinished `progress.md` exists, otherwise start via
 `/mri-brainstorm`). Then **wait** for a command.
 
-## Commands (→ skill invoked; suggests next)
+## Commands (each is a skill `/mri-<name>`; suggests next)
 Core flow:
-- `/mri-brainstorm` → skill `mri-brainstorm` (facilitated brainstorming) → `/mri-forge` or `/mri-design`
-- `/mri-forge` → skill `mri-forge` (pressure-test, persona panel) → `/mri-design` (HARDENED) or `/mri-brainstorm` (KILLED)
-- `/mri-design` → skill `mri-design` (the **bridge**: `brief.md` → `spec.md`) → `/mri-devplan`
-- `/mri-devplan` → skill `mri-devplan` (`spec.md` → `plan.md`) → `/mri-scaffold-python` (new) else `/mri-implement`
-- `/mri-scaffold-python` → skill `mri-scaffold-python` → `/mri-implement`
-- `/mri-implement` → skill `mri-implement` (TDD + MCP) → `/mri-review`
-- `/mri-review` → skill `mri-review` → `/mri-finish`
-- `/mri-finish` → skill `mri-finish` (merge / PR / cleanup)
+- `/mri-brainstorm` (facilitated brainstorming) → `/mri-forge` or `/mri-design`
+- `/mri-forge` (pressure-test, persona panel) → `/mri-design` (HARDENED) or `/mri-brainstorm` (KILLED)
+- `/mri-design` (the **bridge**: `brief.md` → `spec.md`) → `/mri-devplan`
+- `/mri-devplan` (`spec.md` → `plan.md`) → `/mri-scaffold-python` (new) else `/mri-implement`
+- `/mri-scaffold-python` → `/mri-implement`
+- `/mri-implement` (TDD + MCP) → `/mri-review`
+- `/mri-review` → `/mri-finish`
+- `/mri-finish` (merge / PR / cleanup)
 
 Optional (suggested at the right moment, then return to the flow):
 - `/mri-elicit` (deepen an output) · `/mri-adversarial-review` (audit a doc)
 - `/mri-market-research` · `/mri-domain-research` · `/mri-technical-research` (after forge)
 - `/mri-document-project` (brownfield) · `/mri-debug` (test failure) · `/mri-meta-prompt` (standalone)
 - `/mri-resume` (resume the pipeline)
+
+Internal sub-skills (invoked automatically by the flow, not user entry points): `mri-tdd`,
+`mri-verify`, `mri-worktrees`.
 
 ## Resume & memory
 State lives on disk: `.mri_devtools/docs/<project>/progress.md` (phases) + `plan.md` (fine-grained

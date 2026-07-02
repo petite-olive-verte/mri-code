@@ -4,6 +4,7 @@ description: >-
   Prompts reconsidering, refining, and improving the last produced output (yours or a doc).
   On-demand deepening/critique (Socratic, first principles, pre-mortem, red-team…).
   Invoked by /mri-elicit.
+disable-model-invocation: true
 ---
 
 # mri-elicit — deepen/critique an output
@@ -35,3 +36,8 @@ Zero improvement found = suspicious → re-analyze or ask. Empty/unreadable cont
 ## Tracking
 Optional skill: log the call in `.mri_devtools/docs/<project>/progress.md` ("Optional
 calls" section). Then return to the calling step.
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus (depth of critique) — see `.mri_devtools/models.md`.

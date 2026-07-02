@@ -3,6 +3,7 @@ name: mri-adversarial-review
 description: >-
   Cynical review of a document (brief, spec, plan, diff, doc) → findings report. Skeptical audit,
   looks for what's missing as much as what's wrong.  Invoked by /mri-adversarial-review.
+disable-model-invocation: true
 ---
 
 # mri-adversarial-review — cynical audit of a document
@@ -33,3 +34,8 @@ insults, no personal attacks.
 ## Tracking
 Optional: log the call + the number of findings fixed in `progress.md` ("Optional calls").
 Return to the calling step (revise the doc, or continue).
+
+---
+**User input:** $ARGUMENTS
+
+💡 **Suggested model:** Opus / Sonnet — see `.mri_devtools/models.md`.
