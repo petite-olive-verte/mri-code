@@ -65,9 +65,9 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] Simplifier `welcome.sh` (`.mri_devtools/docs/*/progress.md` → /mri-resume ; sinon /mri-brainstorm) — testé 2 cas.
 
 ## Lot 5 — Préfixe `mri-` + commandes + câblage
-- [ ] Renommer `scaffold-python`→`mri-scaffold-python`, `meta-prompt`→`mri-meta-prompt`.
-- [ ] Renommer/créer les commandes `mri-*` (suggestion suivant + facultatifs + ligne modèle). Régler `/review`.
-- [ ] MAJ `.agents/skills/*`, `AGENTS.md`, `CLAUDE.md`, `README.md`, `.claude/settings.json`.
+- [x] Renommer `scaffold-python`→`mri-scaffold-python`, `meta-prompt`→`mri-meta-prompt`.
+- [x] Régénérer les 17 commandes `mri-*` (suggestion suivant + facultatifs + ligne modèle). Collision `/review` réglée (→ `/mri-review`).
+- [x] MAJ `.agents/skills/*` (19 symlinks), `AGENTS.md`, `CLAUDE.md`, `README.md` ; plugin Superpowers **désactivé** dans `settings.json`.
 
 ## Lot 6 — Suggestions de modèle
 - [ ] `models.md` éditable + ligne « 💡 modèle » en fin de commande.

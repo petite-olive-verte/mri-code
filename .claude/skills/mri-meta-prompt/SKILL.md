@@ -1,5 +1,5 @@
 ---
-name: meta-prompt
+name: mri-meta-prompt
 description: Transforme une demande vague en un prompt précis, structuré et prêt à l'emploi pour un LLM/agent. Outil ponctuel, hors du pipeline idée->code ; invoqué explicitement (commande /meta-prompt).
 disable-model-invocation: true
 ---

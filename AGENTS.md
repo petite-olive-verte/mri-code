@@ -1,37 +1,40 @@
 # Bootstrap — assistant d'amorçage (mode piloté par commandes)
 
-Tu es ouvert dans un repo template qui transforme une idée en projet Python — du brainstorm à
-l'implémentation, avant contrôle humain. La toolchain est rangée dans `.toolbox/`.
+Tu es ouvert dans un repo qui transforme une idée en projet Python — du brainstorm à l'implémentation,
+avant contrôle humain. La méthodo est le **module `mri`** (skills auto-portantes dans `.claude/skills/`,
+dérivées de BMAD-METHOD et Superpowers, MIT). Les artefacts générés vivent dans `.mri_devtools/docs/<projet>/`.
 
 ## Mode : PILOTÉ PAR COMMANDES (important)
 - **N'auto-déclenche AUCUNE skill.** Tu attends que l'utilisateur lance une slash command.
-- Cette consigne **prime sur le bootstrap Superpowers** (`using-superpowers`) : d'après sa propre
-  règle, les instructions utilisateur (ce fichier) passent avant les skills. Tu n'invoques donc une
-  skill que quand une commande te le demande.
 - **À la fin de chaque étape, suggère la commande suivante** (ne l'exécute pas toi-même).
-- **Brainstorming = notre skill `brainstorm-facilitation`, jamais `superpowers:brainstorming`.**
-  Sa description impérative (« You MUST use this before any creative work ») est **neutralisée** par
-  cette consigne utilisateur (priorité max). Ne l'invoque pas, même implicitement.
+- Les skills sont **locales et auto-portantes** ; il n'y a plus de plugin externe à invoquer.
 
 ## Au démarrage de session
 Commence ta première réponse par le **message d'accueil** fourni dans le contexte de session
-(liste des commandes + suggestion de démarrer `/brainstorm` ou de reprendre `/implement` s'il existe
-un plan inachevé). Puis **attends** une commande.
+(le hook `welcome.sh` : reprendre via `/mri-resume` s'il existe un `progress.md` inachevé, sinon
+démarrer via `/mri-brainstorm`). Puis **attends** une commande.
 
 ## Les commandes (→ skill invoquée ; suggère ensuite)
-- `/brainstorm` → skill **`brainstorm-facilitation`** (facilitation style BMAD ; **jamais
-  `superpowers:brainstorming`**) → `/devplan`
-- `/devplan` → `superpowers:writing-plans` → `/scaffold` (nouveau projet) sinon `/implement`
-- `/scaffold` → skill `scaffold-python` → `/implement`
-- `/implement` → `superpowers:subagent-driven-development` (TDD) → `/review`
-- `/review` → `superpowers:requesting-code-review` → `/finish`
-- `/finish` → `superpowers:finishing-a-development-branch`
-- `/debug` → `superpowers:systematic-debugging`
-- `/meta-prompt` → skill `meta-prompt` (optimiser un prompt ponctuel)
+Cœur du flux :
+- `/mri-brainstorm` → skill `mri-brainstorm` (facilitation style BMAD) → `/mri-forge` ou `/mri-design`
+- `/mri-forge` → skill `mri-forge` (pressure-test, panel de personas) → `/mri-design` (HARDENED) ou `/mri-brainstorm` (KILLED)
+- `/mri-design` → skill `mri-design` (le **pont** : `brief.md` → `spec.md`) → `/mri-devplan`
+- `/mri-devplan` → skill `mri-devplan` (`spec.md` → `plan.md`) → `/mri-scaffold-python` (nouveau) sinon `/mri-implement`
+- `/mri-scaffold-python` → skill `mri-scaffold-python` → `/mri-implement`
+- `/mri-implement` → skill `mri-implement` (TDD + MCP) → `/mri-review`
+- `/mri-review` → skill `mri-review` → `/mri-finish`
+- `/mri-finish` → skill `mri-finish` (merge / PR / cleanup)
+
+Facultatifs (suggérés au bon moment, retour au flux ensuite) :
+- `/mri-elicit` (approfondir une sortie) · `/mri-adversarial-review` (auditer un doc)
+- `/mri-market-research` · `/mri-domain-research` · `/mri-technical-research` (après forge)
+- `/mri-document-project` (brownfield) · `/mri-debug` (échec de test) · `/mri-meta-prompt` (autonome)
+- `/mri-resume` (reprendre le pipeline)
 
 ## Reprise & mémoire
-La mémoire du projet vit sur disque dans `docs/specs/<projet>/` (spec, plan, `tasks.md` avec cases).
-Pour reprendre : relis `tasks.md` et continue aux tâches non cochées. **Ne te repose pas sur `/compact`.**
+L'état vit sur disque : `.mri_devtools/docs/<projet>/progress.md` (phases) + `plan.md` (cases fines).
+Pour reprendre : `/mri-resume` relit `progress.md` et re-entre à l'étape courante. **Ne te repose pas
+sur `/compact`.**
 
 ## Constitution
 Lis et **respecte** `.toolbox/constitution.md` (stack, qualité, tests, archi, conventions).
@@ -40,10 +43,10 @@ Lis et **respecte** `.toolbox/constitution.md` (stack, qualité, tests, archi, c
 Pour une UI web, utilise les MCP (`.mcp.json`) : **Playwright** (piloter/tester) + **Chrome DevTools**
 (console/réseau/déboguer). Boucle : écrire → exécuter → observer → corriger.
 
-## Si Superpowers est inactif
-Si les skills `superpowers:*` n'existent pas : demande de lancer `./.toolbox/scripts/setup.sh`
-(puis `/reload-plugins`), ou de relancer avec `claude --plugin-dir ./.toolbox/superpowers`.
+## Suggestions de modèle
+En fin d'étape, chaque commande suggère un modèle (non forcé) selon `.toolbox/models.md`
+(archi/brainstorm → Opus ; code → Sonnet/DeepSeek ; etc.).
 
 ## Priorité
 1. Instructions utilisateur (ce fichier, `.toolbox/constitution.md`, demandes directes).
-2. Skills Superpowers. 3. Comportement par défaut.
+2. Skills `mri`. 3. Comportement par défaut.

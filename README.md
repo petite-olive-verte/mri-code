@@ -1,46 +1,48 @@
-# Toolbox IA — « idée → projet » (template piloté par commandes)
+# Module `mri` — « idée → projet » (piloté par commandes)
 
-Repo **template** pour démarrer un projet Python avec un agent de code. Tu fais *Use this template*,
-tu ouvres un agent dans le dossier, un **message d'accueil** te présente les commandes, et tu pilotes
-le flux pas à pas : `brainstorm → plan → scaffold → implémentation TDD → review → finish`, avec
+Boîte à outils pour démarrer/faire évoluer un projet Python avec un agent de code. Tu ouvres un agent
+dans le dossier, un **message d'accueil** te présente les commandes, et tu pilotes le flux pas à pas :
+`brainstorm → forge → design → devplan → scaffold → implémentation TDD → review → finish`, avec
 feedback visuel pour les UI web.
 
 > **Mode piloté par commandes** : l'agent n'auto-déclenche rien ; tu lances une slash command à chaque
-> étape, et il te suggère la suivante. Le seul automatisme est le message d'accueil au démarrage.
+> étape, et il te suggère la suivante (+ les appels facultatifs pertinents). Le seul automatisme est le
+> message d'accueil au démarrage.
 
-Moteur méthodologique : [**Superpowers**](https://github.com/obra/superpowers) (MIT, vendoré en
-submodule dans `.toolbox/superpowers`). Détails des choix dans `.toolbox/dev/DECISIONS.md` ; le
-déroulé complet dans `.toolbox/dev/WORKFLOW.md`.
+Le module `mri` est une **curation auto-portante** dérivée de [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
+(front d'analyse) et [Superpowers](https://github.com/obra/superpowers) (boucle d'exécution) — tous deux
+MIT. Détails : `.toolbox/dev/MERGE_DESIGN.md` (conception) et `.toolbox/dev/DECISIONS.md`.
 
 ## Démarrage
 
 ```bash
 git clone <ton-repo> && cd <ton-repo>
-./.toolbox/scripts/setup.sh        # init du submodule Superpowers
-claude                             # ouvre l'agent → message d'accueil → /brainstorm
+claude                             # ouvre l'agent → message d'accueil → /mri-brainstorm
 ```
 
-Le marketplace local + le plugin sont **déclarés dans `.claude/settings.json`** (chemin relatif
-`./.toolbox/superpowers`) : un clone neuf est auto-suffisant — à la confiance du dossier, Claude
-propose d'installer Superpowers.
-**Fallback fiable (sans install)** : `claude --plugin-dir ./.toolbox/superpowers`.
-**Codex** : `git submodule update --init` puis ouvre Codex (lit `AGENTS.md` + `.agents/skills/`).
+Les skills sont **locales** (`.claude/skills/mri-*`) — pas de plugin externe à installer.
+**Codex** : ouvre Codex (lit `AGENTS.md` + `.agents/skills/`).
 
 ## Les commandes
 
+Cœur du flux :
+
 | Commande | Rôle | Suggère ensuite |
 |---|---|---|
-| `/brainstorm <idée>` | clarifier l'idée → spec + critères d'acceptation | `/devplan` |
-| `/devplan` | plan technique + `tasks.md` (cases à cocher), validé en plan mode | `/scaffold` ou `/implement` |
-| `/scaffold` | structure Python (uv/ruff/pytest/mypy) selon `constitution.md` | `/implement` |
-| `/implement` | implémentation **en TDD**, coche les tâches au fur et à mesure | `/review` |
-| `/review` | revue vs spec/plan | `/finish` |
-| `/finish` | merge / PR / cleanup | — |
-| `/debug` | débogage systématique (cause racine d'abord) | — |
-| `/meta-prompt <texte>` | optimiser un prompt ponctuel | — |
+| `/mri-brainstorm <idée>` | facilitation → `brief.md` | `/mri-forge` ou `/mri-design` |
+| `/mri-forge` | pressure-test (personas) → HARDENED/CLARIFIED/KILLED | `/mri-design` ou `/mri-brainstorm` |
+| `/mri-design` | brief → design technique (`spec.md`) | `/mri-devplan` |
+| `/mri-devplan` | spec → `plan.md` (tâches + cases) | `/mri-scaffold-python` ou `/mri-implement` |
+| `/mri-scaffold-python` | structure Python (uv/ruff/pytest/mypy) | `/mri-implement` |
+| `/mri-implement` | implémentation **TDD** + boucle MCP | `/mri-review` |
+| `/mri-review` | revue vs spec/plan | `/mri-finish` |
+| `/mri-finish` | merge / PR / cleanup | — |
 
-**Reprise** : la mémoire vit dans `docs/specs/<projet>/` (`tasks.md` avec cases). À la réouverture, le
-message d'accueil détecte un plan inachevé et propose `/implement` pour reprendre.
+Facultatifs : `/mri-elicit`, `/mri-adversarial-review`, `/mri-market-research`, `/mri-domain-research`,
+`/mri-technical-research`, `/mri-document-project`, `/mri-debug`, `/mri-meta-prompt`, `/mri-resume`.
+
+**Reprise** : l'état vit dans `.mri_devtools/docs/<projet>/progress.md`. À la réouverture, le message
+d'accueil détecte un pipeline inachevé et propose **`/mri-resume`**.
 
 ## Structure
 
@@ -48,26 +50,26 @@ message d'accueil détecte un plan inachevé et propose `/implement` pour repren
 mon-projet/
   README.md  AGENTS.md  CLAUDE.md      ← entrées (racine)
   src/  tests/  pyproject.toml          ← TON projet
-  docs/specs/<projet>/                  ← spec / plan / tasks (mémoire)
-  .toolbox/                             ← toolchain (caché, committé)
+  .mri_devtools/docs/<projet>/          ← brief / spec / plan / progress (mémoire générée)
+  .toolbox/                             ← sources du module (transition ; → .mri_devtools/ au packaging)
     superpowers/  templates/python-uv/  constitution.md  scripts/  dev/
-  .claude/  .mcp.json  .agents/         ← dotfiles agents (cachés)
+  .claude/  .mcp.json  .agents/         ← câblage agents (commandes à plat, skills, hooks)
 ```
 
 ## Personnaliser
 
 - **`.toolbox/constitution.md`** — tes conventions (stack, structure, tests…). Levier principal.
 - **`.toolbox/templates/python-uv/`** — ta structure de projet concrète.
-- **`.claude/settings.json`** — permissions et hooks (retire la section `Stop` si le lint+test
-  automatique te dérange).
+- **`.toolbox/models.md`** — table de suggestions de modèle par étape.
+- **`.claude/settings.json`** — permissions et hooks (retire la section `Stop` si le lint+test te gêne).
 
 ## Notes
 
 - Le feedback visuel via MCP (Playwright + Chrome DevTools) nécessite Node/`npx`.
-- Le mode command-driven est établi par `AGENTS.md`, qui prime sur l'auto-déclenchement de Superpowers.
+- Le mode command-driven est établi par `AGENTS.md`.
+- Le plugin Superpowers est **désactivé** (`settings.json`) : le submodule sert de source d'extraction, pas de runtime.
 
 ## Crédits
 
-- [Superpowers](https://github.com/obra/superpowers) (Jesse Vincent, MIT) — moteur méthodologique.
-- [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (MIT) — la skill `brainstorm-facilitation`
-  (facilitation) est inspirée de son workflow de brainstorming facilité.
+- [Superpowers](https://github.com/obra/superpowers) (Jesse Vincent, MIT) — boucle d'exécution.
+- [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (BMad Code LLC, MIT ; « BMad™ » marque) — front d'analyse.

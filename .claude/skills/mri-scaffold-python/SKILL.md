@@ -1,5 +1,5 @@
 ---
-name: scaffold-python
+name: mri-scaffold-python
 description: Use when initializing/scaffolding the Python project structure (uv + ruff + pytest + mypy, src/ layout) from .toolbox/templates/python-uv, once the spec and plan are ready and before writing feature code. Respects .toolbox/constitution.md.
 ---
 
