@@ -46,12 +46,12 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] `mri-forge` (d'après bmad-forge-idea, panel FIXE de 5 personas, verdict) → notes dans `brief.md`.
 
 ## Lot 2 — Pont + back (extract + adapt Superpowers)
-- [ ] `mri-design` (← brainstorming) : entrée `brief.md` → `spec.md`.
-- [ ] `mri-devplan` (← writing-plans) : `spec.md` → `plan.md` + `tasks.md`.
-- [ ] `mri-tdd` (← test-driven-development).
-- [ ] `mri-implement` (← subagent-driven-development) : ledger `tasks.md`, boucle MCP.
-- [ ] `mri-review` (← requesting-code-review) ; `mri-debug` (← systematic-debugging) ; `mri-finish` (← finishing-a-development-branch).
-- [ ] Worktrees natif + fallback ; `mri-worktrees` seulement si nécessaire.
+- [x] `mri-design` (← brainstorming) : REFRAMÉ en pont, entrée `brief.md` → `spec.md`.
+- [x] `mri-devplan` (← writing-plans) : `spec.md` → `plan.md` (cases embarquées, modèle Superpowers ; pas de `tasks.md` séparé).
+- [x] `mri-tdd` (← test-driven-development).
+- [x] `mri-implement` (← subagent-driven-development) : ledger d'exécution `.mri_devtools/state/sdd/`, boucle MCP.
+- [x] `mri-review` (← requesting-code-review) ; `mri-debug` (← systematic-debugging) ; `mri-finish` (← finishing-a-development-branch).
+- [x] `mri-verify` (← verification-before-completion, bonus : évite une réf pendante) ; `mri-worktrees` (← using-git-worktrees).
 
 ## Lot 3 — Challenge & on-demand
 - [ ] `mri-elicit` (← bmad-advanced-elicitation) ; `mri-adversarial-review` (← bmad-review-adversarial-general).
