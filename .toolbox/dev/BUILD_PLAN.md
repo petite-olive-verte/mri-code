@@ -78,8 +78,10 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] Testé dans `/tmp/target-proj` : symlinks résolvent, 0 résidu `.toolbox/`, `welcome.sh` OK. Défaut symlink, fallback `--copy` (découverte live Claude à confirmer en E2E).
 
 ## Lot 8 — Docs, mémoire & E2E
-- [ ] MAJ DECISIONS (amender 9 ; ajouter 11/12), PROJECT_STATE, WORKFLOW, README, mémoire.
-- [ ] E2E dans une copie (interactif = checkpoint humain).
+- [x] MAJ DECISIONS (11 fusion / 12 installeur, amende 9), PROJECT_STATE, WORKFLOW, README, mémoire.
+- [ ] **E2E dans une copie (interactif = checkpoint humain)** — À FAIRE AVEC L'UTILISATEUR :
+      les étapes de facilitation (brainstorm/forge/design) ne se valident qu'en session live.
+      Vérif statique + installeur déjà OK ; reste le déroulé réel du pipeline.
 
 ## Limites connues
 - Qualité interactive (brainstorm/forge/design) validée seulement en live.

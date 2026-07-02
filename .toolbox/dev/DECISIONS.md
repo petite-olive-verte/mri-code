@@ -164,6 +164,31 @@ phase 2 n'est pas faite, puis sera remplacé par le module curé.
 
 ---
 
+## Décision 11 — Le module curé « mri » (exécution de la Décision 10)
+
+**Fait.** Construction du module `mri` (voir `MERGE_DESIGN.md` + `BUILD_PLAN.md`) : **front d'analyse
+réimplémenté de BMAD** (mri-brainstorm avec le vrai catalogue 108 techniques + 3 modes, mri-forge à
+panel de personas fixe, + elicit/adversarial-review/recherches/document-project) et **back d'exécution
+extrait+adapté de Superpowers** (mri-design=pont brief→spec, devplan, implement/tdd, review, debug,
+finish, verify, worktrees). **Runtime BMAD strippé** ; namespaces `superpowers:*` → `mri-*` ; chemins
+normalisés sur `.mri_devtools/docs/<projet>/`. Préfixe **`mri-`** sur skills ET commandes (règle la
+collision `/review` avec le natif). **Plugin Superpowers désactivé** (skills auto-portantes ; supprime
+le bootstrap agressif). **Handoff** : `brief.md` (mri-brainstorm) → `spec.md` (mri-design, le pont) →
+`plan.md` (mri-devplan) → implémentation. **Amende la Décision 9** : le brainstorming Superpowers
+revient dans un rôle *différent* (synthèse de design = mri-design), pas comme front d'idéation.
+
+## Décision 12 — Installation par installeur dans `.mri_devtools/` (pas de template)
+
+**Fait.** Abandon du modèle « repo template ». Un **installeur** (`install.sh <cible> [--copy]`) dépose
+le module dans **`.mri_devtools/`** (dossier caché) et génère le câblage imposé par Claude Code :
+`.claude/commands/*` **à plat** (bug de découverte des sous-dossiers), `.claude/skills/*`, hooks +
+`settings.json`, et `AGENTS.md`/`CLAUDE.md`/`.mcp.json` à la racine. `.claude/` = **pointeurs**
+(symlink par défaut, `--copy` en fallback). La racine du projet reste **propre** (projet + dotfiles).
+Le repo de dev n'est **pas** restructuré : l'installeur package ses sources vers la cible. `état généré`
+(brief/spec/plan/progress) sous `.mri_devtools/docs/<projet>/` ; reprise via `/mri-resume`.
+
+---
+
 ## Synthèse des choix
 
 | Sujet | Décision |

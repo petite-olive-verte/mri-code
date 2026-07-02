@@ -1,8 +1,9 @@
 # Workflow — utiliser la toolbox (mode piloté par commandes)
 
-> **Statut : implémenté.** Le mode command-driven (commandes wrapper + message d'accueil) et le
-> rangement `.toolbox/` sont en place (améliorations 1 & 2 livrées). Ce document décrit l'expérience
-> réelle ; reste à valider en live interactif (commandes / MCP).
+> **Statut : remplacé par le pipeline `mri`.** Ce document décrivait le flux initial (commandes non
+> préfixées). Le flux actuel est le **module `mri`** — voir `README.md`, `AGENTS.md` et surtout
+> `MERGE_DESIGN.md` (graphe complet + facultatifs). Table à jour ci-dessous ; le reste du document
+> reste indicatif.
 
 ## Principe
 
@@ -18,14 +19,15 @@ mode command-driven est établi dans `AGENTS.md`, qui **prime sur l'auto-déclen
 
 | Commande | Invoque | Suggère ensuite |
 |---|---|---|
-| `/brainstorm` | skill `brainstorm-facilitation` (notre facilitation, style BMAD) | `/devplan` |
-| `/devplan` | `superpowers:writing-plans` | `/scaffold` (nouveau projet) sinon `/implement` |
-| `/scaffold` | `scaffold-python` (notre skill) | `/implement` |
-| `/implement` | `superpowers:subagent-driven-development` (TDD inclus) | `/review` |
-| `/review` | `superpowers:requesting-code-review` | `/finish` |
-| `/finish` | `superpowers:finishing-a-development-branch` | — |
-| `/debug` | `superpowers:systematic-debugging` | (ad hoc) |
-| `/meta-prompt` | skill `meta-prompt` (optimiser un prompt ponctuel) | — |
+| `/mri-brainstorm` | skill `mri-brainstorm` (facilitation style BMAD) | `/mri-forge` ou `/mri-design` |
+| `/mri-forge` | skill `mri-forge` (pressure-test, personas) | `/mri-design` (HARDENED) / `/mri-brainstorm` (KILLED) |
+| `/mri-design` | skill `mri-design` (pont `brief.md`→`spec.md`) | `/mri-devplan` |
+| `/mri-devplan` | skill `mri-devplan` (`spec.md`→`plan.md`) | `/mri-scaffold-python` ou `/mri-implement` |
+| `/mri-scaffold-python` | skill `mri-scaffold-python` | `/mri-implement` |
+| `/mri-implement` | skill `mri-implement` (TDD + MCP) | `/mri-review` |
+| `/mri-review` | skill `mri-review` | `/mri-finish` |
+| `/mri-finish` | skill `mri-finish` | — |
+| facultatifs | `/mri-elicit` · `/mri-adversarial-review` · `/mri-*-research` · `/mri-document-project` · `/mri-debug` · `/mri-meta-prompt` · `/mri-resume` | (retour au flux) |
 
 ## Démarrer un projet (exemple : app de todo)
 

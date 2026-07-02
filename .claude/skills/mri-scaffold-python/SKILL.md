@@ -56,5 +56,5 @@ uv run ruff check .     # lint propre
   `grep -rn '__P[A-Z_]*__' . --include='*.py' --include='*.toml'` doit être vide.
 
 ## Ensuite
-Passe à l'implémentation **en TDD** (`superpowers:test-driven-development`), feature par feature,
+Passe à l'implémentation **en TDD** via **/mri-implement** (skill `mri-tdd` par tâche), feature par feature,
 en traduisant les **critères d'acceptation de la spec** en tests qui échouent d'abord.

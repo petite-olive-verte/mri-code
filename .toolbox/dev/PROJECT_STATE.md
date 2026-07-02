@@ -14,16 +14,23 @@ Moteur : [Superpowers](https://github.com/obra/superpowers) (MIT, **submodule** 
 `.toolbox/superpowers`). Notre couche : amorçage command-driven, feedback MCP, scaffold Python
 éditable, constitution, meta-prompt. **Décisions fermes : on garde le submodule ; mode command-driven.**
 
-## Statut : BUILD + A1 + A2 FAITS
+## Statut : MODULE « mri » CONSTRUIT (fusion BMAD × Superpowers) — reste l'E2E live
 
-Tout est construit et committé sur `main` (working tree propre). Commits clés :
+> **MàJ 2026-07-02.** Source de vérité actuelle : **`.toolbox/dev/MERGE_DESIGN.md`** (conception) +
+> **`.toolbox/dev/BUILD_PLAN.md`** (plan de tâches, cases = ledger). Lots 0-7 **faits et committés** ;
+> reste le **Lot 8 : E2E live** (interactif, à faire avec l'utilisateur).
 
+Le module `mri` remplace l'ancien flux : 19 skills `.claude/skills/mri-*` (front BMAD réimplémenté +
+back Superpowers extrait/adapté), 17 commandes `.claude/commands/mri-*.md`, reprise via `progress.md`
++ `/mri-resume`, suggestions de modèle (`.toolbox/models.md`), installeur `.toolbox/scripts/install.sh`
+→ `.mri_devtools/`. Plugin Superpowers **désactivé** (skills auto-portantes). Voir Décisions 11 & 12.
+
+Commits clés du build mri : `30cf002` (lot 0) → `db901e1` (lot 7). Historique antérieur (A1/A2/build
+initial) conservé plus bas.
+
+### Archive — état antérieur (pré-mri)
 ```
-c27405d A1: mode piloté par commandes (command-driven)
-228b8c9 A2: ranger toute la toolchain dans .toolbox/
-fc0cc6f docs: WORKFLOW.md + maj PROJECT_STATE
-c69d8e0 Activation self-contained de Superpowers
-b1f5caf..b8d4b93  Lots 0-6 (build initial)
+c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build initial
 ```
 
 ### Vérifié ✅
