@@ -172,3 +172,8 @@ After saving the plan, offer execution choice:
 **If Inline Execution chosen:**
 - **REQUIRED SUB-SKILL:** Use mri-implement
 - Batch execution with checkpoints for review
+
+## Suivi (progress.md)
+Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
+fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
+la prochaine étape du pipeline.

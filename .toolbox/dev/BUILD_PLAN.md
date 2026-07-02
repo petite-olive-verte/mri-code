@@ -59,10 +59,10 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] `mri-document-project` (brownfield, optionnel).
 
 ## Lot 4 — État de pipeline & reprise
-- [ ] Schéma `progress.md`.
-- [ ] Instruction MAJ `progress.md` gravée dans chaque SKILL.md.
-- [ ] `/mri-resume`.
-- [ ] Simplifier `welcome.sh` (`.mri_devtools/docs/*/progress.md` → /mri-resume ; sinon /mri-brainstorm).
+- [x] Schéma `progress.md` (dans la commande `/mri-resume`).
+- [x] Instruction MAJ `progress.md` gravée dans les SKILL.md de phase.
+- [x] `/mri-resume`.
+- [x] Simplifier `welcome.sh` (`.mri_devtools/docs/*/progress.md` → /mri-resume ; sinon /mri-brainstorm) — testé 2 cas.
 
 ## Lot 5 — Préfixe `mri-` + commandes + câblage
 - [ ] Renommer `scaffold-python`→`mri-scaffold-python`, `meta-prompt`→`mri-meta-prompt`.

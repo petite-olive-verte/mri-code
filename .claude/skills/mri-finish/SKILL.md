@@ -239,3 +239,8 @@ git worktree prune  # Self-healing: clean up any stale registrations
 - Clean up worktree for Options 1 & 4 only
 - `cd` to main repo root before worktree removal
 - Run `git worktree prune` after removal
+
+## Suivi (progress.md)
+Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
+fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
+la prochaine étape du pipeline.

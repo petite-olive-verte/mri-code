@@ -101,3 +101,8 @@ You: [Fix progress indicators]
 - Request clarification
 
 See template at: [code-reviewer.md](code-reviewer.md)
+
+## Suivi (progress.md)
+Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
+fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
+la prochaine étape du pipeline.

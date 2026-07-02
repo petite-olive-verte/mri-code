@@ -294,3 +294,8 @@ From debugging sessions:
 - Random fixes approach: 2-3 hours of thrashing
 - First-time fix rate: 95% vs 40%
 - New bugs introduced: Near zero vs common
+
+## Suivi (progress.md)
+Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
+fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
+la prochaine étape du pipeline.
