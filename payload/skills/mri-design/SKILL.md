@@ -1,69 +1,69 @@
 ---
 name: mri-design
 description: >-
-  Convertit le brief produit par /mri-brainstorm en un design technique (spec.md). C'est le PONT
-  analyse→exécution du pipeline mri : il prend l'intention produit comme acquise et se concentre sur
-  l'architecture. Invoquée par /mri-design. (Adapté de superpowers:brainstorming, MIT.)
+  Turns the brief from /mri-brainstorm into a technical design (spec.md). This is the analysis→execution
+  BRIDGE of the mri pipeline: it takes the product intent as given and focuses on architecture.
+  Invoked by /mri-design. (Adapted from Superpowers brainstorming, MIT.)
 ---
 
-# mri-design — du brief au design technique (le pont)
+# mri-design — from brief to technical design (the bridge)
 
-Transforme le **product brief** (`.mri_devtools/docs/<projet>/brief.md`, produit par `/mri-brainstorm`,
-éventuellement durci par `/mri-forge`) en un **design technique** validé, prêt pour la planification.
+Turns the **product brief** (`.mri_devtools/docs/<project>/brief.md`, produced by `/mri-brainstorm`,
+optionally hardened by `/mri-forge`) into a validated **technical design**, ready for planning.
 
-**Rôle** : tu prends l'intention produit **comme acquise** (le quoi/pourquoi est déjà tranché dans le
-brief — ne le re-litige pas). Tu te concentres sur le **comment technique** : architecture, composants,
-flux de données, gestion d'erreurs, tests. Sortie : `.mri_devtools/docs/<projet>/spec.md`.
+**Role:** take the product intent **as given** (the what/why is already settled in the brief — do not
+re-litigate it). Focus on the **technical how**: architecture, components, data flow, error handling,
+tests. Output: `.mri_devtools/docs/<project>/spec.md`.
+
+Communicate in the configured language and write the document in the configured document language
+(see `AGENTS.md`).
 
 <HARD-GATE>
-N'invoque aucune skill d'implémentation, n'écris aucun code et ne scaffolde rien tant que tu n'as pas
-présenté un design et obtenu l'approbation de l'utilisateur.
+Do NOT invoke any implementation skill, write any code, or scaffold anything until you have presented a
+design and the user has approved it.
 </HARD-GATE>
 
-## Checklist (crée une tâche par item, dans l'ordre)
-1. **Lire le brief** `.mri_devtools/docs/<projet>/brief.md` (+ contexte projet : fichiers, docs, commits récents).
-2. **Companion visuel just-in-time** — pas d'emblée. La première fois qu'une question serait plus claire
-   montrée que décrite, propose-le (message dédié). Voir `./visual-companion.md`.
-3. **Questions de clarification techniques** — une à la fois : combler les **trous de design** (pas
-   re-explorer le produit). Contraintes techniques, dépendances, invariants, critères de succès mesurables.
-4. **Proposer 2-3 approches** techniques — trade-offs + ta recommandation en tête.
-5. **Présenter le design** en sections dimensionnées à leur complexité ; approbation après chaque section.
-   Couvre : architecture, composants, flux de données, gestion d'erreurs, tests.
-6. **Écrire le design** dans `.mri_devtools/docs/<projet>/spec.md` et committer.
-7. **Auto-revue de la spec** — placeholders/TODO, contradictions internes, périmètre, ambiguïtés → corrige inline.
-8. **Revue utilisateur** — demande à l'utilisateur de relire la spec avant de continuer.
-9. **Transition** — invoque **`mri-devplan`** pour créer le plan d'implémentation. **C'est le seul skill
-   invoqué ensuite.**
+## Checklist (create one task per item, in order)
+1. **Read the brief** `.mri_devtools/docs/<project>/brief.md` (+ project context: files, docs, recent commits).
+2. **Ask technical clarifying questions** — one at a time: fill the **design gaps** (do not re-explore the
+   product). Technical constraints, dependencies, invariants, measurable success criteria.
+3. **Propose 2-3 technical approaches** — trade-offs + your recommendation first.
+4. **Present the design** in sections scaled to their complexity; get approval after each section.
+   Cover: architecture, components, data flow, error handling, tests.
+5. **Write the design** to `.mri_devtools/docs/<project>/spec.md` and commit.
+6. **Spec self-review** — placeholders/TODO, internal contradictions, scope, ambiguity → fix inline.
+7. **User review** — ask the user to review the spec before proceeding.
+8. **Transition** — invoke **`mri-devplan`** to create the implementation plan. **That is the only skill
+   invoked next.**
 
-## Design pour l'isolation et la clarté
-Découpe le système en unités à **but unique**, communiquant par **interfaces bien définies**, testables
-indépendamment. Pour chaque unité : que fait-elle, comment l'utilise-t-on, de quoi dépend-elle ? Si on
-ne peut pas comprendre une unité sans lire ses internes, ou changer ses internes sans casser les
-consommateurs, les frontières sont à revoir. Les fichiers qui grossissent = signal qu'ils font trop.
+## Design for isolation and clarity
+Break the system into units with a **single purpose**, communicating through **well-defined interfaces**,
+independently testable. For each unit: what does it do, how is it used, what does it depend on? If a unit
+can't be understood without reading its internals, or its internals can't change without breaking
+consumers, the boundaries need work. Files that grow large are a signal they do too much.
 
-## En codebase existant
-Explore la structure avant de proposer. Suis les patterns existants. Inclus les améliorations ciblées
-qui servent le but courant ; pas de refactoring non lié.
+## In an existing codebase
+Explore the structure before proposing. Follow existing patterns. Include targeted improvements that
+serve the current goal; no unrelated refactoring.
 
-## Auto-revue de la spec (yeux neufs)
-1. **Placeholders** : « TBD », « TODO », sections incomplètes, exigences vagues → corrige.
-2. **Cohérence interne** : des sections se contredisent-elles ? l'archi colle-t-elle aux features ?
-3. **Périmètre** : assez focalisé pour un seul plan d'implémentation, ou à décomposer ?
-4. **Ambiguïté** : une exigence interprétable de deux façons ? Choisis-en une, rends-la explicite.
+## Spec self-review (fresh eyes)
+1. **Placeholders:** "TBD", "TODO", incomplete sections, vague requirements → fix.
+2. **Internal consistency:** do sections contradict each other? does the architecture match the features?
+3. **Scope:** focused enough for a single implementation plan, or should it be decomposed?
+4. **Ambiguity:** could a requirement be read two ways? Pick one and make it explicit.
 
-## Gate de revue utilisateur
-> « Spec écrite et committée dans `<chemin>`. Relis-la et dis-moi si tu veux des changements avant qu'on
-> écrive le plan d'implémentation. »
-Attends la réponse. Changements demandés → applique + re-passe l'auto-revue. Ne continue qu'après approbation.
+## User review gate
+> "Spec written and committed to `<path>`. Please review it and tell me if you want any changes before
+> we write the implementation plan."
+Wait for the response. Changes requested → apply + re-run the self-review. Only proceed once approved.
 
-## Principes
-Une question à la fois · YAGNI impitoyable · explore 2-3 approches · validation incrémentale · reste flexible.
+## Visual feedback (web UI)
+For a web UI, use the MCP servers (`.mcp.json`): **Playwright** to drive/test, **Chrome DevTools** for
+console/network. There is no separate visual companion — the MCP loop covers write → run → observe → fix.
 
-## Suivi
-- Début : `design` `[~]` dans `.mri_devtools/docs/<projet>/progress.md`.
-- Fin : `design` `[x] → spec.md`, puis : « **Prochaine étape → `/mri-devplan`** ».
+## Principles
+One question at a time · YAGNI ruthlessly · explore 2-3 approaches · incremental validation · stay flexible.
 
-## Companion visuel
-Companion navigateur pour montrer maquettes/diagrammes pendant le design (outil, pas mode). Offre-le
-just-in-time (message dédié) uniquement quand une question serait plus claire **montrée** que décrite.
-Guide détaillé : `./visual-companion.md`.
+## Tracking (progress.md)
+- Start: mark `design` `[~]` in `.mri_devtools/docs/<project>/progress.md`.
+- End: `design` `[x] → spec.md`, then: "**Next step → `/mri-devplan`**".
