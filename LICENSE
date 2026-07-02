@@ -1,0 +1,35 @@
+MIT License
+
+Copyright (c) 2026 Mathieu RIGARD
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Attributions (œuvres dérivées, sous licence MIT) :
+
+- Superpowers — Copyright (c) Jesse Vincent — https://github.com/obra/superpowers (MIT).
+  Les skills d'exécution (payload/skills/mri-{design,devplan,implement,tdd,review,debug,finish,
+  verify,worktrees}) en sont extraites et adaptées.
+- BMAD-METHOD — Copyright (c) BMad Code, LLC — https://github.com/bmad-code-org/BMAD-METHOD (MIT).
+  Les skills d'analyse (payload/skills/mri-{brainstorm,forge,elicit,adversarial-review,
+  market/domain/technical-research,document-project}) en sont réimplémentées ; le catalogue
+  payload/skills/mri-brainstorm/assets/brain-methods.csv en provient.
+  « BMad™ », « BMad Method™ » et « BMad Core™ » sont des marques de BMad Code, LLC ; ce module n'utilise
+  pas ces marques dans ses noms (préfixe neutre « mri- »).

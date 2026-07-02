@@ -1,5 +1,11 @@
 # Plan de tâches — Construction du module « mri » (fusion BMAD × Superpowers)
 
+> **MàJ layout (v0.1.0)** : après les Lots 0-8, le repo est passé **source-first** — contenu dans
+> `payload/`, méta-docs dans `dev/`, installeur `bin/install.mjs`/`install.sh` + `package.json`
+> (`npx git+ssh://…` en privé). Les chemins `.claude/`/`.toolbox/` ci-dessous décrivent la **cible
+> installée**, pas le repo source. Voir README + `dev/MERGE_DESIGN.md`.
+
+
 > Copie versionnée du plan d'exécution (source : plan approuvé en session). Les cases sont le **ledger
 > de reprise** : mises à jour après chaque lot. Conception détaillée dans `MERGE_DESIGN.md`.
 

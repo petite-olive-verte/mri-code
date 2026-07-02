@@ -16,13 +16,16 @@ Moteur : [Superpowers](https://github.com/obra/superpowers) (MIT, **submodule** 
 
 ## Statut : MODULE « mri » CONSTRUIT (fusion BMAD × Superpowers) — reste l'E2E live
 
-> **MàJ 2026-07-02.** Source de vérité actuelle : **`.toolbox/dev/MERGE_DESIGN.md`** (conception) +
-> **`.toolbox/dev/BUILD_PLAN.md`** (plan de tâches, cases = ledger). Lots 0-7 **faits et committés** ;
-> reste le **Lot 8 : E2E live** (interactif, à faire avec l'utilisateur).
+> **MàJ 2026-07-02.** Source de vérité : **`dev/MERGE_DESIGN.md`** + **`dev/BUILD_PLAN.md`**. Le module
+> `mri` est construit (Lots 0-8) PUIS le repo a été **réorganisé en source-first distribuable** :
+> contenu installable dans **`payload/`**, méta-docs dans **`dev/`** (submodule → `dev/superpowers`),
+> **installeur** `bin/install.mjs` (+ `install.sh`, `package.json`). Installation :
+> **`npx git+ssh://git@github.com/MatioRIGARD/dev-toolbox.git`** (privé/SSH) ou `git clone`+`./install.sh`.
+> Reste : **E2E live** (interactif) + **push du repo distant** (par l'utilisateur).
 
-Le module `mri` remplace l'ancien flux : 19 skills `.claude/skills/mri-*` (front BMAD réimplémenté +
-back Superpowers extrait/adapté), 17 commandes `.claude/commands/mri-*.md`, reprise via `progress.md`
-+ `/mri-resume`, suggestions de modèle (`.toolbox/models.md`), installeur `.toolbox/scripts/install.sh`
+Le module `mri` remplace l'ancien flux : 19 skills `payload/skills/mri-*` (front BMAD réimplémenté +
+back Superpowers extrait/adapté), 17 commandes `payload/commands/mri-*.md`, reprise via `progress.md`
++ `/mri-resume`, suggestions de modèle (`payload/models.md`), installeur `bin/install.mjs`
 → `.mri_devtools/`. Plugin Superpowers **désactivé** (skills auto-portantes). Voir Décisions 11 & 12.
 
 Commits clés du build mri : `30cf002` (lot 0) → `db901e1` (lot 7). Historique antérieur (A1/A2/build

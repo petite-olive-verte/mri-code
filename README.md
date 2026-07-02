@@ -1,75 +1,54 @@
-# Module `mri` — « idée → projet » (piloté par commandes)
+# dev-toolbox — le module `mri`
 
-Boîte à outils pour démarrer/faire évoluer un projet Python avec un agent de code. Tu ouvres un agent
-dans le dossier, un **message d'accueil** te présente les commandes, et tu pilotes le flux pas à pas :
+Module **piloté par commandes** qui transforme une idée en projet Python avec un agent de code :
 `brainstorm → forge → design → devplan → scaffold → implémentation TDD → review → finish`, avec
-feedback visuel pour les UI web.
+feedback visuel (MCP) pour les UI web. Curation auto-portante de
+[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (analyse) et
+[Superpowers](https://github.com/obra/superpowers) (exécution) — tous deux MIT.
 
-> **Mode piloté par commandes** : l'agent n'auto-déclenche rien ; tu lances une slash command à chaque
-> étape, et il te suggère la suivante (+ les appels facultatifs pertinents). Le seul automatisme est le
-> message d'accueil au démarrage.
+Ce repo est **source-first** : le contenu installable vit dans `payload/`, l'installeur à la racine le
+déploie dans un projet cible.
 
-Le module `mri` est une **curation auto-portante** dérivée de [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
-(front d'analyse) et [Superpowers](https://github.com/obra/superpowers) (boucle d'exécution) — tous deux
-MIT. Détails : `.toolbox/dev/MERGE_DESIGN.md` (conception) et `.toolbox/dev/DECISIONS.md`.
+## Installation dans un projet (repo privé → collaborateurs)
 
-## Démarrage
-
+**Une commande (recommandé, non-curl, via SSH) :**
 ```bash
-git clone <ton-repo> && cd <ton-repo>
-claude                             # ouvre l'agent → message d'accueil → /mri-brainstorm
+cd mon-projet
+npx git+ssh://git@github.com/MatioRIGARD/dev-toolbox.git          # installe dans le dossier courant
+# épingler une version :  npx git+ssh://git@github.com/MatioRIGARD/dev-toolbox.git#v0.1.0
+```
+> `curl … | bash` **ne marche pas** ici : le repo est privé (le raw exige une auth). `npx` via `git+ssh`
+> utilise la **clé SSH** du collaborateur (accès déjà accordé) — aucun token à gérer.
+
+**Alternative sans Node (clone + script) :**
+```bash
+git clone git@github.com:MatioRIGARD/dev-toolbox.git
+./dev-toolbox/install.sh mon-projet        # ou: cd mon-projet && /chemin/dev-toolbox/install.sh
 ```
 
-Les skills sont **locales** (`.claude/skills/mri-*`) — pas de plugin externe à installer.
-**Codex** : ouvre Codex (lit `AGENTS.md` + `.agents/skills/`).
+**Si Claude ne découvre pas les skills/commandes liées** (symlinks) : relance avec `--copy`
+(`npx … -- --copy` ou `./install.sh mon-projet --copy`).
 
-## Les commandes
-
-Cœur du flux :
-
-| Commande | Rôle | Suggère ensuite |
-|---|---|---|
-| `/mri-brainstorm <idée>` | facilitation → `brief.md` | `/mri-forge` ou `/mri-design` |
-| `/mri-forge` | pressure-test (personas) → HARDENED/CLARIFIED/KILLED | `/mri-design` ou `/mri-brainstorm` |
-| `/mri-design` | brief → design technique (`spec.md`) | `/mri-devplan` |
-| `/mri-devplan` | spec → `plan.md` (tâches + cases) | `/mri-scaffold-python` ou `/mri-implement` |
-| `/mri-scaffold-python` | structure Python (uv/ruff/pytest/mypy) | `/mri-implement` |
-| `/mri-implement` | implémentation **TDD** + boucle MCP | `/mri-review` |
-| `/mri-review` | revue vs spec/plan | `/mri-finish` |
-| `/mri-finish` | merge / PR / cleanup | — |
-
-Facultatifs : `/mri-elicit`, `/mri-adversarial-review`, `/mri-market-research`, `/mri-domain-research`,
-`/mri-technical-research`, `/mri-document-project`, `/mri-debug`, `/mri-meta-prompt`, `/mri-resume`.
-
-**Reprise** : l'état vit dans `.mri_devtools/docs/<projet>/progress.md`. À la réouverture, le message
-d'accueil détecte un pipeline inachevé et propose **`/mri-resume`**.
-
-## Structure
-
+## Ce qui est installé dans la cible
 ```
 mon-projet/
-  README.md  AGENTS.md  CLAUDE.md      ← entrées (racine)
-  src/  tests/  pyproject.toml          ← TON projet
-  .mri_devtools/docs/<projet>/          ← brief / spec / plan / progress (mémoire générée)
-  .toolbox/                             ← sources du module (transition ; → .mri_devtools/ au packaging)
-    superpowers/  templates/python-uv/  constitution.md  scripts/  dev/
-  .claude/  .mcp.json  .agents/         ← câblage agents (commandes à plat, skills, hooks)
+  AGENTS.md  CLAUDE.md  .mcp.json      ← entrées (imposées à la racine par Claude Code)
+  .claude/  commands/ (à plat) · skills/ · hooks/ · settings.json   ← câblage (→ .mri_devtools/)
+  .mri_devtools/                       ← LE MODULE + docs/<projet>/ (brief/spec/plan/progress générés)
+  .agents/skills/                      ← miroir portable (Codex)
 ```
+La racine de ton projet reste **propre** : seuls ton code + les dotfiles.
 
-## Personnaliser
+## Utilisation
+À l'ouverture d'un agent, le message d'accueil liste les commandes. Démarre par **`/mri-brainstorm`**,
+reprends via **`/mri-resume`**. Le flux complet et les commandes facultatives sont décrits dans
+`payload/AGENTS.md` (copié en `AGENTS.md` dans la cible) et `dev/MERGE_DESIGN.md`.
 
-- **`.toolbox/constitution.md`** — tes conventions (stack, structure, tests…). Levier principal.
-- **`.toolbox/templates/python-uv/`** — ta structure de projet concrète.
-- **`.toolbox/models.md`** — table de suggestions de modèle par étape.
-- **`.claude/settings.json`** — permissions et hooks (retire la section `Stop` si le lint+test te gêne).
+## Développer le module
+Sources dans `payload/` ; méta-docs dans `dev/` (`MERGE_DESIGN.md`, `DECISIONS.md`, `BUILD_PLAN.md`).
+Dogfood : `./install.sh .` (self-install dans ce repo ; artefacts gitignorés). Le submodule
+`dev/superpowers` est la **source d'extraction** (non distribuée).
 
-## Notes
-
-- Le feedback visuel via MCP (Playwright + Chrome DevTools) nécessite Node/`npx`.
-- Le mode command-driven est établi par `AGENTS.md`.
-- Le plugin Superpowers est **désactivé** (`settings.json`) : le submodule sert de source d'extraction, pas de runtime.
-
-## Crédits
-
-- [Superpowers](https://github.com/obra/superpowers) (Jesse Vincent, MIT) — boucle d'exécution.
-- [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (BMad Code LLC, MIT ; « BMad™ » marque) — front d'analyse.
+## Crédits & licence
+`LICENSE` (MIT). Dérivé de **Superpowers** (Jesse Vincent, MIT) et **BMAD-METHOD** (BMad Code LLC, MIT ;
+« BMad™ » marque déposée — d'où le préfixe neutre `mri-`).
