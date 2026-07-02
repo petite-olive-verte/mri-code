@@ -187,6 +187,21 @@ le module dans **`.mri_devtools/`** (dossier caché) et génère le câblage imp
 Le repo de dev n'est **pas** restructuré : l'installeur package ses sources vers la cible. `état généré`
 (brief/spec/plan/progress) sous `.mri_devtools/docs/<projet>/` ; reprise via `/mri-resume`.
 
+> **MàJ v0.1.0** : la Décision 12 a évolué — repo **source-first** (`payload/` + `dev/`), installeur
+> **`bin/install.mjs`** (Node) + `install.sh`, distribution **`npx git+ssh://…mri-devtools.git`** (privé),
+> **copy-only** (plus de symlink ; `.claude/` = vrais fichiers), config à l'install
+> (`--lang`/`--doc-lang`/`--user`), **submodule Superpowers retiré**.
+
+## Décision 13 — White-label + attribution concentrée dans LICENSE
+
+**Fait (v0.1.0).** Le contenu **distribué** (`payload/`, `README.md`, `package.json`) ne mentionne plus
+Superpowers ni BMAD (retrait cosmétique) ; un **logo ASCII maison `mri`** est apposé sur les 19 skills et
+au message d'accueil. **L'attribution MIT reste dans `LICENSE`** (obligation légale : conserver la notice
+« dans toutes les copies » — satisfaite par un seul fichier). Fuites périmées corrigées au passage
+(directive `superpowers:brainstorming`, chemins de marque, commentaire submodule). **Pourquoi** :
+produit white-label pour distribution à des clients/amis, tout en restant conforme. `dev/` (interne, FR,
+non distribué) garde l'historique honnête des origines.
+
 ---
 
 ## Synthèse des choix
