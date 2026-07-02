@@ -25,8 +25,8 @@ packages = ["src/__PACKAGE_NAME__"]
 [tool.ruff]
 line-length = 100
 src = ["src", "tests"]
-# Ne pas linter la toolchain vendorée (submodule Superpowers, templates, etc.) :
-# `ruff check .` depuis la racine ramasserait sinon des .py de .mri_devtools/superpowers/.
+# Do not lint the vendored toolchain (Superpowers submodule, templates, etc.):
+# otherwise `ruff check .` from the root would pick up .py files from .mri_devtools/superpowers/.
 extend-exclude = [".toolbox"]
 
 [tool.ruff.lint]

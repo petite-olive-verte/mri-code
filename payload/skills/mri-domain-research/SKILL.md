@@ -1,22 +1,23 @@
 ---
 name: mri-domain-research
 description: >-
-  Recherche domaine/industrie : expertise, terminologie, patterns, contraintes réglementaires.
-  Réimplémenté de BMAD-METHOD (bmad-domain-research, MIT). On-demand, suggéré après /mri-forge.
-  Invoquée par /mri-domain-research.
+  Domain/industry research: expertise, terminology, patterns, regulatory constraints.
+  Reimplemented from BMAD-METHOD (bmad-domain-research, MIT). On-demand, suggested after /mri-forge.
+  Invoked by /mri-domain-research.
 ---
 
-# mri-domain-research — recherche domaine
+# mri-domain-research — domain research
 
-**But** : acquérir/valider l'expertise d'un domaine peu familier pour éviter les erreurs de conception.
-**⛔ Prérequis** : recherche web (WebSearch/MCP) ; sinon abandonne et préviens.
+**Goal**: acquire/validate expertise in an unfamiliar domain to avoid design mistakes.
+**⛔ Prerequisite**: web search (WebSearch/MCP); otherwise abort and warn.
 
-## Déroulé
-1. **Cadrer** : le domaine/industrie, ce qu'on doit comprendre/valider.
-2. **Rechercher** (web, sources citées) : terminologie et concepts clés, patterns et bonnes pratiques
-   du domaine, acteurs/normes, contraintes (réglementaires, métier), pièges classiques.
-3. **Synthétiser** : glossaire, règles du domaine, implications pour l'idée/design.
-4. **Écrire** `.mri_devtools/docs/<projet>/research-domain.md` (findings + sources).
+## Flow
+1. **Scope**: the domain/industry, what we need to understand/validate.
+2. **Research** (web, cited sources): key terminology and concepts, domain patterns and best practices,
+   players/standards, constraints (regulatory, business), classic pitfalls.
+3. **Synthesize**: glossary, domain rules, implications for the idea/design.
+4. **Write** `.mri_devtools/docs/<project>/research-domain.md` (findings + sources).
+   Write the document in the configured document language (see AGENTS.md).
 
-## Suivi
-Facultatif : logue l'appel dans `progress.md`. Reviens au flux (typiquement `/mri-design`).
+## Follow-up
+Optional: log the call in `progress.md`. Return to the flow (typically `/mri-design`).

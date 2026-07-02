@@ -1,11 +1,11 @@
 ---
-description: Implémentation en TDD (skill mri-implement) → /mri-review
+description: TDD implementation (skill mri-implement) → /mri-review
 ---
 
-Invoque la skill `mri-implement` : déroule le `plan.md` en **TDD** (rouge→vert→refactor), coche les
-tâches au fur et à mesure, utilise la boucle MCP (Playwright / Chrome DevTools) pour les UI web.
+Invoke the `mri-implement` skill: it works through `plan.md` in **TDD** (red→green→refactor), checks
+off tasks as it goes, and uses the MCP loop (Playwright / Chrome DevTools) for web UIs.
 
 $ARGUMENTS
 
-Prochaine étape → **`/mri-review`**. Facultatifs : `/mri-debug` (sur échec), `/mri-elicit`.
-💡 Modèle suggéré : **Sonnet / DeepSeek-v4** (code en volume). Voir `.mri_devtools/models.md`.
+Next step → **`/mri-review`**. Optional: `/mri-debug` (on failure), `/mri-elicit`.
+💡 Suggested model: **Sonnet / DeepSeek-v4** (high-volume code). See `.mri_devtools/models.md`.

@@ -1,12 +1,12 @@
 ---
-description: Brainstorming facilité et challengeant (skill mri-brainstorm) → produit le brief, puis /mri-forge ou /mri-design
+description: Facilitated, challenging brainstorming (skill mri-brainstorm) → produces the brief, then /mri-forge or /mri-design
 ---
 
-Invoque **notre skill `mri-brainstorm`** (facilitation style BMAD — **PAS** `superpowers:brainstorming`)
-pour explorer et clarifier l'idée ci-dessous et produire `.mri_devtools/docs/<projet>/brief.md`.
+Invoke the `mri-brainstorm` skill (BMAD-style facilitation)
+to explore and clarify the idea below and produce `.mri_devtools/docs/<project>/brief.md`.
 
-Idée : $ARGUMENTS
+Idea: $ARGUMENTS
 
-Prochaine étape → **`/mri-forge`** (durcir l'idée) ou **`/mri-design`** si elle est déjà solide.
-Facultatifs : `/mri-elicit` (approfondir), `/mri-adversarial-review` (auditer le brief).
-💡 Modèle suggéré : **Opus** (idéation / cadrage). Voir `.mri_devtools/models.md`.
+Next step → **`/mri-forge`** (harden the idea) or **`/mri-design`** if it is already solid.
+Optional: `/mri-elicit` (deepen), `/mri-adversarial-review` (audit the brief).
+💡 Suggested model: **Opus** (ideation / framing). See `.mri_devtools/models.md`.

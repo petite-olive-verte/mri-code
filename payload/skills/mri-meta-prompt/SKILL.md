@@ -1,34 +1,35 @@
 ---
 name: mri-meta-prompt
-description: Transforme une demande vague en un prompt précis, structuré et prêt à l'emploi pour un LLM/agent. Outil ponctuel, hors du pipeline idée->code ; invoqué explicitement (commande /meta-prompt).
+description: Turns a vague request into a precise, structured, ready-to-use prompt for an LLM/agent. One-off tool, outside the idea->code pipeline; invoked explicitly (command /meta-prompt).
 disable-model-invocation: true
 ---
 
-# Meta-prompt — vague → précis
+# Meta-prompt — vague → precise
 
-Transforme une demande floue en un **prompt précis et structuré**, prêt à coller dans un agent.
-Outil **autonome** : à utiliser à la demande, indépendamment du flux brainstorm→spec→implement.
+Turn a fuzzy request into a **precise, structured prompt**, ready to paste into an agent.
+**Standalone** tool: use on demand, independently of the brainstorm→spec→implement flow.
 
-## Procédure
-1. **Lever l'ambiguïté d'abord.** Si la demande est sous-spécifiée, pose **1 à 3 questions ciblées**
-   (audience, périmètre, format, contraintes). Si l'utilisateur veut aller vite, énonce plutôt des
-   **hypothèses explicites** et continue.
-2. **Construis le prompt optimisé** avec, selon la pertinence, ces sections :
-   - **Rôle** : qui l'agent doit incarner.
-   - **Objectif** : le résultat attendu, en une phrase.
-   - **Contexte** : infos nécessaires (et seulement elles).
-   - **Contraintes / exigences** : ce qui doit / ne doit pas être fait.
-   - **Format de sortie** : structure, longueur, langage.
-   - **Critères d'acceptation** : comment juger que c'est réussi.
-   - **Exemples** (few-shot) uniquement si un format précis doit être imité.
-3. **Raisonnement** : pour une tâche complexe, ajoute un déclencheur zero-shot CoT
-   (« réfléchis étape par étape avant de répondre ») plutôt que des exemples.
-4. **Concision** : coupe tout ce qui n'aide pas la tâche (le bruit dégrade les résultats).
+## Procedure
+1. **Remove the ambiguity first.** If the request is under-specified, ask **1 to 3 targeted questions**
+   (audience, scope, format, constraints). If the user wants to move fast, instead state
+   **explicit assumptions** and continue.
+2. **Build the optimized prompt** with, as relevant, these sections:
+   - **Role**: who the agent should embody.
+   - **Objective**: the expected result, in one sentence.
+   - **Context**: the necessary info (and only that).
+   - **Constraints / requirements**: what must / must not be done.
+   - **Output format**: structure, length, language.
+   - **Acceptance criteria**: how to judge that it succeeded.
+   - **Examples** (few-shot) only if a precise format must be imitated.
+3. **Reasoning**: for a complex task, add a zero-shot CoT trigger
+   ("think step by step before answering") rather than examples.
+4. **Concision**: cut anything that doesn't help the task (noise degrades the results).
 
-## Sortie
-Rends le prompt final **dans un bloc de code** (copiable tel quel). Si tu as posé des questions,
-fournis d'abord une version « hypothèses » utilisable immédiatement, puis propose d'affiner.
+## Output
+Return the final prompt **in a code block** (copyable as-is). If you asked questions,
+first provide an "assumptions" version usable immediately, then offer to refine.
 
-## Rappels
-- Pour construire une **application**, ne passe pas par ici : utilise le flux brainstorm → spec
-  (la spec est déjà l'instruction précise). Ce meta-prompt sert aux **prompts ponctuels** hors projet.
+## Reminders
+- To build an **application**, don't go through here: use the brainstorm → spec
+  flow (the spec is already the precise instruction). This meta-prompt is for **one-off
+  prompts** outside a project.

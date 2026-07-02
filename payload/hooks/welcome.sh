@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-# SessionStart : message d'accueil (le seul automatisme du mode command-driven).
-# Suggère de reprendre (/mri-resume) si un progress.md a des étapes non terminées, sinon de démarrer
-# une idée (/mri-brainstorm).
+# SessionStart: welcome message (the only automation of command-driven mode).
+# Suggests resuming (/mri-resume) if a progress.md has unfinished steps, otherwise starting a new
+# idea (/mri-brainstorm). The agent replies to the user in the configured language (see AGENTS.md);
+# this scaffold message is neutral English.
 set -uo pipefail
 cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 
-# Détecte un travail en cours : un progress.md avec au moins une étape "- [ ]" (à faire) ou "- [~]" (en cours).
+# Detect work in progress: a progress.md with at least one "- [ ]" (todo) or "- [~]" (in progress) step.
 inprogress=$(grep -l '^- \[[ ~]\]' .mri_devtools/docs/*/progress.md 2>/dev/null | head -1 || true)
 if [ -n "$inprogress" ]; then
   feat=$(basename "$(dirname "$inprogress")")
-  resume="Travail en cours détecté : ${feat}. Pour reprendre → /mri-resume"
+  resume="Work in progress detected: ${feat}. To resume → /mri-resume"
 else
-  resume="Aucun travail en cours → pour démarrer une idée : /mri-brainstorm"
+  resume="No work in progress → to start an idea: /mri-brainstorm"
 fi
 
-msg="👋 Toolbox mri prête — mode piloté par commandes (j'attends tes commandes, je n'auto-déclenche rien).
-Flux : /mri-brainstorm → /mri-forge → /mri-design → /mri-devplan → /mri-scaffold-python → /mri-implement → /mri-review → /mri-finish
-Facultatifs : /mri-elicit · /mri-adversarial-review · /mri-market-research · /mri-domain-research · /mri-technical-research · /mri-document-project · /mri-debug · /mri-meta-prompt · /mri-resume
+msg="👋 mri toolbox ready — command-driven mode (I wait for your commands, I auto-trigger nothing).
+Flow: /mri-brainstorm → /mri-forge → /mri-design → /mri-devplan → /mri-scaffold-python → /mri-implement → /mri-review → /mri-finish
+Optional: /mri-elicit · /mri-adversarial-review · /mri-market-research · /mri-domain-research · /mri-technical-research · /mri-document-project · /mri-debug · /mri-meta-prompt · /mri-resume
 ${resume}"
 
 esc() { python3 -c 'import json,sys;print(json.dumps(sys.stdin.read()))'; }

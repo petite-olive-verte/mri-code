@@ -1,11 +1,11 @@
 ---
-description: Documenter un projet existant / brownfield (skill mri-document-project)
+description: Document an existing / brownfield project (skill mri-document-project)
 ---
 
-Invoque la skill `mri-document-project` : scanne le repo existant et produit
-`.mri_devtools/docs/<projet>/project-context.md`.
+Invoke the `mri-document-project` skill: it scans the existing repo and produces
+`.mri_devtools/docs/<project>/project-context.md`.
 
 $ARGUMENTS
 
-Prochaine étape → **`/mri-brainstorm`** (concevoir l'évolution sur ce projet).
-💡 Modèle suggéré : **Sonnet**. Voir `.mri_devtools/models.md`.
+Next step → **`/mri-brainstorm`** (design the evolution on this project).
+💡 Suggested model: **Sonnet**. See `.mri_devtools/models.md`.

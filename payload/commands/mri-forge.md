@@ -1,11 +1,11 @@
 ---
-description: Pressure-test d'une idée (skill mri-forge) → HARDENED / CLARIFIED / KILLED
+description: Pressure-test an idea (skill mri-forge) → HARDENED / CLARIFIED / KILLED
 ---
 
-Invoque la skill `mri-forge` pour pressure-tester l'idée (ou le `brief.md`) via le panel de personas.
+Invoke the `mri-forge` skill to pressure-test the idea (or the `brief.md`) via the persona panel.
 
 $ARGUMENTS
 
-Ensuite : **HARDENED/CLARIFIED → `/mri-design`** (éventuellement d'abord `/mri-market-research`,
-`/mri-domain-research` ou `/mri-technical-research`) ; **KILLED → `/mri-brainstorm`** (repartir).
-💡 Modèle suggéré : **Opus** (raisonnement adversarial). Voir `.mri_devtools/models.md`.
+Then: **HARDENED/CLARIFIED → `/mri-design`** (optionally first `/mri-market-research`,
+`/mri-domain-research` or `/mri-technical-research`); **KILLED → `/mri-brainstorm`** (start over).
+💡 Suggested model: **Opus** (adversarial reasoning). See `.mri_devtools/models.md`.

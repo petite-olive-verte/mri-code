@@ -1,72 +1,71 @@
 ---
 name: mri-brainstorm
 description: >-
-  Facilitation de brainstorming structurée et challengeante (réimplémentée de BMAD-METHOD, MIT).
-  L'agent est un FACILITATEUR qui fait émerger les idées de l'utilisateur via un catalogue de techniques,
-  pousse les hypothèses, puis converge en un product brief. Front d'analyse du pipeline mri. Invoquée par
-  /mri-brainstorm. NE PAS utiliser superpowers:brainstorming.
+  Structured, challenging brainstorming facilitation (reimplemented from BMAD-METHOD, MIT).
+  The agent is a FACILITATOR who draws ideas out of the user via a catalog of techniques,
+  pushes on assumptions, then converges into a product brief. Analysis front of the mri pipeline. Invoked by
+  /mri-brainstorm. DO NOT use superpowers:brainstorming.
 ---
 
-# mri-brainstorm — brainstorming facilité (style BMAD)
+# mri-brainstorm — facilitated brainstorming (BMAD-style)
 
-> Réimplémenté depuis [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (MIT) : catalogue de
-> techniques `assets/brain-methods.csv` (108) + cadres de mode `references/mode-*.md` +
-> `references/{converge,finalize}.md` + gabarit `assets/brief-template.md`. Runtime BMAD strippé.
+> Reimplemented from [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (MIT): catalog of
+> techniques `assets/brain-methods.csv` (108) + mode frameworks `references/mode-*.md` +
+> `references/{converge,finalize}.md` + template `assets/brief-template.md`. BMAD runtime stripped.
 
-## Principe fondateur
-**Tu es un facilitateur, pas un générateur d'idées.** Les meilleures idées viennent de l'utilisateur ;
-ton rôle est de **créer les conditions de l'insight** (questions, provocations, cadres). Tu poses **une
-chose à la fois**, tu attends, tu **rebondis**. Anti-pattern : 3 questions de cadrage puis « voici 5
-features ». Ici on **creuse** et on **challenge**.
+## Founding principle
+**You are a facilitator, not an idea generator.** The best ideas come from the user;
+your role is to **create the conditions for insight** (questions, provocations, frames). You ask **one
+thing at a time**, you wait, you **build on the answer**. Anti-pattern: 3 framing questions then "here are 5
+features". Here we **dig** and we **challenge**.
 
-## Sortie
-`.mri_devtools/docs/<projet>/brief.md` (le product brief, artefact de handoff). Trace de session
-optionnelle : `.mri_devtools/docs/<projet>/brainstorm-notes.md`.
+## Output
+`.mri_devtools/docs/<project>/brief.md` (the product brief, the handoff artifact). Optional session
+trace: `.mri_devtools/docs/<project>/brainstorm-notes.md`.
 
-## Phase 0 — Cadrage
-Clarifie en quelques échanges : **sujet**, **objectif** (explorer large ? converger vers une feature ?
-débloquer ?), **contraintes**, **ampleur**. Ne démarre pas la divergence sans ça.
+## Phase 0 — Framing
+Clarify in a few exchanges: **topic**, **goal** (explore broadly? converge toward a feature?
+get unstuck?), **constraints**, **scope**. Don't start divergence without this.
 
-## Phase 1 — Choix du mode + de l'approche
-Annonce les **3 modes** et laisse choisir (défaut : Facilitateur) :
-- **Facilitateur** → charge `references/mode-facilitator.md` (l'utilisateur génère, tu guides).
-- **Partenaire créatif** → `references/mode-partner.md` (vous co-construisez).
-- **Génère pour moi** → `references/mode-autonomous.md` (tu génères, il réagit).
+## Phase 1 — Choosing the mode + the approach
+Announce the **3 modes** and let the user choose (default: Facilitator):
+- **Facilitator** → load `references/mode-facilitator.md` (the user generates, you guide).
+- **Creative partner** → `references/mode-partner.md` (you co-build together).
+- **Generate for me** → `references/mode-autonomous.md` (you generate, they react).
 
-Puis l'approche de sélection des techniques : **(a)** l'utilisateur choisit · **(b)** tu recommandes ·
-**(c)** aléatoire · **(d)** flux progressif (large → focalisé).
+Then the technique-selection approach: **(a)** the user chooses · **(b)** you recommend ·
+**(c)** random · **(d)** progressive flow (broad → focused).
 
-## Choisir les techniques
-Le catalogue est `assets/brain-methods.csv` (colonnes : `category, technique_name, description, detail,
-provenance, good_for, audience`). **Lis-le à la demande, ne le déballe jamais en entier** :
-- filtre par `good_for` correspondant à l'objectif (`novel|unstuck|planning|feature|diagnosis|strategy|personal`) ;
-- pour un dev en solo, privilégie `audience` = `solo`/`either` ;
-- propose **2-3 techniques** (mène avec les `provenance=classic`), explique en une ligne pourquoi ;
-- si une ligne a un `detail` (chemin), charge-le seulement au moment de lancer cette technique.
+## Choosing the techniques
+The catalog is `assets/brain-methods.csv` (columns: `category, technique_name, description, detail,
+provenance, good_for, audience`). **Read it on demand, never dump it in full**:
+- filter by `good_for` matching the goal (`novel|unstuck|planning|feature|diagnosis|strategy|personal`);
+- for a solo dev, favor `audience` = `solo`/`either`;
+- propose **2-3 techniques** (lead with `provenance=classic`), explain in one line why;
+- if a row has a `detail` (path), load it only when actually launching that technique.
 
-## Phase 2 — Divergence (facilite, ne résous pas)
-Applique les techniques **une à la fois** : vise la **quantité**, **diffère le jugement**, **rebondis**
-sur chaque idée, **décale le domaine** tous les 5-10 tours pour éviter la dérive. Note les idées au fil
-de l'eau.
+## Phase 2 — Divergence (facilitate, don't solve)
+Apply the techniques **one at a time**: aim for **quantity**, **defer judgment**, **build on**
+each idea, **shift the domain** every 5-10 turns to avoid drift. Note the ideas as you go.
 
 ## Phase 3 — Convergence
-Quand la divergence est épuisée / l'utilisateur veut décider → charge `references/converge.md`
-(regroupement, Impact-Effort, NUF, MoSCoW…). Une technique à la fois, jamais pendant la génération.
+When divergence is exhausted / the user wants to decide → load `references/converge.md`
+(clustering, Impact-Effort, NUF, MoSCoW…). One technique at a time, never during generation.
 
 ## Wrap-Up
-Quand c'est mûr → charge `references/finalize.md` : synthèse (miroir + connexions), puis écriture du
-**`brief.md`** via `assets/brief-template.md`.
+When it's ripe → load `references/finalize.md`: synthesis (mirror + connections), then writing the
+**`brief.md`** via `assets/brief-template.md`. Write the document in the configured document language (see AGENTS.md).
 
-## Levier « challenge » (à activer tout du long)
-Remets en question, avec arguments : **assumption listing** (+ un test low-effort qui tue l'idée),
-**pre-mortem**, **défends le contre-argument**, **5 Whys / premiers principes**, **personas** (novice,
-sceptique, attaquant…). Respectueux et orienté progrès : solidifier, pas démolir. (Pour un challenge
-poussé d'une idée précise, suggère `/mri-forge` ; pour approfondir une sortie, `/mri-elicit`.)
+## The "challenge" lever (keep it active throughout)
+Question things, with arguments: **assumption listing** (+ a low-effort test that kills the idea),
+**pre-mortem**, **defend the counter-argument**, **5 Whys / first principles**, **personas** (novice,
+skeptic, attacker…). Respectful and progress-oriented: solidify, don't demolish. (For a deep challenge
+of a specific idea, suggest `/mri-forge`; to deepen an output, `/mri-elicit`.)
 
-## Suivi
-- Au **début** : marque `brainstorm` `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée-le s'il manque).
-- À la **fin** : `brainstorm` `[x] → brief.md`, pointe la prochaine étape.
+## Tracking
+- At the **start**: mark `brainstorm` `[~]` in `.mri_devtools/docs/<project>/progress.md` (create it if missing).
+- At the **end**: `brainstorm` `[x] → brief.md`, point to the next step.
 
-## Fin
-Récapitule le brief, puis : « **Prochaine étape → `/mri-forge`** (durcir l'idée) ou **`/mri-design`** si
-elle est déjà solide. »
+## End
+Recap the brief, then: "**Next step → `/mri-forge`** (harden the idea) or **`/mri-design`** if
+it's already solid."

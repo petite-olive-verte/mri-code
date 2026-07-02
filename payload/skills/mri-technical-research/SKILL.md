@@ -1,22 +1,23 @@
 ---
 name: mri-technical-research
 description: >-
-  Recherche technique : faisabilité, options d'architecture, bibliothèques, patterns d'intégration.
-  Réimplémenté de BMAD-METHOD (bmad-technical-research, MIT). On-demand, suggéré après /mri-forge.
-  Invoquée par /mri-technical-research.
+  Technical research: feasibility, architecture options, libraries, integration patterns.
+  Reimplemented from BMAD-METHOD (bmad-technical-research, MIT). On-demand, suggested after /mri-forge.
+  Invoked by /mri-technical-research.
 ---
 
-# mri-technical-research — recherche technique
+# mri-technical-research — technical research
 
-**But** : évaluer la faisabilité et les options techniques (avant de figer le design).
-**⛔ Prérequis** : recherche web (WebSearch/MCP) ; sinon abandonne et préviens.
+**Goal**: assess feasibility and technical options (before freezing the design).
+**⛔ Prerequisite**: web search (WebSearch/MCP); otherwise abort and warn.
 
-## Déroulé
-1. **Cadrer** : la question technique (faisabilité, choix de techno/lib, intégration, perf).
-2. **Rechercher** (web, sources citées) : options d'architecture et trade-offs, bibliothèques/outils
-   candidats (maturité, licence, communauté), patterns d'intégration, risques/limites connus, benchmarks.
-3. **Synthétiser** : comparatif des options + recommandation argumentée.
-4. **Écrire** `.mri_devtools/docs/<projet>/research-technical.md` (findings + sources).
+## Flow
+1. **Scope**: the technical question (feasibility, tech/library choice, integration, performance).
+2. **Research** (web, cited sources): architecture options and trade-offs, candidate libraries/tools
+   (maturity, license, community), integration patterns, known risks/limitations, benchmarks.
+3. **Synthesize**: comparison of options + reasoned recommendation.
+4. **Write** `.mri_devtools/docs/<project>/research-technical.md` (findings + sources).
+   Write the document in the configured document language (see AGENTS.md).
 
-## Suivi
-Facultatif : logue l'appel dans `progress.md`. Reviens au flux (typiquement `/mri-design`).
+## Follow-up
+Optional: log the call in `progress.md`. Return to the flow (typically `/mri-design`).

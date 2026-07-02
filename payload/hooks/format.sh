@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# PostToolUse(Write|Edit) : auto-format + lint-fix du fichier Python édité.
-# Non-bloquant. Ne fait rien tant qu'aucun projet Python (pyproject.toml) n'existe.
-# Édite/supprime librement (c'est ton projet).
+# PostToolUse(Write|Edit): auto-format + lint-fix of the edited Python file.
+# Non-blocking. Does nothing until a Python project (pyproject.toml) exists.
+# Edit/remove freely (it's your project).
 set -uo pipefail
 cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 [ -f pyproject.toml ] || exit 0

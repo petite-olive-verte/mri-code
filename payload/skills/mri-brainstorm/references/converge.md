@@ -1,31 +1,31 @@
-# Converger : réduire & décider
+# Converging: narrow down & decide
 
-À charger quand la divergence est épuisée et que l'utilisateur veut réduire le champ — ou demande de
-« décider », « prioriser », « choisir », « rendre ça concret ». Tout le catalogue est **divergent** par
-nature (il génère) ; ceci est la phase délibérément opposée, et **garder les deux séparées est le
-point**. Ne jamais converger pendant que les idées coulent encore, et ne jamais laisser le jugement
-fuiter dans une salve de génération — le jugement prématuré tue les bonnes idées.
+Load this when divergence is exhausted and the user wants to narrow the field — or asks to
+"decide", "prioritize", "choose", "make it concrete". The whole catalog is **divergent** by
+nature (it generates); this is the deliberately opposite phase, and **keeping the two separate is the
+point**. Never converge while ideas are still flowing, and never let judgment
+leak into a generation burst — premature judgment kills good ideas.
 
-**Le mode tient.** En **Facilitateur** tu mènes la convergence *sur les verdicts de l'utilisateur* — tu
-structures et invites, il juge ; ne classe jamais à sa place. En **Partenaire créatif** tu pèses aussi.
-En **Génère pour moi** tu converges toi-même et montres le résultat.
+**The mode holds.** In **Facilitator** you lead the convergence *on the user's verdicts* — you
+structure and invite, they judge; never rank on their behalf. In **Creative partner** you weigh in too.
+In **Generate for me** you converge yourself and show the result.
 
-## Comment faire
-D'abord, **reflète le champ** : ressors les candidats vivants (y compris les idées bizarres ou
-enfouies, pas seulement les évidentes récentes) pour avoir un ensemble concret. Puis choisis **une**
-technique de convergence adaptée au but — pas de menu de méthodes, choisis celle qui convient à *cette*
-décision et nomme-la. Déroule-la jusqu'à un résultat, note l'issue, arrête-toi quand un short-list ou
-une direction claire émerge.
+## How to do it
+First, **mirror the field**: bring back the live candidates (including the odd or
+buried ideas, not just the recent obvious ones) to get a concrete set. Then choose **one**
+convergence technique suited to the goal — no menu of methods, pick the one that fits *this*
+decision and name it. Run it through to a result, note the outcome, stop when a short-list or
+a clear direction emerges.
 
-- **Regroupement par affinité** — beaucoup d'idées éparses : regroupe en thèmes, nomme, dégage le fil.
-- **Impact–Effort** — but = action : place chaque candidat impact vs effort ; récolte fort-impact/faible-effort.
-- **Test NUF** — la nouveauté compte : note New / Useful / Feasible (1–10) ; les totaux révèlent les gagnants discrets.
-- **Classement forcé / Dot vote** — il faut un top-N classé : fais concourir, pas d'ex æquo.
-- **PMI (Plus / Moins / Intéressant)** — un candidat fort à pressurer avant engagement.
-- **MoSCoW** — pour cadrer un build : Must / Should / Could / Won't-this-time.
+- **Affinity grouping** — many scattered ideas: cluster into themes, name them, draw out the thread.
+- **Impact–Effort** — goal = action: place each candidate impact vs effort; harvest high-impact/low-effort.
+- **NUF test** — novelty matters: score New / Useful / Feasible (1–10); the totals reveal the quiet winners.
+- **Forced ranking / Dot vote** — you need a ranked top-N: make them compete, no ties.
+- **PMI (Plus / Minus / Interesting)** — a strong candidate to pressure before committing.
+- **MoSCoW** — to frame a build: Must / Should / Could / Won't-this-time.
 
-Deux ou trois moves chaînés vont bien (ex. cluster → scorer les clusters) ; au-delà = sur-traitement.
+Two or three chained moves are fine (e.g. cluster → score the clusters); beyond that = over-processing.
 
-## Puis finaliser
-Une fois le short-list/direction arrêté, **charge `references/finalize.md`** — synthèse + écriture du
+## Then finalize
+Once the short-list/direction is set, **load `references/finalize.md`** — synthesis + writing the
 `brief.md`.

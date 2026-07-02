@@ -1,42 +1,42 @@
-# Constitution du projet
+# Project constitution
 
-> **Le règlement non-négociable de ce projet.** L'agent le lit à chaque session et s'y conforme.
-> La spec dit *quoi* construire ; cette constitution dit *ce que « bien fait » veut dire ici*.
-> **Édite ce fichier** pour imposer tes préférences — il prime sur les habitudes par défaut de l'agent.
+> **The non-negotiable rulebook for this project.** The agent reads it every session and complies with it.
+> The spec says *what* to build; this constitution says *what "well done" means here*.
+> **Edit this file** to enforce your preferences — it takes precedence over the agent's default habits.
 
-## Stack (non-négociable)
+## Stack (non-negotiable)
 - **Python 3.12+**.
-- **uv** pour l'environnement et les dépendances (jamais `pip`/`poetry`/`venv` à la main).
-- **Ruff** pour le lint **et** le format (pas de black/flake8/isort séparés).
-- **ty** (Astral) pour le typage si dispo, sinon **mypy** en repli.
-- **pytest** (+ `pytest-cov`) pour les tests.
-- **pre-commit** pour les garde-fous avant commit.
-- Config centralisée dans **`pyproject.toml`** (source unique ; pas de setup.cfg/requirements.txt).
+- **uv** for the environment and dependencies (never `pip`/`poetry`/`venv` by hand).
+- **Ruff** for lint **and** format (no separate black/flake8/isort).
+- **ty** (Astral) for type checking if available, otherwise **mypy** as a fallback.
+- **pytest** (+ `pytest-cov`) for tests.
+- **pre-commit** for pre-commit guardrails.
+- Centralized config in **`pyproject.toml`** (single source; no setup.cfg/requirements.txt).
 
-## Qualité de code
-- Tout le code public est **typé** ; `ruff check` et le type-checker doivent passer (zéro erreur).
-- Docstrings sur les modules et fonctions publiques (style court, pas de roman).
-- Préfère des fonctions petites et la **composition** à l'héritage.
-- Pas de secret en dur ; configuration via variables d'environnement (`.env`, non commité).
-- Pas d'`except` nu ; gère les erreurs explicitement.
+## Code quality
+- All public code is **typed**; `ruff check` and the type checker must pass (zero errors).
+- Docstrings on public modules and functions (short style, no essays).
+- Prefer small functions and **composition** over inheritance.
+- No hardcoded secrets; configuration via environment variables (`.env`, not committed).
+- No bare `except`; handle errors explicitly.
 
-## Tests (TDD obligatoire)
-- **Red-Green-Refactor** : écrire un test qui échoue **avant** l'implémentation.
-- L'humain / la spec possède l'**intention** du test ; l'agent l'**implémentation**.
-- Les **critères d'acceptation de la spec deviennent des tests**.
-- Couverture cible **≥ 80 %** ; au moins un test d'intégration par point d'entrée public (API/CLI).
-- Les tests doivent passer (`pytest`) et le lint être propre avant de considérer une tâche terminée.
+## Tests (TDD mandatory)
+- **Red-Green-Refactor**: write a failing test **before** the implementation.
+- The human / the spec owns the test's **intent**; the agent owns the **implementation**.
+- The **spec's acceptance criteria become tests**.
+- Target coverage **≥ 80%**; at least one integration test per public entry point (API/CLI).
+- Tests must pass (`pytest`) and lint must be clean before considering a task done.
 
 ## Architecture
-- Layout **`src/`** : code dans `src/<package>/`, tests dans `tests/`.
-- La **logique métier** n'importe pas le framework web / l'I/O (garde le cœur testable).
-- Dépendances orientées vers l'intérieur (I/O et frameworks en périphérie).
+- **`src/`** layout: code in `src/<package>/`, tests in `tests/`.
+- The **business logic** does not import the web framework / I/O (keep the core testable).
+- Dependencies point inward (I/O and frameworks at the edges).
 
-## Structure & nommage
-- `tests/` **miroir** de `src/` (un module ↔ un fichier de test `test_<module>.py`).
-- `snake_case` pour fichiers/fonctions/variables, `PascalCase` pour les classes.
-- Documentation et artefacts de spec dans `docs/` (`docs/specs/<feature>/`).
+## Structure & naming
+- `tests/` **mirrors** `src/` (one module ↔ one test file `test_<module>.py`).
+- `snake_case` for files/functions/variables, `PascalCase` for classes.
+- Documentation and spec artifacts in `docs/` (`docs/specs/<feature>/`).
 
 ## Workflow
-- Commits petits et atomiques, message à l'impératif décrivant le *pourquoi*.
-- Ne jamais `git push --force` ; ne jamais commiter de secrets ni le dossier `.venv`.
+- Small, atomic commits, with an imperative message describing the *why*.
+- Never `git push --force`; never commit secrets or the `.venv` directory.

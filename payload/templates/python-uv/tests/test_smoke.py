@@ -1,4 +1,4 @@
-"""Smoke test : garantit que le package s'importe."""
+"""Smoke test: ensures the package imports."""
 
 import __PACKAGE_NAME__
 

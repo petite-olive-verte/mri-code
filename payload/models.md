@@ -1,27 +1,27 @@
-# Suggestions de modèle par étape (non forcées, éditable)
+# Model suggestions per step (not enforced, editable)
 
-> Les commandes `mri-*` affichent une **suggestion** de modèle en fin d'étape (jamais imposée). Adapte
-> cette table à tes providers/budget. Principe : **modèle « cerveau » cher** pour l'archi/le raisonnement,
-> **modèle « bras » économe** pour le code en volume.
+> The `mri-*` commands display a model **suggestion** at the end of each step (never imposed). Adapt
+> this table to your providers/budget. Principle: **expensive "brain" model** for architecture/reasoning,
+> **economical "arm" model** for high-volume code.
 
-| Étape / commande | Type de tâche | Modèle suggéré | Pourquoi |
+| Step / command | Task type | Suggested model | Why |
 |---|---|---|---|
-| `/mri-brainstorm` | idéation / cadrage | **Opus** | raisonnement ouvert, challenge |
-| `/mri-forge` | pressure-test adversarial | **Opus** | argumentation multi-personas |
-| `/mri-design` | architecture | **Opus** | conception multi-fichiers, trade-offs |
-| `/mri-devplan` | planification | **Opus** | découpe en tâches, code complet |
-| `/mri-elicit`, `/mri-adversarial-review` | critique / audit | **Opus** | profondeur de critique |
-| `/mri-meta-prompt` | méta-prompting | **Opus** | reformulation précise |
-| `/mri-*-research` | recherche web | **Sonnet** | rapide, synthèse sourcée |
-| `/mri-scaffold-python` | mécanique | **Sonnet / DeepSeek-v4** | déterministe, peu de raisonnement |
-| `/mri-implement` | code en volume (TDD) | **Sonnet / DeepSeek-v4** | économe, itératif |
-| `/mri-debug` | débogage | **Sonnet / DeepSeek-v4** | cycles courts ; Opus si cause coriace |
-| `/mri-review` | revue de code | **Sonnet** (ou **Opus** si exigeant) | lecture critique |
-| `/mri-finish` | intégration git | indifférent | mécanique |
+| `/mri-brainstorm` | ideation / framing | **Opus** | open-ended reasoning, challenge |
+| `/mri-forge` | adversarial pressure-test | **Opus** | multi-persona argumentation |
+| `/mri-design` | architecture | **Opus** | multi-file design, trade-offs |
+| `/mri-devplan` | planning | **Opus** | task breakdown, complete code |
+| `/mri-elicit`, `/mri-adversarial-review` | critique / audit | **Opus** | depth of critique |
+| `/mri-meta-prompt` | meta-prompting | **Opus** | precise reformulation |
+| `/mri-*-research` | web research | **Sonnet** | fast, sourced synthesis |
+| `/mri-scaffold-python` | mechanical | **Sonnet / DeepSeek-v4** | deterministic, little reasoning |
+| `/mri-implement` | high-volume code (TDD) | **Sonnet / DeepSeek-v4** | economical, iterative |
+| `/mri-debug` | debugging | **Sonnet / DeepSeek-v4** | short cycles; Opus for a stubborn cause |
+| `/mri-review` | code review | **Sonnet** (or **Opus** if demanding) | critical reading |
+| `/mri-finish` | git integration | any | mechanical |
 
 ## Providers
-- **Opus / Sonnet** : Claude Code natif (`/model`).
-- **DeepSeek-v4** : très bon rapport coût/efficacité pour le code — à ajouter comme provider dans Claude
-  Code (voir la config provider). Bon défaut « bras » quand le budget compte.
+- **Opus / Sonnet**: native Claude Code (`/model`).
+- **DeepSeek-v4**: excellent cost/efficiency ratio for code — to be added as a provider in Claude
+  Code (see the provider config). A good default "arm" when budget matters.
 
-> Rien n'est automatique : ce sont des *suggestions*. Change de modèle avec `/model` si tu le souhaites.
+> Nothing is automatic: these are *suggestions*. Switch models with `/model` if you wish.

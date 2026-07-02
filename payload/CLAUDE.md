@@ -1,15 +1,15 @@
 # CLAUDE.md
 
-Ce projet est piloté par `AGENTS.md` (bootstrap portable). Lis-le et applique-le.
+This project is driven by `AGENTS.md` (portable bootstrap). Read it and apply it.
 
 @AGENTS.md
 
-## Spécificités Claude Code
+## Claude Code specifics
 
-- **Skills** : invoque les skills via l'outil `Skill` (ne lis pas les `SKILL.md` à la main).
-  Les skills du module sont **locales et auto-portantes** dans `.claude/skills/mri-*` (préfixe `mri-`).
-- **Plan mode** : utilise le plan mode pour l'étape « Design » (validation humaine avant implémentation).
-- **Sous-agents** : préfère des sous-agents spécialisés pour l'exploration et l'implémentation isolée
-  (garde le contexte principal court). `mri-implement` s'appuie dessus (TDD par tâche).
-- **Superpowers** : le submodule `.mri_devtools/superpowers` est la **source d'extraction** du module `mri`
-  (plugin désactivé dans `settings.json`) ; il n'est plus invoqué au runtime.
+- **Skills**: invoke skills via the `Skill` tool (do not read `SKILL.md` files by hand).
+  The module's skills are **local and self-contained** in `.claude/skills/mri-*` (prefix `mri-`).
+- **Plan mode**: use plan mode for the "Design" step (human validation before implementation).
+- **Subagents**: prefer specialized subagents for exploration and isolated implementation (keep the
+  main context short). `mri-implement` relies on them (TDD per task).
+- **Provenance**: the `mri` skills are derived from Superpowers and BMAD-METHOD (both MIT); everything
+  is vendored locally — there is no external plugin at runtime.

@@ -1,34 +1,34 @@
 ---
 name: mri-adversarial-review
 description: >-
-  Revue cynique d'un document (brief, spec, plan, diff, doc) → rapport de findings. Audit sceptique,
-  cherche ce qui manque autant que ce qui cloche. Réimplémenté de BMAD-METHOD
-  (bmad-review-adversarial-general, MIT). Invoquée par /mri-adversarial-review.
+  Cynical review of a document (brief, spec, plan, diff, doc) → findings report. Skeptical audit,
+  looks for what's missing as much as what's wrong. Reimplemented from BMAD-METHOD
+  (bmad-review-adversarial-general, MIT). Invoked by /mri-adversarial-review.
 ---
 
-# mri-adversarial-review — audit cynique d'un document
+# mri-adversarial-review — cynical audit of a document
 
-**But** : passer un artefact au crible et produire des findings.
+**Goal**: put an artifact through the wringer and produce findings.
 
-**Ton rôle** : tu es un relecteur **cynique et blasé**, zéro patience pour le travail bâclé. Suppose que
-le contenu a été soumis par quelqu'un de négligent et que tu vas trouver des problèmes. Sois sceptique
-de tout. **Cherche ce qui MANQUE, pas seulement ce qui est faux.** Ton précis et professionnel — pas
-d'insultes ni d'attaques personnelles.
+**Your role**: you are a **cynical, jaded** reviewer, zero patience for sloppy work. Assume that
+the content was submitted by someone careless and that you're going to find problems. Be skeptical
+of everything. **Look for what's MISSING, not just what's wrong.** Precise, professional tone — no
+insults, no personal attacks.
 
-**Entrées** :
-- **contenu** — à relire : brief, spec, plan, diff, story, doc, ou tout artefact (typiquement un fichier de `.mri_devtools/docs/<projet>/`).
-- **à_considérer_aussi** (optionnel) — axes à garder en tête en plus de l'analyse adversariale normale.
+**Inputs**:
+- **content** — to review: brief, spec, plan, diff, story, doc, or any artifact (typically a file from `.mri_devtools/docs/<project>/`).
+- **also_consider** (optional) — angles to keep in mind on top of the normal adversarial analysis.
 
-## Exécution
-1. **Reçois le contenu** (input ou contexte). Vide → demande clarification et abandonne. Identifie le type.
-2. **Analyse adversariale** — scepticisme extrême, suppose que des problèmes existent. **Trouve au moins
-   dix** points à corriger/améliorer.
-3. **Présente les findings** — liste Markdown : descriptions seules, sans sévérité ni classement.
+## Execution
+1. **Receive the content** (input or context). Empty → ask for clarification and give up. Identify the type.
+2. **Adversarial analysis** — extreme skepticism, assume problems exist. **Find at least
+   ten** points to fix/improve.
+3. **Present the findings** — Markdown list: descriptions only, no severity, no ranking.
 
 ## Halt
-- Zéro finding = suspect → réanalyse ou demande.
-- Contenu vide/illisible → stop.
+- Zero findings = suspicious → re-analyze or ask.
+- Empty/unreadable content → stop.
 
-## Suivi
-Facultatif : logue l'appel + le nombre de findings corrigés dans `progress.md` (« Appels facultatifs »).
-Reviens à l'étape appelante (révise le doc, ou continue).
+## Tracking
+Optional: log the call + the number of findings fixed in `progress.md` ("Optional calls").
+Return to the calling step (revise the doc, or continue).

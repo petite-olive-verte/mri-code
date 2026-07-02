@@ -1,8 +1,8 @@
 ---
-description: Finaliser la branche (skill mri-finish) — merge / PR / cleanup
+description: Finalize the branch (skill mri-finish) — merge / PR / cleanup
 ---
 
-Invoque la skill `mri-finish` (options d'intégration : merge, PR, ou cleanup).
+Invoke the `mri-finish` skill (integration options: merge, PR, or cleanup).
 
 $ARGUMENTS
-💡 Modèle suggéré : indifférent. Voir `.mri_devtools/models.md`.
+💡 Suggested model: any. See `.mri_devtools/models.md`.

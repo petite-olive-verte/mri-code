@@ -1,12 +1,12 @@
 ---
-description: Spec → plan d'implémentation (skill mri-devplan) → /mri-scaffold-python ou /mri-implement
+description: Spec → implementation plan (skill mri-devplan) → /mri-scaffold-python or /mri-implement
 ---
 
-Invoque la skill `mri-devplan` : elle lit `spec.md` et produit `.mri_devtools/docs/<projet>/plan.md`
-(tâches ordonnées avec cases à cocher, code complet).
+Invoke the `mri-devplan` skill: it reads `spec.md` and produces `.mri_devtools/docs/<project>/plan.md`
+(ordered tasks with checkboxes, complete code).
 
 $ARGUMENTS
 
-Prochaine étape → **`/mri-scaffold-python`** (nouveau projet) sinon **`/mri-implement`**.
-Facultatif : `/mri-adversarial-review` (auditer le plan).
-💡 Modèle suggéré : **Opus** (planification). Voir `.mri_devtools/models.md`.
+Next step → **`/mri-scaffold-python`** (new project) otherwise **`/mri-implement`**.
+Optional: `/mri-adversarial-review` (audit the plan).
+💡 Suggested model: **Opus** (planning). See `.mri_devtools/models.md`.

@@ -1,35 +1,35 @@
 ---
 name: mri-elicit
 description: >-
-  Pousse à reconsidérer, affiner et améliorer la dernière sortie produite (la tienne ou un doc).
-  Approfondissement/critique à la demande (socratique, premiers principes, pre-mortem, red-team…).
-  Réimplémenté de BMAD-METHOD (bmad-advanced-elicitation, MIT). Invoquée par /mri-elicit.
+  Prompts reconsidering, refining, and improving the last produced output (yours or a doc).
+  On-demand deepening/critique (Socratic, first principles, pre-mortem, red-team…).
+  Reimplemented from BMAD-METHOD (bmad-advanced-elicitation, MIT). Invoked by /mri-elicit.
 ---
 
-# mri-elicit — approfondir/critiquer une sortie
+# mri-elicit — deepen/critique an output
 
-**But** : améliorer la **dernière sortie** (une section de brief/spec/plan, une décision, un bout de
-code) en appliquant une méthode d'élicitation, puis en réinjectant la version améliorée.
+**Goal**: improve the **last output** (a section of a brief/spec/plan, a decision, a piece of
+code) by applying an elicitation method, then feeding the improved version back in.
 
-## Comment faire
-1. **Prends le contenu à approfondir** (la sortie récente, ou ce que l'utilisateur désigne). Vide → demande.
-2. **Choisis 1-2 méthodes** adaptées au contenu et au risque (ne déballe pas tout le menu ; propose et explique en une ligne).
-3. **Applique** la méthode de façon interactive, une passe à la fois ; fais émerger les faiblesses/angles morts.
-4. **Réinjecte** : propose la version améliorée du contenu, l'utilisateur garde le contrôle (accepter/réviser).
+## How to do it
+1. **Take the content to deepen** (the recent output, or whatever the user points to). Empty → ask.
+2. **Choose 1-2 methods** suited to the content and the risk (don't dump the whole menu; propose and explain in one line).
+3. **Apply** the method interactively, one pass at a time; surface the weaknesses/blind spots.
+4. **Feed back in**: propose the improved version of the content, the user keeps control (accept/revise).
 
-## Menu de méthodes (curé)
-- **Socratique** — questionner chaque prémisse jusqu'au fondement.
-- **Premiers principes** — reconstruire depuis les vérités de base, sans copier l'existant.
-- **Pre-mortem** — « c'est un échec dans 6 mois, pourquoi ? » → risques.
-- **Red team** — attaquer la proposition comme un adversaire (abus, contournements, cas limites).
-- **Défendre le contre-argument** — argumenter la position opposée pour tester la robustesse.
-- **Perspectives multiples** — relire via novice / expert / mainteneur / payeur.
-- **Élargir / rétrécir** — zoom out (contexte, alternatives) puis zoom in (détail, edge cases).
-- **Test des hypothèses** — lister les hypothèses ; pour chacune, un test low-effort qui la valide/tue.
+## Method menu (curated)
+- **Socratic** — question each premise down to its foundation.
+- **First principles** — rebuild from the base truths, without copying the existing.
+- **Pre-mortem** — "it's a failure in 6 months, why?" → risks.
+- **Red team** — attack the proposal like an adversary (abuse, workarounds, edge cases).
+- **Defend the counter-argument** — argue the opposite position to test robustness.
+- **Multiple perspectives** — re-read through novice / expert / maintainer / payer.
+- **Widen / narrow** — zoom out (context, alternatives) then zoom in (detail, edge cases).
+- **Assumption testing** — list the assumptions; for each, a low-effort test that validates/kills it.
 
 ## Halt
-Zéro amélioration trouvée = suspect → réanalyse ou demande. Contenu vide/illisible → stop.
+Zero improvement found = suspicious → re-analyze or ask. Empty/unreadable content → stop.
 
-## Suivi
-Skill facultatif : logue l'appel dans `.mri_devtools/docs/<projet>/progress.md` (section « Appels
-facultatifs »). Reviens ensuite à l'étape appelante.
+## Tracking
+Optional skill: log the call in `.mri_devtools/docs/<project>/progress.md` ("Optional
+calls" section). Then return to the calling step.

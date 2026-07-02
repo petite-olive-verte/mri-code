@@ -1,11 +1,11 @@
 ---
-description: Recherche technical (skill mri-technical-research) — web, sources citées
+description: Technical research (skill mri-technical-research) — web, cited sources
 ---
 
-Invoque la skill `mri-technical-research` (recherche web, sources citées) →
-`.mri_devtools/docs/<projet>/research-technical.md`.
+Invoke the `mri-technical-research` skill (web research, cited sources) →
+`.mri_devtools/docs/<project>/research-technical.md`.
 
 $ARGUMENTS
 
-Reviens ensuite au flux (typiquement `/mri-design`).
-💡 Modèle suggéré : **Sonnet** (recherche web). Voir `.mri_devtools/models.md`.
+Then return to the flow (typically `/mri-design`).
+💡 Suggested model: **Sonnet** (web research). See `.mri_devtools/models.md`.

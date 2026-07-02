@@ -15,7 +15,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** If working in an isolated worktree, it should have been created via the `mri-worktrees` skill at execution time.
 
-**Save plans to:** `.mri_devtools/docs/<projet>/plan.md`
+**Save plans to:** `.mri_devtools/docs/<project>/plan.md`
 - (User preferences for plan location override this default)
 
 ## Scope Check
@@ -157,7 +157,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 After saving the plan, offer execution choice:
 
-**"Plan complete and saved to `.mri_devtools/docs/<projet>/plan.md`. Two execution options:**
+**"Plan complete and saved to `.mri_devtools/docs/<project>/plan.md`. Two execution options:**
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 
@@ -173,7 +173,7 @@ After saving the plan, offer execution choice:
 - **REQUIRED SUB-SKILL:** Use mri-implement
 - Batch execution with checkpoints for review
 
-## Suivi (progress.md)
-Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
-fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
-la prochaine étape du pipeline.
+## Tracking (progress.md)
+At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
+the next step of the pipeline.

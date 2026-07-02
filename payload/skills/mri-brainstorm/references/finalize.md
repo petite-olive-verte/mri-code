@@ -1,27 +1,28 @@
-# Wrap-Up : synthèse & brief
+# Wrap-Up: synthesis & brief
 
-À charger quand l'utilisateur est épuisé ou le sujet miné. Tes notes de session sont la matière ; tout
-ici en dérive.
+Load this when the user is exhausted or the topic is mined out. Your session notes are the raw material; everything
+here derives from them.
 
-## Synthèse (en deux temps, dans l'ordre)
-1. **Tends-leur le miroir d'abord.** Reflète un échantillon vivant de *leurs* idées — inclus
-   délibérément les bizarres/enfouies, pas seulement les évidentes récentes. Demande ce qu'ils voient
-   maintenant : conclusions, synergies, thèmes, les quelques-unes qui comptent vraiment. Laisse-les
-   connecter en premier — leur reconnaissance de motifs est le point.
-2. **Puis ajoute les connexions qu'ils rateraient.** Penche-toi créativement — non pas de nouvelles
-   idées brutes, mais les liens non évidents : cette idée de la technique 1 résout la tension de la
-   technique 4 ; ces trois n'en sont qu'une sous trois casquettes ; ce wildcard est la vraie percée.
+## Synthesis (in two steps, in order)
+1. **Hold up the mirror first.** Reflect back a live sample of *their* ideas — deliberately
+   include the odd/buried ones, not just the recent obvious ones. Ask what they see
+   now: conclusions, synergies, themes, the few that really matter. Let them
+   connect first — their pattern recognition is the point.
+2. **Then add the connections they'd miss.** Lean in
+   creatively — not fresh raw ideas, but the non-obvious links: that idea from technique 1 resolves the tension of
+   technique 4; those three are one idea under three hats; that wildcard is the real breakthrough.
 
-## Produire le brief
-Écris **`.mri_devtools/docs/<projet>/brief.md`** en t'appuyant sur `assets/brief-template.md` (adapte
-agressivement : supprime les sections qui ne méritent pas leur place, ajoute ce que le produit exige).
-Le brief doit contenir, a minima : problème, utilisateurs, solution/valeur, périmètre (in/out),
-**critères de succès mesurables**, et les hypothèses/risques ouverts. C'est l'artefact de handoff pour
-`/mri-forge` (challenge) puis `/mri-design`.
+## Producing the brief
+Write **`.mri_devtools/docs/<project>/brief.md`** building on `assets/brief-template.md` (adapt
+aggressively: drop sections that don't earn their place, add what the product demands).
+Write the document in the configured document language (see AGENTS.md).
+The brief must contain, at a minimum: problem, users, solution/value, scope (in/out),
+**measurable success criteria**, and the open assumptions/risks. It's the handoff artifact for
+`/mri-forge` (challenge) then `/mri-design`.
 
-Pas de keepsake HTML ni de journal externe : le `brief.md` **est** le livrable. Reste concis et « on
-point » — le budget de tokens compte pour la suite du pipeline.
+No HTML keepsake nor external log: the `brief.md` **is** the deliverable. Stay concise and on
+point — the token budget matters for the rest of the pipeline.
 
-## Fin
-Mets à jour `progress.md` (brainstorm → `[x]`), puis indique la suite :
-« Prochaine étape → `/mri-forge` pour durcir l'idée, ou `/mri-design` si elle est déjà solide. »
+## End
+Update `progress.md` (brainstorm → `[x]`), then indicate what's next:
+"Next step → `/mri-forge` to harden the idea, or `/mri-design` if it's already solid."

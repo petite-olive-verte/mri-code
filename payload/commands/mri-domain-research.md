@@ -1,11 +1,11 @@
 ---
-description: Recherche domain (skill mri-domain-research) — web, sources citées
+description: Domain research (skill mri-domain-research) — web, cited sources
 ---
 
-Invoque la skill `mri-domain-research` (recherche web, sources citées) →
-`.mri_devtools/docs/<projet>/research-domain.md`.
+Invoke the `mri-domain-research` skill (web research, cited sources) →
+`.mri_devtools/docs/<project>/research-domain.md`.
 
 $ARGUMENTS
 
-Reviens ensuite au flux (typiquement `/mri-design`).
-💡 Modèle suggéré : **Sonnet** (recherche web). Voir `.mri_devtools/models.md`.
+Then return to the flow (typically `/mri-design`).
+💡 Suggested model: **Sonnet** (web research). See `.mri_devtools/models.md`.

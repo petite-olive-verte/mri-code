@@ -2,12 +2,12 @@
 
 __PROJECT_DESCRIPTION__
 
-## Développement
+## Development
 
 ```bash
-uv sync                 # crée l'environnement + installe les dépendances
-uv run pytest           # lance les tests (avec couverture)
+uv sync                 # create the environment + install dependencies
+uv run pytest           # run the tests (with coverage)
 uv run ruff check .     # lint
 uv run ruff format .    # format
-uv run mypy             # typage
+uv run mypy             # type checking
 ```

@@ -1,11 +1,11 @@
 ---
-description: Brief → design technique (skill mri-design, le pont) → /mri-devplan
+description: Brief → technical design (skill mri-design, the bridge) → /mri-devplan
 ---
 
-Invoque la skill `mri-design` : elle lit `.mri_devtools/docs/<projet>/brief.md` (intention prise comme
-acquise) et produit le design technique `.mri_devtools/docs/<projet>/spec.md`.
+Invoke the `mri-design` skill: it reads `.mri_devtools/docs/<project>/brief.md` (intent taken as
+given) and produces the technical design `.mri_devtools/docs/<project>/spec.md`.
 
 $ARGUMENTS
 
-Prochaine étape → **`/mri-devplan`**. Facultatifs : `/mri-adversarial-review` (auditer la spec), `/mri-elicit`.
-💡 Modèle suggéré : **Opus** (architecture). Voir `.mri_devtools/models.md`.
+Next step → **`/mri-devplan`**. Optional: `/mri-adversarial-review` (audit the spec), `/mri-elicit`.
+💡 Suggested model: **Opus** (architecture). See `.mri_devtools/models.md`.

@@ -3,40 +3,40 @@ name: mri-scaffold-python
 description: Use when initializing/scaffolding the Python project structure (uv + ruff + pytest + mypy, src/ layout) from .mri_devtools/templates/python-uv, once the spec and plan are ready and before writing feature code. Respects .mri_devtools/constitution.md.
 ---
 
-# Scaffold d'un projet Python (uv + ruff + pytest)
+# Scaffolding a Python project (uv + ruff + pytest)
 
-Génère la structure d'un projet Python à partir de `.mri_devtools/templates/python-uv/`, en respectant
-`.mri_devtools/constitution.md`. À utiliser **après** la spec et le plan, **avant** d'écrire le code des features.
+Generate the structure of a Python project from `.mri_devtools/templates/python-uv/`, respecting
+`.mri_devtools/constitution.md`. To be used **after** the spec and plan, **before** writing feature code.
 
-## Avant de commencer
-1. **Lis `.mri_devtools/constitution.md`** : applique sa stack et ses conventions. Si elles diffèrent du template,
-   la constitution prime — adapte les fichiers générés en conséquence.
-2. Détermine deux noms (déduis-les de la spec, sinon demande à l'utilisateur) :
-   - `PROJECT_NAME` : nom de distribution (peut contenir des tirets), ex. `todo-api`.
-   - `PACKAGE_NAME` : nom d'import Python, `snake_case`, ex. `todo_api`.
-   - `PROJECT_DESCRIPTION` : une phrase.
+## Before starting
+1. **Read `.mri_devtools/constitution.md`**: apply its stack and conventions. If they differ from the template,
+   the constitution wins — adapt the generated files accordingly.
+2. Determine two names (derive them from the spec, otherwise ask the user):
+   - `PROJECT_NAME`: distribution name (may contain dashes), e.g. `todo-api`.
+   - `PACKAGE_NAME`: Python import name, `snake_case`, e.g. `todo_api`.
+   - `PROJECT_DESCRIPTION`: one sentence.
 
-## Procédure
-Le projet se génère **à la racine du repo** (l'app vit dans le même dépôt que la toolbox).
-N'écrase **aucun** fichier existant : si un fichier cible existe déjà (ex. `README.md`,
-`.gitignore`), garde l'existant et signale-le à l'utilisateur.
+## Procedure
+The project is generated **at the repo root** (the app lives in the same repository as the toolbox).
+Do **not** overwrite any existing file: if a target file already exists (e.g. `README.md`,
+`.gitignore`), keep the existing one and flag it to the user.
 
 ```bash
-# Depuis la racine du repo. Adapte les 3 variables.
+# From the repo root. Adapt the 3 variables.
 PROJECT_NAME="todo-api"
 PACKAGE_NAME="todo_api"
-PROJECT_DESCRIPTION="Petite API de todo."
+PROJECT_DESCRIPTION="Small todo API."
 
 SRC=".mri_devtools/templates/python-uv"
-# Copie les fichiers du template sans écraser l'existant (-n), en incluant les fichiers cachés.
+# Copy the template files without overwriting the existing ones (-n), including hidden files.
 cp -rn "$SRC/." . 2>/dev/null || true
 
-# Renomme le package
+# Rename the package
 if [ -d "src/__PACKAGE_NAME__" ]; then
   mv "src/__PACKAGE_NAME__" "src/$PACKAGE_NAME"
 fi
 
-# Substitue les jetons dans TOUS les fichiers du projet (hors .git/.venv)
+# Substitute the tokens in ALL project files (excluding .git/.venv)
 grep -rlZ '__PACKAGE_NAME__\|__PROJECT_NAME__\|__PROJECT_DESCRIPTION__' . \
   --exclude-dir=.git --exclude-dir=.venv 2>/dev/null | \
   xargs -0 sed -i \
@@ -45,16 +45,16 @@ grep -rlZ '__PACKAGE_NAME__\|__PROJECT_NAME__\|__PROJECT_DESCRIPTION__' . \
     -e "s/__PACKAGE_NAME__/$PACKAGE_NAME/g"
 ```
 
-## Vérification (obligatoire avant de continuer)
+## Verification (mandatory before continuing)
 ```bash
-uv sync                 # crée l'env + installe les dépendances dev
-uv run pytest -q        # le smoke test doit passer (vert)
-uv run ruff check .     # lint propre
+uv sync                 # creates the env + installs the dev dependencies
+uv run pytest -q        # the smoke test must pass (green)
+uv run ruff check .     # clean lint
 ```
-- Si `pytest` ou `ruff` échouent, **corrige avant** de passer à l'implémentation.
-- Vérifie qu'il **ne reste aucun** jeton `__PACKAGE_NAME__` / `__PROJECT_NAME__` :
-  `grep -rn '__P[A-Z_]*__' . --include='*.py' --include='*.toml'` doit être vide.
+- If `pytest` or `ruff` fail, **fix before** moving on to implementation.
+- Check that **no** `__PACKAGE_NAME__` / `__PROJECT_NAME__` token remains:
+  `grep -rn '__P[A-Z_]*__' . --include='*.py' --include='*.toml'` must be empty.
 
-## Ensuite
-Passe à l'implémentation **en TDD** via **/mri-implement** (skill `mri-tdd` par tâche), feature par feature,
-en traduisant les **critères d'acceptation de la spec** en tests qui échouent d'abord.
+## Next
+Move on to implementation **in TDD** via **/mri-implement** (skill `mri-tdd` per task), feature by feature,
+translating the **spec's acceptance criteria** into tests that fail first.

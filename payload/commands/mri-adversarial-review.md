@@ -1,10 +1,10 @@
 ---
-description: Audit cynique d'un document (skill mri-adversarial-review) → rapport de findings
+description: Cynical audit of a document (skill mri-adversarial-review) → findings report
 ---
 
-Invoque la skill `mri-adversarial-review` sur le document indiqué (brief / spec / plan / diff).
+Invoke the `mri-adversarial-review` skill on the given document (brief / spec / plan / diff).
 
 $ARGUMENTS
 
-Reviens à l'étape appelante (révise le doc, ou continue).
-💡 Modèle suggéré : **Opus / Sonnet**. Voir `.mri_devtools/models.md`.
+Return to the calling step (revise the doc, or continue).
+💡 Suggested model: **Opus / Sonnet**. See `.mri_devtools/models.md`.

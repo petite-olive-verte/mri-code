@@ -1,10 +1,10 @@
 ---
-description: Approfondir/critiquer la dernière sortie (skill mri-elicit) — socratique, pre-mortem, red-team…
+description: Deepen/critique the last output (skill mri-elicit) — Socratic, pre-mortem, red-team…
 ---
 
-Invoque la skill `mri-elicit` pour approfondir/critiquer la sortie récente (ou le document indiqué).
+Invoke the `mri-elicit` skill to deepen/critique the recent output (or the given document).
 
 $ARGUMENTS
 
-Reviens ensuite à l'étape appelante.
-💡 Modèle suggéré : **Opus**. Voir `.mri_devtools/models.md`.
+Then return to the calling step.
+💡 Suggested model: **Opus**. See `.mri_devtools/models.md`.

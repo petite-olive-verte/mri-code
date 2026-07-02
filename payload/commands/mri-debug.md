@@ -1,10 +1,10 @@
 ---
-description: Débogage systématique (skill mri-debug) — cause racine avant correctif
+description: Systematic debugging (skill mri-debug) — root cause before fix
 ---
 
-Invoque la skill `mri-debug` (investigation de la cause racine avant tout correctif).
+Invoke the `mri-debug` skill (root-cause investigation before any fix).
 
 $ARGUMENTS
 
-Reviens à **`/mri-implement`** une fois la cause corrigée.
-💡 Modèle suggéré : **Sonnet / DeepSeek-v4**. Voir `.mri_devtools/models.md`.
+Return to **`/mri-implement`** once the cause is fixed.
+💡 Suggested model: **Sonnet / DeepSeek-v4**. See `.mri_devtools/models.md`.

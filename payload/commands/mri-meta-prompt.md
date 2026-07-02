@@ -1,8 +1,8 @@
 ---
-description: Optimise une demande vague en un prompt précis et structuré (skill mri-meta-prompt)
+description: Optimizes a vague request into a precise, structured prompt (skill mri-meta-prompt)
 ---
 
-Invoque la skill `mri-meta-prompt` (autonome — hors flux).
+Invoke the `mri-meta-prompt` skill (standalone — outside the flow).
 
 $ARGUMENTS
-💡 Modèle suggéré : **Opus**. Voir `.mri_devtools/models.md`.
+💡 Suggested model: **Opus**. See `.mri_devtools/models.md`.

@@ -1,90 +1,90 @@
 ---
 name: mri-forge
 description: >-
-  Pressure-test une idée par interrogatoire multi-personas jusqu'à ce qu'elle durcisse, se clarifie, ou
-  meure à bas coût. Réimplémenté de BMAD-METHOD (bmad-forge-idea, MIT). Panel de personas FIXE, sans
-  runtime. Invoquée par /mri-forge, en général après /mri-brainstorm.
+  Pressure-test an idea through multi-persona interrogation until it hardens, clarifies, or
+  dies cheaply. Reimplemented from BMAD-METHOD (bmad-forge-idea, MIT). FIXED persona panel, no
+  runtime. Invoked by /mri-forge, usually after /mri-brainstorm.
 ---
 
-# mri-forge — durcir une idée (pressure-test)
+# mri-forge — harden an idea (pressure-test)
 
-> Réimplémenté depuis [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) `bmad-forge-idea`
-> (MIT). Personas dynamiques + runtime (memlog/HTML) strippés ; panel FIXE ; sortie repliée dans `brief.md`.
+> Reimplemented from [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) `bmad-forge-idea`
+> (MIT). Dynamic personas + runtime (memlog/HTML) stripped; FIXED panel; output folded into `brief.md`.
 
-## Objectif
-Prendre une idée à moitié formée et la **pressure-tester en conversation, tant que changer d'avis est
-encore bon marché**, jusqu'à ce qu'elle devienne actionnable avec conviction — ou soit rejetée. Le
-risque principal, c'est ce que l'utilisateur n'a **pas encore examiné** : hypothèses non vérifiées et
-décisions non résolues deviennent des problèmes coûteux plus tard.
+## Goal
+Take a half-formed idea and **pressure-test it in conversation, while changing your mind is
+still cheap**, until it becomes actionable with conviction — or gets rejected. The
+main risk is what the user has **not yet examined**: unverified assumptions and
+unresolved decisions become expensive problems later.
 
-Le but est **un meilleur raisonnement, pas un artefact**. Renforcer, rejeter, ou simplement mieux
-comprendre l'idée sont tous des aboutissements valides. Ne pousse pas la conversation vers « on le
-construit ? ».
+The goal is **better reasoning, not an artifact**. Strengthening, rejecting, or simply understanding
+the idea better are all valid outcomes. Don't push the conversation toward "shall we
+build it?".
 
-**Mène par le questionnement, pas le laïus. Une question à la fois, appuie sur les points faibles, ne
-laisse passer aucune affirmation vague.**
+**Lead with questions, not lecturing. One question at a time, press on the weak points, don't
+let any vague claim slide.**
 
-## Entrée / sortie
-- Entrée : `.mri_devtools/docs/<projet>/brief.md` (produit par `/mri-brainstorm`) ou une idée directe.
-- Sortie : selon le verdict (voir Exits) — mise à jour de `brief.md` + verdict dans `progress.md`.
+## Input / output
+- Input: `.mri_devtools/docs/<project>/brief.md` (produced by `/mri-brainstorm`) or a direct idea.
+- Output: depending on the verdict (see Exits) — update of `brief.md` + verdict in `progress.md`.
 
-## Ouvrir la session
-Commence par **scruter l'idée, pas l'endosser**. Identifie : (1) l'idée, (2) l'objectif de la session
-(clarifier / tester si ça tient / améliorer), (3) idée neuve ou changement d'un projet existant (si
-existant : quels fichiers ?). Ce qui est déjà clair du contexte : fais confirmer. Sinon demande ce qui
-manque, dans l'ordre.
+## Opening the session
+Start by **scrutinizing the idea, not endorsing it**. Identify: (1) the idea, (2) the session goal
+(clarify / test whether it holds / improve), (3) new idea or a change to an existing project (if
+existing: which files?). Whatever is already clear from context: have it confirmed. Otherwise ask what's
+missing, in order.
 
-**Pilotage** : dis à l'utilisateur qu'il peut dire **« attaque ça »**, **« défends ça »**, **« change de
-rôle »** à tout moment, ou **nommer une persona** du panel. En mode attaque, n'approuve pas l'idée :
-cherche contradictions, hypothèses faibles, cas d'échec. En défense, argumente la version la plus forte.
+**Steering**: tell the user they can say **"attack this"**, **"defend this"**, **"switch
+role"** at any time, or **name a persona** from the panel. In attack mode, don't endorse the idea:
+look for contradictions, weak assumptions, failure cases. In defense, argue the strongest version.
 
-## Le forge
-L'objectif fixe le premier coup : *clarifier* → épingler termes, frontières, hypothèses ; *tester* →
-viser la revendication centrale d'abord ; *améliorer* → pousser chaque branche non résolue vers une
-décision concrète.
+## The forge
+The goal sets the first move: *clarify* → pin down terms, boundaries, assumptions; *test* →
+aim at the central claim first; *improve* → push each unresolved branch toward a concrete
+decision.
 
-- **Une question à la fois, en ordre de dépendance.** Inclus ton hypothèse/meilleure réponse quand ça
-  aide (une proposition concrète est plus facile à accepter/rejeter/réviser qu'une question ouverte).
-- **Ne suppose pas que les termes sont précis.** Terme flou/surchargé → nomme l'ambiguïté et demande un
-  choix précis (ne laisse pas `utilisateur`, `acheteur`, `payeur` fusionner sauf si l'idée l'exige).
-- **Projet existant = les fichiers sont la vérité.** N'accepte pas un label/résumé comme preuve ;
-  vérifie toi-même. Contradiction → arrête et résous-la avant de continuer.
-- **Pas de flatterie ni d'accord de confort** : ils baissent la pression et mènent à un raisonnement
-  superficiel. À chaque réponse : soit challenge le point faible, soit bâtis sur le point fort — selon
-  ce qui aide le plus. En mode attaque, n'approuve jamais l'idée jusqu'à ce que l'utilisateur mette fin
-  au mode.
-- **Capture au fil de l'eau** (dans tes notes / la section challenge du brief) : chaque décision,
-  hypothèse, faille (`crack`), abandon (`kill`), direction, et **verrou** (`lock` = idée durcie, réglée,
-  à ne pas rouvrir). Les verrous sont ce dont on distille le brief.
+- **One question at a time, in dependency order.** Include your assumption/best answer when it
+  helps (a concrete proposal is easier to accept/reject/revise than an open question).
+- **Don't assume the terms are precise.** Fuzzy/overloaded term → name the ambiguity and ask for a
+  precise choice (don't let `user`, `buyer`, `payer` merge unless the idea requires it).
+- **Existing project = the files are the truth.** Don't accept a label/summary as evidence;
+  verify it yourself. Contradiction → stop and resolve it before continuing.
+- **No flattery or comfort agreement**: they lower the pressure and lead to
+  shallow reasoning. On each answer: either challenge the weak point, or build on the strong point — whichever
+  helps most. In attack mode, never endorse the idea until the user ends
+  the mode.
+- **Capture as you go** (in your notes / the challenge section of the brief): each decision,
+  assumption, flaw (`crack`), abandonment (`kill`), direction, and **lock** (`lock` = a hardened, settled
+  idea, not to be reopened). Locks are what the brief is distilled from.
 
-## Le panel de personas (FIXE — une persona par angle)
-Chaque tour utilise **une persona du panel** dont l'expertise colle à la branche courante — **varie la
-voix** tous les quelques tours, ne laisse pas une seule dominer. Combine-en deux si utile. L'utilisateur
-peut en nommer une explicitement.
+## The persona panel (FIXED — one persona per angle)
+Each turn uses **one persona from the panel** whose expertise fits the current branch — **vary the
+voice** every few turns, don't let a single one dominate. Combine two if useful. The user
+can name one explicitly.
 
-| Persona | Angle attaqué |
+| Persona | Angle attacked |
 |---|---|
-| **L'investisseur sceptique / pragmatique** | valeur, « qui paie ? », « pourquoi ça échouerait ? » |
-| **L'utilisateur novice** | confusion, hypothèses implicites, friction UX |
-| **L'attaquant / red-team** | abus, sécurité, cas limites malveillants |
-| **Le mainteneur surchargé** | coût de complexité, dette technique, faisabilité |
-| **L'expert du domaine** | « ce n'est pas comme ça que marche ce domaine » |
+| **The skeptical / pragmatic investor** | value, "who pays?", "why would it fail?" |
+| **The novice user** | confusion, implicit assumptions, UX friction |
+| **The attacker / red-team** | abuse, security, malicious edge cases |
+| **The overloaded maintainer** | complexity cost, technical debt, feasibility |
+| **The domain expert** | "that's not how this domain works" |
 
-Joue les personas en voix, nomme-les, garde leur point de vue distinct. Ne laisse pas la session
-devenir un débat de panel : cross-examine ce qui compte, puis **synthétise en ta prochaine question**.
+Play the personas in voice, name them, keep their viewpoints distinct. Don't let the session
+become a panel debate: cross-examine what matters, then **synthesize into your next question**.
 
-## Exits (3 états valides)
-- **HARDENED** — l'idée est plus forte et assez précise pour être utilisée. **Distille dans `brief.md`**
-  (mets à jour/ajoute une section « Durcissement » : décisions verrouillées, options rejetées + raisons,
-  points faibles survivants). Extrêmement court, en substance ; pas de recap de conversation. → suite :
-  `/mri-design` (ou recherches d'abord).
-- **KILLED** — l'idée ne tient pas. Dis-le franchement, **note pourquoi** dans `brief.md`. Le découvrir
-  tôt est une victoire. → suite : `/mri-brainstorm` (repartir).
-- **CLARIFIED** — mieux comprise, mais rien à durcir. Laisse les notes comme trace ; pas de section
-  handoff. → suite : `/mri-brainstorm` ou `/mri-design` selon l'utilisateur.
+## Exits (3 valid states)
+- **HARDENED** — the idea is stronger and precise enough to be used. **Distill into `brief.md`**
+  (update/add a "Hardening" section: locked decisions, rejected options + reasons,
+  surviving weak points). Extremely short, in substance; no conversation recap. → next:
+  `/mri-design` (or research first).
+- **KILLED** — the idea doesn't hold. Say so plainly, **note why** in `brief.md`. Finding out
+  early is a win. → next: `/mri-brainstorm` (start over).
+- **CLARIFIED** — better understood, but nothing to harden. Leave the notes as a trace; no
+  handoff section. → next: `/mri-brainstorm` or `/mri-design` depending on the user.
 
-Pas de keepsake HTML (gadget strippé). Le `brief.md` porte le résultat.
+No HTML keepsake (stripped gadget). The `brief.md` carries the result. Write the document in the configured document language (see AGENTS.md).
 
-## Suivi
-- Début : `forge` `[~]` dans `.mri_devtools/docs/<projet>/progress.md`.
-- Fin : `forge` `[x] → <HARDENED|CLARIFIED|KILLED>`, pointe la prochaine étape.
+## Tracking
+- Start: `forge` `[~]` in `.mri_devtools/docs/<project>/progress.md`.
+- End: `forge` `[x] → <HARDENED|CLARIFIED|KILLED>`, point to the next step.

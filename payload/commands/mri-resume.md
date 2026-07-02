@@ -1,43 +1,43 @@
 ---
-description: Reprend le pipeline mri là où il s'est arrêté (lit progress.md) → re-entre à l'étape courante
+description: Resume the mri pipeline where it stopped (reads progress.md) → re-enter the current step
 ---
 
-Reprends le travail en cours sur ce projet.
+Resume the work in progress on this project.
 
-## Comportement
-1. Cherche le fichier d'état : `.mri_devtools/docs/*/progress.md` (le plus récemment modifié si plusieurs).
-   - **Absent** → aucun travail en cours : suggère `/mri-brainstorm` (nouveau projet) et arrête-toi.
-2. **Lis `progress.md`** : rapporte l'état à l'utilisateur (étapes faites `[x]`, en cours `[~]`, à faire `[ ]`, + appels facultatifs).
-3. **Re-entre** à l'étape **`[~]` en cours** (ou, à défaut, la première **`[ ]`** après la dernière `[x]`) :
-   recharge les artefacts déjà sur disque (`brief.md`, `spec.md`, `plan.md`…) et **invoque la skill
-   correspondante** pour continuer. Si l'étape est `implement`, délègue le détail fin aux cases du
-   `plan.md` (et à `.mri_devtools/state/sdd/` si présent).
-4. Confirme la reprise en une phrase avant de continuer.
+## Behavior
+1. Look for the state file: `.mri_devtools/docs/*/progress.md` (the most recently modified if several).
+   - **Missing** → no work in progress: suggest `/mri-brainstorm` (new project) and stop.
+2. **Read `progress.md`**: report the state to the user (steps done `[x]`, in progress `[~]`, to do `[ ]`, + optional calls).
+3. **Re-enter** the **`[~]` in-progress step** (or, failing that, the first **`[ ]`** after the last `[x]`):
+   reload the artifacts already on disk (`brief.md`, `spec.md`, `plan.md`…) and **invoke the matching
+   skill** to continue. If the step is `implement`, delegate the fine-grained detail to the checkboxes in
+   `plan.md` (and to `.mri_devtools/state/sdd/` if present).
+4. Confirm the resumption in one sentence before continuing.
 
-## Schéma de `progress.md` (canonique — toute skill le lit/écrit ainsi)
-`.mri_devtools/docs/<projet>/progress.md` :
+## `progress.md` schema (canonical — every skill reads/writes it this way)
+`.mri_devtools/docs/<project>/progress.md`:
 ```markdown
-# Parcours — <projet>   (MAJ: <date> · dernière étape: /mri-<x>)
+# Journey — <project>   (updated: <date> · last step: /mri-<x>)
 
-## Étapes
+## Steps
 - [x] brainstorm → brief.md
 - [x] forge → HARDENED
-- [~] design → spec.md (en cours)
+- [~] design → spec.md (in progress)
 - [ ] devplan
 - [ ] scaffold
 - [ ] implement
 - [ ] review
 - [ ] finish
 
-## Appels facultatifs
-- market-research (après forge) → research-market.md
-- adversarial-review (brief) → 3 findings corrigés
+## Optional calls
+- market-research (after forge) → research-market.md
+- adversarial-review (brief) → 3 findings fixed
 
-## Prochaine étape
-/mri-design (finir spec.md) → puis /mri-devplan
+## Next step
+/mri-design (finish spec.md) → then /mri-devplan
 ```
 
-Marqueurs : `[x]` fait · `[~]` en cours · `[ ]` à faire. Les skills mettent à jour ce fichier au début
-(`[~]`) et à la fin (`[x]` + « Prochaine étape ») de chaque phase.
+Markers: `[x]` done · `[~]` in progress · `[ ]` to do. Skills update this file at the start
+(`[~]`) and at the end (`[x]` + "Next step") of each phase.
 
 $ARGUMENTS

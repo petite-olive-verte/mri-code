@@ -1,26 +1,26 @@
 ---
 name: mri-document-project
 description: >-
-  Documente un projet existant (brownfield) pour donner du contexte à l'agent : structure, stack,
-  conventions, points d'entrée, comment lancer/tester. Réimplémenté de BMAD-METHOD
-  (bmad-document-project, MIT). On-demand, en amont de /mri-brainstorm sur un repo existant.
+  Documents an existing (brownfield) project to give the agent context: structure, stack,
+  conventions, entry points, how to run/test. Reimplemented from BMAD-METHOD
+  (bmad-document-project, MIT). On-demand, ahead of /mri-brainstorm on an existing repo.
 ---
 
-# mri-document-project — contexte d'un projet existant (brownfield)
+# mri-document-project — context of an existing project (brownfield)
 
-**But** : quand on travaille sur un **repo existant** (pas un greenfield), produire un document de
-contexte concis que les skills suivantes consommeront, pour éviter les hypothèses fausses.
+**Goal**: when working on an **existing repo** (not greenfield), produce a concise context
+document that the following skills will consume, to avoid false assumptions.
 
-## Déroulé
-1. **Explorer** : structure des dossiers, `README`, fichiers de build/config (`pyproject.toml`,
-   `package.json`…), points d'entrée, tests, commits récents. Repère la stack et les conventions réelles.
-2. **Cartographier** : modules principaux et leurs responsabilités, flux de données, dépendances
-   externes, commandes pour installer/lancer/tester.
-3. **Écrire** `.mri_devtools/docs/<projet>/project-context.md` : synthèse **actionnable** (pas un dump) —
-   « ce qu'un agent doit savoir avant de toucher ce code ». Signale les zones fragiles/dette repérées.
+## Flow
+1. **Explore**: folder structure, `README`, build/config files (`pyproject.toml`,
+   `package.json`…), entry points, tests, recent commits. Identify the real stack and conventions.
+2. **Map**: main modules and their responsibilities, data flows, external dependencies,
+   commands to install/run/test.
+3. **Write** `.mri_devtools/docs/<project>/project-context.md`: an **actionable** synthesis (not a dump) —
+   "what an agent needs to know before touching this code". Flag fragile areas/debt spotted.
 
-Ce doc complète `.mri_devtools/constitution.md` (règles voulues) en décrivant l'existant (règles de fait).
+This doc complements `.mri_devtools/constitution.md` (intended rules) by describing what exists (de facto rules).
 
-## Suivi
-Facultatif : logue l'appel dans `progress.md`. Enchaîne ensuite sur `/mri-brainstorm` (l'idée/évolution
-à concevoir sur ce projet).
+## Follow-up
+Optional: log the call in `progress.md`. Then move on to `/mri-brainstorm` (the idea/evolution
+to design on this project).

@@ -57,7 +57,7 @@ HEAD_SHA=$(git rev-parse HEAD)
 
 [Dispatch code reviewer subagent]
   DESCRIPTION: Added verifyIndex() and repairIndex() with 4 issue types
-  PLAN_OR_REQUIREMENTS: Task 2 from .mri_devtools/docs/<projet>/deployment-plan.md
+  PLAN_OR_REQUIREMENTS: Task 2 from .mri_devtools/docs/<project>/deployment-plan.md
   BASE_SHA: a7981ec
   HEAD_SHA: 3df7661
 
@@ -102,7 +102,7 @@ You: [Fix progress indicators]
 
 See template at: [code-reviewer.md](code-reviewer.md)
 
-## Suivi (progress.md)
-Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
-fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
-la prochaine étape du pipeline.
+## Tracking (progress.md)
+At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
+the next step of the pipeline.

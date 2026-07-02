@@ -1,26 +1,27 @@
 ---
 name: mri-market-research
 description: >-
-  Recherche marché (concurrence, clients, tendances) sur données web actuelles avec sources citées.
-  Réimplémenté de BMAD-METHOD (bmad-market-research, MIT). On-demand, suggéré après /mri-forge.
-  Invoquée par /mri-market-research.
+  Market research (competition, customers, trends) on current web data with cited sources.
+  Reimplemented from BMAD-METHOD (bmad-market-research, MIT). On-demand, suggested after /mri-forge.
+  Invoked by /mri-market-research.
 ---
 
-# mri-market-research — recherche marché
+# mri-market-research — market research
 
-**But** : produire une recherche marché appuyée sur des données web actuelles et des **sources citées**,
-avec un récit clair. **Rôle** : facilitateur de recherche — tu apportes méthodo + recherche web,
-l'utilisateur apporte le domaine et la direction.
+**Goal**: produce market research backed by current web data and **cited sources**,
+with a clear narrative. **Role**: research facilitator — you bring methodology + web research,
+the user brings the domain and the direction.
 
-**⛔ Prérequis** : recherche web disponible (WebSearch/MCP). Sinon, abandonne et préviens.
+**⛔ Prerequisite**: web search available (WebSearch/MCP). Otherwise, abort and warn.
 
-## Déroulé
-1. **Cadrer** : question de recherche, marché/segment visé, concurrents connus, ce qu'on veut décider.
-2. **Rechercher** (web) : concurrents (positionnement, prix, forces/faiblesses), clients/segments et
-   besoins, tendances, taille/dynamique du marché. Vérifie et **cite chaque source** (URL).
-3. **Synthétiser** : mapping concurrentiel, opportunités/risques, implications pour l'idée.
-4. **Écrire** `.mri_devtools/docs/<projet>/research-market.md` (findings + sources). Concis, actionnable.
+## Flow
+1. **Scope**: research question, target market/segment, known competitors, what we want to decide.
+2. **Research** (web): competitors (positioning, pricing, strengths/weaknesses), customers/segments and
+   needs, trends, market size/dynamics. Verify and **cite every source** (URL).
+3. **Synthesize**: competitive mapping, opportunities/risks, implications for the idea.
+4. **Write** `.mri_devtools/docs/<project>/research-market.md` (findings + sources). Concise, actionable.
+   Write the document in the configured document language (see AGENTS.md).
 
-## Suivi
-Facultatif : logue l'appel dans `progress.md` (« Appels facultatifs » → `research-market.md`). Reviens
-ensuite au flux (typiquement `/mri-design`).
+## Follow-up
+Optional: log the call in `progress.md` ("Optional calls" → `research-market.md`). Then return
+to the flow (typically `/mri-design`).

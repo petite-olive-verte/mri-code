@@ -295,7 +295,7 @@ From debugging sessions:
 - First-time fix rate: 95% vs 40%
 - New bugs introduced: Near zero vs common
 
-## Suivi (progress.md)
-Au **début** de cette étape, marque-la `[~]` dans `.mri_devtools/docs/<projet>/progress.md` (crée le
-fichier s'il manque — schéma dans la commande `/mri-resume`). À la **fin**, passe-la `[x]` et pointe
-la prochaine étape du pipeline.
+## Tracking (progress.md)
+At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
+the next step of the pipeline.

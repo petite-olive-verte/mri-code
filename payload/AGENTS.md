@@ -1,52 +1,60 @@
-# Bootstrap — assistant d'amorçage (mode piloté par commandes)
+# Bootstrap — kickoff assistant (command-driven mode)
 
-Tu es ouvert dans un repo qui transforme une idée en projet Python — du brainstorm à l'implémentation,
-avant contrôle humain. La méthodo est le **module `mri`** (skills auto-portantes dans `.claude/skills/`,
-dérivées de BMAD-METHOD et Superpowers, MIT). Les artefacts générés vivent dans `.mri_devtools/docs/<projet>/`.
+You are open in a repo that turns an idea into a Python project — from brainstorm to implementation,
+before human control. The methodology is the **`mri` module** (self-contained skills in
+`.claude/skills/`, derived from BMAD-METHOD and Superpowers, MIT). Generated artifacts live in
+`.mri_devtools/docs/<project>/`.
 
-## Mode : PILOTÉ PAR COMMANDES (important)
-- **N'auto-déclenche AUCUNE skill.** Tu attends que l'utilisateur lance une slash command.
-- **À la fin de chaque étape, suggère la commande suivante** (ne l'exécute pas toi-même).
-- Les skills sont **locales et auto-portantes** ; il n'y a plus de plugin externe à invoquer.
+## Language & user (configured at install time)
+- **Communicate with the user in {{COMMUNICATION_LANGUAGE}}.**
+- **Write generated documents (brief, spec, plan, research…) in {{DOCUMENT_LANGUAGE}}.**
+- **Address the user as {{USER_NAME}}.**
+- The skills and this file are written in English, but you **speak to the user in the configured
+  language** above. (Reconfigure in `.mri_devtools/config.json`.)
 
-## Au démarrage de session
-Commence ta première réponse par le **message d'accueil** fourni dans le contexte de session
-(le hook `welcome.sh` : reprendre via `/mri-resume` s'il existe un `progress.md` inachevé, sinon
-démarrer via `/mri-brainstorm`). Puis **attends** une commande.
+## Mode: COMMAND-DRIVEN (important)
+- **Do NOT auto-trigger ANY skill.** Wait for the user to launch a slash command.
+- **At the end of each step, suggest the next command** (do not run it yourself).
+- Skills are **local and self-contained**; there is no external plugin to invoke.
 
-## Les commandes (→ skill invoquée ; suggère ensuite)
-Cœur du flux :
-- `/mri-brainstorm` → skill `mri-brainstorm` (facilitation style BMAD) → `/mri-forge` ou `/mri-design`
-- `/mri-forge` → skill `mri-forge` (pressure-test, panel de personas) → `/mri-design` (HARDENED) ou `/mri-brainstorm` (KILLED)
-- `/mri-design` → skill `mri-design` (le **pont** : `brief.md` → `spec.md`) → `/mri-devplan`
-- `/mri-devplan` → skill `mri-devplan` (`spec.md` → `plan.md`) → `/mri-scaffold-python` (nouveau) sinon `/mri-implement`
+## At session start
+Begin your first reply with the **welcome message** provided in the session context (the `welcome.sh`
+hook: resume via `/mri-resume` if an unfinished `progress.md` exists, otherwise start via
+`/mri-brainstorm`). Then **wait** for a command.
+
+## Commands (→ skill invoked; suggests next)
+Core flow:
+- `/mri-brainstorm` → skill `mri-brainstorm` (BMAD-style facilitation) → `/mri-forge` or `/mri-design`
+- `/mri-forge` → skill `mri-forge` (pressure-test, persona panel) → `/mri-design` (HARDENED) or `/mri-brainstorm` (KILLED)
+- `/mri-design` → skill `mri-design` (the **bridge**: `brief.md` → `spec.md`) → `/mri-devplan`
+- `/mri-devplan` → skill `mri-devplan` (`spec.md` → `plan.md`) → `/mri-scaffold-python` (new) else `/mri-implement`
 - `/mri-scaffold-python` → skill `mri-scaffold-python` → `/mri-implement`
 - `/mri-implement` → skill `mri-implement` (TDD + MCP) → `/mri-review`
 - `/mri-review` → skill `mri-review` → `/mri-finish`
 - `/mri-finish` → skill `mri-finish` (merge / PR / cleanup)
 
-Facultatifs (suggérés au bon moment, retour au flux ensuite) :
-- `/mri-elicit` (approfondir une sortie) · `/mri-adversarial-review` (auditer un doc)
-- `/mri-market-research` · `/mri-domain-research` · `/mri-technical-research` (après forge)
-- `/mri-document-project` (brownfield) · `/mri-debug` (échec de test) · `/mri-meta-prompt` (autonome)
-- `/mri-resume` (reprendre le pipeline)
+Optional (suggested at the right moment, then return to the flow):
+- `/mri-elicit` (deepen an output) · `/mri-adversarial-review` (audit a doc)
+- `/mri-market-research` · `/mri-domain-research` · `/mri-technical-research` (after forge)
+- `/mri-document-project` (brownfield) · `/mri-debug` (test failure) · `/mri-meta-prompt` (standalone)
+- `/mri-resume` (resume the pipeline)
 
-## Reprise & mémoire
-L'état vit sur disque : `.mri_devtools/docs/<projet>/progress.md` (phases) + `plan.md` (cases fines).
-Pour reprendre : `/mri-resume` relit `progress.md` et re-entre à l'étape courante. **Ne te repose pas
-sur `/compact`.**
+## Resume & memory
+State lives on disk: `.mri_devtools/docs/<project>/progress.md` (phases) + `plan.md` (fine-grained
+checkboxes). To resume: `/mri-resume` re-reads `progress.md` and re-enters the current step. **Do not
+rely on `/compact`.**
 
 ## Constitution
-Lis et **respecte** `.mri_devtools/constitution.md` (stack, qualité, tests, archi, conventions).
+Read and **respect** `.mri_devtools/constitution.md` (stack, quality, tests, architecture, conventions).
 
-## Feedback visuel / runtime
-Pour une UI web, utilise les MCP (`.mcp.json`) : **Playwright** (piloter/tester) + **Chrome DevTools**
-(console/réseau/déboguer). Boucle : écrire → exécuter → observer → corriger.
+## Visual / runtime feedback
+For a web UI, use the MCP servers (`.mcp.json`): **Playwright** (drive/test) + **Chrome DevTools**
+(console/network/debug). Loop: write → run → observe → fix.
 
-## Suggestions de modèle
-En fin d'étape, chaque commande suggère un modèle (non forcé) selon `.mri_devtools/models.md`
-(archi/brainstorm → Opus ; code → Sonnet/DeepSeek ; etc.).
+## Model suggestions
+At the end of each step, each command suggests a model (not enforced) per `.mri_devtools/models.md`
+(architecture/brainstorm → Opus; code → Sonnet/DeepSeek; etc.).
 
-## Priorité
-1. Instructions utilisateur (ce fichier, `.mri_devtools/constitution.md`, demandes directes).
-2. Skills `mri`. 3. Comportement par défaut.
+## Priority
+1. User instructions (this file, `.mri_devtools/constitution.md`, direct requests).
+2. `mri` skills. 3. Default behavior.
