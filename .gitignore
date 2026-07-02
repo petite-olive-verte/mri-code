@@ -24,3 +24,11 @@ build/
 *.swp
 .idea/
 .vscode/
+
+# Artefacts générés par un self-install (dogfood) — la source vit dans payload/
+/.claude/
+/.mri_devtools/
+/.agents/
+/AGENTS.md
+/CLAUDE.md
+/.mcp.json
