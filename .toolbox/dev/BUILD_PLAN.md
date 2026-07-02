@@ -73,9 +73,9 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] `.toolbox/models.md` éditable + ligne « 💡 modèle » en fin de chaque commande (faite au Lot 5).
 
 ## Lot 7 — Packaging `.mri_devtools/` + installeur
-- [ ] Créer l'arbo `.mri_devtools/` + déplacer les sources ; `.claude/` = pointeurs.
-- [ ] `install.sh` (câble `.claude/` + racine ; commandes à plat).
-- [ ] Tester découverte des symlinks (fallback copie) + installeur dans `/tmp/target-proj`.
+- [x] Arbo `.mri_devtools/` **produite par l'installeur dans la cible** (décision de sûreté : le repo de dev n'est PAS restructuré ; l'installeur package ses sources).
+- [x] `.toolbox/scripts/install.sh` : assemble `.mri_devtools/` + câble `.claude/` (commandes à plat) + racine ; réécrit `.toolbox/`→`.mri_devtools/` ; settings propre (sans plugin).
+- [x] Testé dans `/tmp/target-proj` : symlinks résolvent, 0 résidu `.toolbox/`, `welcome.sh` OK. Défaut symlink, fallback `--copy` (découverte live Claude à confirmer en E2E).
 
 ## Lot 8 — Docs, mémoire & E2E
 - [ ] MAJ DECISIONS (amender 9 ; ajouter 11/12), PROJECT_STATE, WORKFLOW, README, mémoire.
