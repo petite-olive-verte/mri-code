@@ -15,7 +15,15 @@ else
   resume="No work in progress → to start an idea: /mri-brainstorm"
 fi
 
-msg="👋 mri toolbox ready — command-driven mode (I wait for your commands, I auto-trigger nothing).
+msg=" ███╗   ███╗██████╗ ██╗
+ ████╗ ████║██╔══██╗██║
+ ██╔████╔██║██████╔╝██║
+ ██║╚██╔╝██║██╔══██╗██║
+ ██║ ╚═╝ ██║██║  ██║██║
+ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝
+   devtools · idea → shipped
+
+Command-driven mode (I wait for your commands, I auto-trigger nothing).
 Flow: /mri-brainstorm → /mri-forge → /mri-design → /mri-devplan → /mri-scaffold-python → /mri-implement → /mri-review → /mri-finish
 Optional: /mri-elicit · /mri-adversarial-review · /mri-market-research · /mri-domain-research · /mri-technical-research · /mri-document-project · /mri-debug · /mri-meta-prompt · /mri-resume
 ${resume}"

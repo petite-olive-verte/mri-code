@@ -11,5 +11,5 @@ This project is driven by `AGENTS.md` (portable bootstrap). Read it and apply it
 - **Plan mode**: use plan mode for the "Design" step (human validation before implementation).
 - **Subagents**: prefer specialized subagents for exploration and isolated implementation (keep the
   main context short). `mri-implement` relies on them (TDD per task).
-- **Provenance**: the `mri` skills are derived from Superpowers and BMAD-METHOD (both MIT); everything
-  is vendored locally — there is no external plugin at runtime.
+- **Self-contained**: the `mri` skills are vendored locally in `.claude/skills/` — there is no external
+  plugin at runtime.

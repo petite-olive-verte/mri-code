@@ -2,8 +2,7 @@
 
 You are open in a repo that turns an idea into a Python project — from brainstorm to implementation,
 before human control. The methodology is the **`mri` module** (self-contained skills in
-`.claude/skills/`, derived from BMAD-METHOD and Superpowers, MIT). Generated artifacts live in
-`.mri_devtools/docs/<project>/`.
+`.claude/skills/`). Generated artifacts live in `.mri_devtools/docs/<project>/`.
 
 ## Language & user (configured at install time)
 - **Communicate with the user in {{COMMUNICATION_LANGUAGE}}.**
@@ -24,7 +23,7 @@ hook: resume via `/mri-resume` if an unfinished `progress.md` exists, otherwise 
 
 ## Commands (→ skill invoked; suggests next)
 Core flow:
-- `/mri-brainstorm` → skill `mri-brainstorm` (BMAD-style facilitation) → `/mri-forge` or `/mri-design`
+- `/mri-brainstorm` → skill `mri-brainstorm` (facilitated brainstorming) → `/mri-forge` or `/mri-design`
 - `/mri-forge` → skill `mri-forge` (pressure-test, persona panel) → `/mri-design` (HARDENED) or `/mri-brainstorm` (KILLED)
 - `/mri-design` → skill `mri-design` (the **bridge**: `brief.md` → `spec.md`) → `/mri-devplan`
 - `/mri-devplan` → skill `mri-devplan` (`spec.md` → `plan.md`) → `/mri-scaffold-python` (new) else `/mri-implement`

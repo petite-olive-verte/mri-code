@@ -25,9 +25,9 @@ packages = ["src/__PACKAGE_NAME__"]
 [tool.ruff]
 line-length = 100
 src = ["src", "tests"]
-# Do not lint the vendored toolchain (Superpowers submodule, templates, etc.):
-# otherwise `ruff check .` from the root would pick up .py files from .mri_devtools/superpowers/.
-extend-exclude = [".toolbox"]
+# Do not lint the vendored toolchain (templates, etc.): otherwise `ruff check .`
+# from the root would pick up .py files under .mri_devtools/.
+extend-exclude = [".mri_devtools"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
