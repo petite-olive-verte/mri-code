@@ -2,11 +2,13 @@
 name: mri-domain-research
 description: >-
   Domain/industry research: expertise, terminology, patterns, regulatory constraints.
-  Reimplemented from BMAD-METHOD (bmad-domain-research, MIT). On-demand, suggested after /mri-forge.
+  On-demand, suggested after /mri-forge.
   Invoked by /mri-domain-research.
 ---
 
 # mri-domain-research — domain research
+
+> ┌─ mri devtools ─┐
 
 **Goal**: acquire/validate expertise in an unfamiliar domain to avoid design mistakes.
 **⛔ Prerequisite**: web search (WebSearch/MCP); otherwise abort and warn.

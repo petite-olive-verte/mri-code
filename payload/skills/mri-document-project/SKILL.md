@@ -2,11 +2,12 @@
 name: mri-document-project
 description: >-
   Documents an existing (brownfield) project to give the agent context: structure, stack,
-  conventions, entry points, how to run/test. Reimplemented from BMAD-METHOD
-  (bmad-document-project, MIT). On-demand, ahead of /mri-brainstorm on an existing repo.
+  conventions, entry points, how to run/test.  On-demand, ahead of /mri-brainstorm on an existing repo.
 ---
 
 # mri-document-project — context of an existing project (brownfield)
+
+> ┌─ mri devtools ─┐
 
 **Goal**: when working on an **existing repo** (not greenfield), produce a concise context
 document that the following skills will consume, to avoid false assumptions.

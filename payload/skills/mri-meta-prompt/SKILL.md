@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # Meta-prompt — vague → precise
 
+> ┌─ mri devtools ─┐
+
 Turn a fuzzy request into a **precise, structured prompt**, ready to paste into an agent.
 **Standalone** tool: use on demand, independently of the brainstorm→spec→implement flow.
 

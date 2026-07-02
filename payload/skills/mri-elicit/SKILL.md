@@ -3,10 +3,12 @@ name: mri-elicit
 description: >-
   Prompts reconsidering, refining, and improving the last produced output (yours or a doc).
   On-demand deepening/critique (Socratic, first principles, pre-mortem, red-team…).
-  Reimplemented from BMAD-METHOD (bmad-advanced-elicitation, MIT). Invoked by /mri-elicit.
+  Invoked by /mri-elicit.
 ---
 
 # mri-elicit — deepen/critique an output
+
+> ┌─ mri devtools ─┐
 
 **Goal**: improve the **last output** (a section of a brief/spec/plan, a decision, a piece of
 code) by applying an elicitation method, then feeding the improved version back in.

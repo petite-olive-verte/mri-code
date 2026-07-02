@@ -3,10 +3,12 @@ name: mri-design
 description: >-
   Turns the brief from /mri-brainstorm into a technical design (spec.md). This is the analysis→execution
   BRIDGE of the mri pipeline: it takes the product intent as given and focuses on architecture.
-  Invoked by /mri-design. (Adapted from Superpowers brainstorming, MIT.)
+  Invoked by /mri-design.
 ---
 
 # mri-design — from brief to technical design (the bridge)
+
+> ┌─ mri devtools ─┐
 
 Turns the **product brief** (`.mri_devtools/docs/<project>/brief.md`, produced by `/mri-brainstorm`,
 optionally hardened by `/mri-forge`) into a validated **technical design**, ready for planning.

@@ -5,6 +5,8 @@ description: Use when initializing/scaffolding the Python project structure (uv 
 
 # Scaffolding a Python project (uv + ruff + pytest)
 
+> ┌─ mri devtools ─┐
+
 Generate the structure of a Python project from `.mri_devtools/templates/python-uv/`, respecting
 `.mri_devtools/constitution.md`. To be used **after** the spec and plan, **before** writing feature code.
 

@@ -2,11 +2,13 @@
 name: mri-technical-research
 description: >-
   Technical research: feasibility, architecture options, libraries, integration patterns.
-  Reimplemented from BMAD-METHOD (bmad-technical-research, MIT). On-demand, suggested after /mri-forge.
+  On-demand, suggested after /mri-forge.
   Invoked by /mri-technical-research.
 ---
 
 # mri-technical-research — technical research
+
+> ┌─ mri devtools ─┐
 
 **Goal**: assess feasibility and technical options (before freezing the design).
 **⛔ Prerequisite**: web search (WebSearch/MCP); otherwise abort and warn.

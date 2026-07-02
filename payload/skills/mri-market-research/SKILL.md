@@ -2,11 +2,13 @@
 name: mri-market-research
 description: >-
   Market research (competition, customers, trends) on current web data with cited sources.
-  Reimplemented from BMAD-METHOD (bmad-market-research, MIT). On-demand, suggested after /mri-forge.
+  On-demand, suggested after /mri-forge.
   Invoked by /mri-market-research.
 ---
 
 # mri-market-research — market research
+
+> ┌─ mri devtools ─┐
 
 **Goal**: produce market research backed by current web data and **cited sources**,
 with a clear narrative. **Role**: research facilitator — you bring methodology + web research,

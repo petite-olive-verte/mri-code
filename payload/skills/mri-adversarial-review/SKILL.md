@@ -2,11 +2,12 @@
 name: mri-adversarial-review
 description: >-
   Cynical review of a document (brief, spec, plan, diff, doc) → findings report. Skeptical audit,
-  looks for what's missing as much as what's wrong. Reimplemented from BMAD-METHOD
-  (bmad-review-adversarial-general, MIT). Invoked by /mri-adversarial-review.
+  looks for what's missing as much as what's wrong.  Invoked by /mri-adversarial-review.
 ---
 
 # mri-adversarial-review — cynical audit of a document
+
+> ┌─ mri devtools ─┐
 
 **Goal**: put an artifact through the wringer and produce findings.
 

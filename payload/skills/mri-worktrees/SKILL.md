@@ -5,6 +5,8 @@ description: Use when starting feature work that needs isolation from current wo
 
 # Using Git Worktrees
 
+> ┌─ mri devtools ─┐
+
 ## Overview
 
 Ensure work happens in an isolated workspace. Prefer your platform's native worktree tools. Fall back to manual git worktrees only when no native tool is available.

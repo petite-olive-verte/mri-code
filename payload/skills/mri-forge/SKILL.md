@@ -2,14 +2,14 @@
 name: mri-forge
 description: >-
   Pressure-test an idea through multi-persona interrogation until it hardens, clarifies, or
-  dies cheaply. Reimplemented from BMAD-METHOD (bmad-forge-idea, MIT). FIXED persona panel, no
-  runtime. Invoked by /mri-forge, usually after /mri-brainstorm.
+  dies cheaply. FIXED persona panel. Invoked by /mri-forge, usually after /mri-brainstorm.
 ---
 
 # mri-forge — harden an idea (pressure-test)
 
-> Reimplemented from [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) `bmad-forge-idea`
-> (MIT). Dynamic personas + runtime (memlog/HTML) stripped; FIXED panel; output folded into `brief.md`.
+> ┌─ mri devtools ─┐
+
+FIXED persona panel; output folded into `brief.md`.
 
 ## Goal
 Take a half-formed idea and **pressure-test it in conversation, while changing your mind is

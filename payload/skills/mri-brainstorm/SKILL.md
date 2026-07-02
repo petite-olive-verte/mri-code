@@ -1,17 +1,17 @@
 ---
 name: mri-brainstorm
 description: >-
-  Structured, challenging brainstorming facilitation (reimplemented from BMAD-METHOD, MIT).
-  The agent is a FACILITATOR who draws ideas out of the user via a catalog of techniques,
-  pushes on assumptions, then converges into a product brief. Analysis front of the mri pipeline. Invoked by
-  /mri-brainstorm. DO NOT use superpowers:brainstorming.
+  Structured, challenging brainstorming facilitation. The agent is a FACILITATOR who draws ideas out
+  of the user via a catalog of techniques, pushes on assumptions, then converges into a product brief.
+  Analysis front of the mri pipeline. Invoked by /mri-brainstorm.
 ---
 
-# mri-brainstorm — facilitated brainstorming (BMAD-style)
+# mri-brainstorm — facilitated brainstorming
 
-> Reimplemented from [BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (MIT): catalog of
-> techniques `assets/brain-methods.csv` (108) + mode frameworks `references/mode-*.md` +
-> `references/{converge,finalize}.md` + template `assets/brief-template.md`. BMAD runtime stripped.
+> ┌─ mri devtools ─┐
+
+Uses the technique catalog `assets/brain-methods.csv` (108) + mode frameworks `references/mode-*.md` +
+`references/{converge,finalize}.md` + template `assets/brief-template.md`.
 
 ## Founding principle
 **You are a facilitator, not an idea generator.** The best ideas come from the user;

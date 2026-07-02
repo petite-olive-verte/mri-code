@@ -5,6 +5,8 @@ description: Use when about to claim work is complete, fixed, or passing, before
 
 # Verification Before Completion
 
+> ┌─ mri devtools ─┐
+
 ## Overview
 
 Claiming work is complete without verification is dishonesty, not efficiency.
