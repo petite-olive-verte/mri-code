@@ -1,10 +1,18 @@
-# mri-devtools — the `mri` module
+```
+ ███╗   ███╗██████╗ ██╗
+ ████╗ ████║██╔══██╗██║
+ ██╔████╔██║██████╔╝██║
+ ██║╚██╔╝██║██╔══██╗██║
+ ██║ ╚═╝ ██║██║  ██║██║
+ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝
+   devtools · idea → shipped
+```
+
+# mri-devtools
 
 A **command-driven** module that turns an idea into a Python project with a coding agent:
 `brainstorm → forge → design → devplan → scaffold → TDD implementation → review → finish`, with visual
-(MCP) feedback for web UIs. A self-contained curation of
-[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (analysis) and
-[Superpowers](https://github.com/obra/superpowers) (execution) — both MIT.
+(MCP) feedback for web UIs.
 
 This repo is **source-first**: the installable content lives in `payload/`; the installer at the root
 deploys it into a target project.
@@ -56,6 +64,5 @@ with **`/mri-resume`**. The full flow and optional commands are described in `AG
 Sources in `payload/`; internal docs in `dev/` (`MERGE_DESIGN.md`, `DECISIONS.md`, `BUILD_PLAN.md` —
 in French). Dogfood: `./install.sh .` (self-install into this repo; generated artifacts are gitignored).
 
-## Credits & license
-`LICENSE` (MIT). Derived from **Superpowers** (Jesse Vincent, MIT) and **BMAD-METHOD** (BMad Code LLC,
-MIT; "BMad™" is a trademark — hence the neutral `mri-` prefix).
+## License
+MIT — see `LICENSE`.

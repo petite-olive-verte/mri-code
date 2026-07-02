@@ -1,7 +1,7 @@
 {
   "name": "mri-devtools",
   "version": "0.1.0",
-  "description": "mri module — agentic pipeline (BMAD analysis × Superpowers execution) installable into a Python project",
+  "description": "mri devtools — agentic pipeline (analysis → design → TDD implementation) installable into a Python project",
   "type": "module",
   "bin": {
     "mri-devtools": "bin/install.mjs"
