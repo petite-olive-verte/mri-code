@@ -54,9 +54,9 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] `mri-verify` (← verification-before-completion, bonus : évite une réf pendante) ; `mri-worktrees` (← using-git-worktrees).
 
 ## Lot 3 — Challenge & on-demand
-- [ ] `mri-elicit` (← bmad-advanced-elicitation) ; `mri-adversarial-review` (← bmad-review-adversarial-general).
-- [ ] `mri-market-research` / `mri-domain-research` / `mri-technical-research`.
-- [ ] `mri-document-project` (brownfield, optionnel).
+- [x] `mri-elicit` (← bmad-advanced-elicitation) ; `mri-adversarial-review` (← bmad-review-adversarial-general).
+- [x] `mri-market-research` / `mri-domain-research` / `mri-technical-research`.
+- [x] `mri-document-project` (brownfield, optionnel).
 
 ## Lot 4 — État de pipeline & reprise
 - [ ] Schéma `progress.md`.
