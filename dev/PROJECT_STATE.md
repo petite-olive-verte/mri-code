@@ -1,18 +1,19 @@
 # État du projet — reprise de session
 
-> **À lire en premier par une nouvelle instance qui REPREND LE DÉVELOPPEMENT de la toolbox**
-> (≠ `AGENTS.md`, qui s'adresse à l'utilisateur d'un projet *généré* à partir du template).
-> Dernière mise à jour : 2026-06-28.
+> **À lire en premier par une nouvelle instance qui REPREND LE DÉVELOPPEMENT du module.**
+> Dernière mise à jour : 2026-07-02.
+> ⚠️ Ce fichier contient de l'HISTORIQUE (sections « ancien état », carte pré-reorg…). La réalité
+> actuelle est décrite dans le bloc « Statut » ci-dessous + `dev/MERGE_DESIGN.md` + `dev/BUILD_PLAN.md`.
 
-## Ce qu'est ce projet
+## Ce qu'est ce projet (actuel)
 
-Un **repo template GitHub piloté par commandes** : *Use this template*, on ouvre un agent dans le
-dossier, un **message d'accueil** présente les commandes, et l'utilisateur pilote le flux
-(idée → spec → plan → scaffold → implémentation TDD → review), avant contrôle humain. Orienté one-shot.
-
-Moteur : [Superpowers](https://github.com/obra/superpowers) (MIT, **submodule** dans
-`.toolbox/superpowers`). Notre couche : amorçage command-driven, feedback MCP, scaffold Python
-éditable, constitution, meta-prompt. **Décisions fermes : on garde le submodule ; mode command-driven.**
+**`mri-devtools`** : un **repo source-first distribuable** (pas un template). Contenu installable dans
+`payload/`, installeur `bin/install.mjs`/`install.sh` (+ `package.json`) qui **copie** le module dans un
+projet cible (`.claude/` = vrais fichiers, `.mri_devtools/` = config+constitution+models+templates+docs).
+Installation : `npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git` (privé/SSH) ou clone+`install.sh`,
+avec config `--lang`/`--doc-lang`/`--user`. **Payload entièrement en anglais** ; langue de l'agent
+configurable. Le **submodule Superpowers a été retiré** (skills déjà extraites ; attribution dans `LICENSE`).
+Méthodo = module `mri` (fusion BMAD analyse × Superpowers exécution). Voir Décisions 9-12.
 
 ## Statut : MODULE « mri » CONSTRUIT (fusion BMAD × Superpowers) — reste l'E2E live
 

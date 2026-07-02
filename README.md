@@ -1,54 +1,61 @@
-# dev-toolbox — le module `mri`
+# mri-devtools — the `mri` module
 
-Module **piloté par commandes** qui transforme une idée en projet Python avec un agent de code :
-`brainstorm → forge → design → devplan → scaffold → implémentation TDD → review → finish`, avec
-feedback visuel (MCP) pour les UI web. Curation auto-portante de
-[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (analyse) et
-[Superpowers](https://github.com/obra/superpowers) (exécution) — tous deux MIT.
+A **command-driven** module that turns an idea into a Python project with a coding agent:
+`brainstorm → forge → design → devplan → scaffold → TDD implementation → review → finish`, with visual
+(MCP) feedback for web UIs. A self-contained curation of
+[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) (analysis) and
+[Superpowers](https://github.com/obra/superpowers) (execution) — both MIT.
 
-Ce repo est **source-first** : le contenu installable vit dans `payload/`, l'installeur à la racine le
-déploie dans un projet cible.
+This repo is **source-first**: the installable content lives in `payload/`; the installer at the root
+deploys it into a target project.
 
-## Installation dans un projet (repo privé → collaborateurs)
+## Install into a project (private repo → collaborators)
 
-**Une commande (recommandé, non-curl, via SSH) :**
+**One command (recommended, no curl, over SSH):**
 ```bash
-cd mon-projet
-npx git+ssh://git@github.com/MatioRIGARD/dev-toolbox.git          # installe dans le dossier courant
-# épingler une version :  npx git+ssh://git@github.com/MatioRIGARD/dev-toolbox.git#v0.1.0
+cd my-project
+npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git                       # install into the current dir
+# pin a version:  npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git#v0.1.0
+# with config:    npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git -- --lang English --doc-lang English --user Alice
 ```
-> `curl … | bash` **ne marche pas** ici : le repo est privé (le raw exige une auth). `npx` via `git+ssh`
-> utilise la **clé SSH** du collaborateur (accès déjà accordé) — aucun token à gérer.
+> `curl … | bash` does **not** work here: the repo is private (raw needs auth). `npx` over `git+ssh`
+> uses the collaborator's **SSH key** (access already granted) — no token to manage.
 
-**Alternative sans Node (clone + script) :**
+**Alternative without Node (clone + script):**
 ```bash
-git clone git@github.com:MatioRIGARD/dev-toolbox.git
-./dev-toolbox/install.sh mon-projet        # ou: cd mon-projet && /chemin/dev-toolbox/install.sh
+git clone git@github.com:MatioRIGARD/mri-devtools.git
+./mri-devtools/install.sh my-project --lang English --user Alice
 ```
 
-**Si Claude ne découvre pas les skills/commandes liées** (symlinks) : relance avec `--copy`
-(`npx … -- --copy` ou `./install.sh mon-projet --copy`).
+### Configuration (asked interactively, or via flags)
+| Flag | Meaning | Default |
+|---|---|---|
+| `--lang` | language the agent speaks to you | `English` |
+| `--doc-lang` | language of generated documents (brief/spec/plan…) | = `--lang` |
+| `--user` | how the agent addresses you | (unset) |
 
-## Ce qui est installé dans la cible
+Values are written to `.mri_devtools/config.json` and injected into the target `AGENTS.md`. The skills
+themselves are always in English; only the agent's communication/document language is configurable.
+
+## What gets installed (copy only — no symlink)
 ```
-mon-projet/
-  AGENTS.md  CLAUDE.md  .mcp.json      ← entrées (imposées à la racine par Claude Code)
-  .claude/  commands/ (à plat) · skills/ · hooks/ · settings.json   ← câblage (→ .mri_devtools/)
-  .mri_devtools/                       ← LE MODULE + docs/<projet>/ (brief/spec/plan/progress générés)
-  .agents/skills/                      ← miroir portable (Codex)
+my-project/
+  AGENTS.md  CLAUDE.md  .mcp.json      ← entries (required at root by Claude Code)
+  .claude/  commands/ (flat) · skills/ · hooks/ · settings.json   ← real files (copied)
+  .mri_devtools/                       ← config.json · constitution.md · models.md · templates/ · docs/<project>/
+  .agents/skills/                      ← portable mirror (Codex)
 ```
-La racine de ton projet reste **propre** : seuls ton code + les dotfiles.
+Your project root stays **clean**: only your code + dotfiles. The install deposits **only the
+installation**, not the whole repo (no `dev/`, no `bin/`, no `.git`).
 
-## Utilisation
-À l'ouverture d'un agent, le message d'accueil liste les commandes. Démarre par **`/mri-brainstorm`**,
-reprends via **`/mri-resume`**. Le flux complet et les commandes facultatives sont décrits dans
-`payload/AGENTS.md` (copié en `AGENTS.md` dans la cible) et `dev/MERGE_DESIGN.md`.
+## Usage
+When you open an agent, the welcome message lists the commands. Start with **`/mri-brainstorm`**, resume
+with **`/mri-resume`**. The full flow and optional commands are described in `AGENTS.md`.
 
-## Développer le module
-Sources dans `payload/` ; méta-docs dans `dev/` (`MERGE_DESIGN.md`, `DECISIONS.md`, `BUILD_PLAN.md`).
-Dogfood : `./install.sh .` (self-install dans ce repo ; artefacts gitignorés). Le submodule
-`dev/superpowers` est la **source d'extraction** (non distribuée).
+## Develop the module
+Sources in `payload/`; internal docs in `dev/` (`MERGE_DESIGN.md`, `DECISIONS.md`, `BUILD_PLAN.md` —
+in French). Dogfood: `./install.sh .` (self-install into this repo; generated artifacts are gitignored).
 
-## Crédits & licence
-`LICENSE` (MIT). Dérivé de **Superpowers** (Jesse Vincent, MIT) et **BMAD-METHOD** (BMad Code LLC, MIT ;
-« BMad™ » marque déposée — d'où le préfixe neutre `mri-`).
+## Credits & license
+`LICENSE` (MIT). Derived from **Superpowers** (Jesse Vincent, MIT) and **BMAD-METHOD** (BMad Code LLC,
+MIT; "BMad™" is a trademark — hence the neutral `mri-` prefix).

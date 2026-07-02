@@ -1,5 +1,11 @@
 # Plan de tâches — Construction du module « mri » (fusion BMAD × Superpowers)
 
+> **MàJ v0.1.0 (finalisation distribution)** : payload **entièrement en anglais** ; langue de
+> l'agent **configurable** à l'install (`--lang`/`--doc-lang`/`--user` → `config.json` + placeholders) ;
+> installeur **copy-only** (plus de symlink) ; **submodule Superpowers retiré** ; companion visuel de
+> mri-design **supprimé** (doublon MCP + branding tiers) ; repo/paquet renommés **`mri-devtools`**.
+
+
 > **MàJ layout (v0.1.0)** : après les Lots 0-8, le repo est passé **source-first** — contenu dans
 > `payload/`, méta-docs dans `dev/`, installeur `bin/install.mjs`/`install.sh` + `package.json`
 > (`npx git+ssh://…` en privé). Les chemins `.claude/`/`.toolbox/` ci-dessous décrivent la **cible
