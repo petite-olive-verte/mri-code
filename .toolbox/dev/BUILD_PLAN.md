@@ -70,7 +70,7 @@ Le submodule `superpowers` reste source d'extraction (dev-only), non embarqué.
 - [x] MAJ `.agents/skills/*` (19 symlinks), `AGENTS.md`, `CLAUDE.md`, `README.md` ; plugin Superpowers **désactivé** dans `settings.json`.
 
 ## Lot 6 — Suggestions de modèle
-- [ ] `models.md` éditable + ligne « 💡 modèle » en fin de commande.
+- [x] `.toolbox/models.md` éditable + ligne « 💡 modèle » en fin de chaque commande (faite au Lot 5).
 
 ## Lot 7 — Packaging `.mri_devtools/` + installeur
 - [ ] Créer l'arbo `.mri_devtools/` + déplacer les sources ; `.claude/` = pointeurs.
