@@ -35,7 +35,8 @@
 ## Structure & naming
 - `tests/` **mirrors** `src/` (one module ↔ one test file `test_<module>.py`).
 - `snake_case` for files/functions/variables, `PascalCase` for classes.
-- Documentation and spec artifacts in `docs/` (`docs/specs/<feature>/`).
+- Pipeline artifacts (brief, spec, plan, progress) live in `.mri_devtools/docs/<project>/` (written by
+  the `mri-*` skills). The project's own documentation lives in `docs/`.
 
 ## Workflow
 - Small, atomic commits, with an imperative message describing the *why*.

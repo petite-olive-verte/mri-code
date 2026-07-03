@@ -56,7 +56,7 @@ digraph process {
         "Write diff file, dispatch task reviewer subagent (./task-reviewer-prompt.md)" [shape=box];
         "Task reviewer reports spec ✅ and quality approved?" [shape=diamond];
         "Dispatch fix subagent for Critical/Important findings" [shape=box];
-        "Mark task complete in todo list and progress ledger" [shape=box];
+        "Mark task complete in todo list and task ledger" [shape=box];
     }
 
     "Read plan, note context and global constraints, create todos" [shape=box];
@@ -73,8 +73,8 @@ digraph process {
     "Write diff file, dispatch task reviewer subagent (./task-reviewer-prompt.md)" -> "Task reviewer reports spec ✅ and quality approved?";
     "Task reviewer reports spec ✅ and quality approved?" -> "Dispatch fix subagent for Critical/Important findings" [label="no"];
     "Dispatch fix subagent for Critical/Important findings" -> "Write diff file, dispatch task reviewer subagent (./task-reviewer-prompt.md)" [label="re-review"];
-    "Task reviewer reports spec ✅ and quality approved?" -> "Mark task complete in todo list and progress ledger" [label="yes"];
-    "Mark task complete in todo list and progress ledger" -> "More tasks remain?";
+    "Task reviewer reports spec ✅ and quality approved?" -> "Mark task complete in todo list and task ledger" [label="yes"];
+    "Mark task complete in todo list and task ledger" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer subagent (../mri-review/code-reviewer.md)" [label="no"];
     "Dispatch final code reviewer subagent (../mri-review/code-reviewer.md)" -> "Use mri-finish";
@@ -192,7 +192,7 @@ final whole-branch review. When you fill a reviewer template:
   was pasted history. A fresh subagent needs its task, the interfaces it
   touches, and the global constraints. Nothing else.
 - Dispatch fix subagents for Critical and Important findings. Record Minor
-  findings in the progress ledger as you go, and point the final
+  findings in the task ledger as you go, and point the final
   whole-branch review at that list so it can triage which must be fixed
   before merge. A roll-up nobody reads is a silent discard.
 - A finding labeled plan-mandated — or any finding that conflicts with
@@ -251,9 +251,12 @@ sequences — the single most expensive failure observed. Track progress in
 a ledger file, not only in todos.
 
 - At skill start, check for a ledger:
-  `cat "$(git rev-parse --show-toplevel)/.mri_devtools/state/sdd/progress.md"`. Tasks listed there
+  `cat "$(git rev-parse --show-toplevel)/.mri_devtools/state/sdd/task-ledger.md"`. Tasks listed there
   as complete are DONE — do not re-dispatch them; resume at the first task
   not marked complete.
+
+  (Distinct from the pipeline `progress.md` in `docs/<project>/`, which tracks *phases*.
+  This task ledger tracks *tasks* within the implement phase and is git-ignored scratch.)
 - When a task's review comes back clean, append one line to the ledger in
   the same message as your other bookkeeping:
   `Task N: complete (commits <base7>..<head7>, review clean)`.
@@ -381,7 +384,7 @@ Done!
   (`scripts/review-package BASE HEAD`) and name the printed path in the
   prompt
 - Move to next task while the review has open Critical/Important issues
-- Re-dispatch a task the progress ledger already marks complete — check
+- Re-dispatch a task the task ledger already marks complete — check
   the ledger (and `git log`) after any compaction or resume
 
 **If subagent asks questions:**

@@ -19,7 +19,12 @@ Resume the work in progress on this project.
 3. **Re-enter** the **`[~]` in-progress step** (or, failing that, the first **`[ ]`** after the last `[x]`):
    reload the artifacts already on disk (`brief.md`, `spec.md`, `plan.md`…) and **run the matching
    skill** to continue. If the step is `implement`, delegate the fine-grained detail to the checkboxes in
-   `plan.md` (and to `.mri_devtools/state/sdd/` if present).
+   `plan.md` and to the **task ledger** `.mri_devtools/state/sdd/task-ledger.md` if present (tasks marked
+   complete there are DONE — do not redo them).
+
+**Two levels of state (don't confuse them):** `docs/<project>/progress.md` tracks **phases**
+(brainstorm→finish) — this is what you read here. `state/sdd/task-ledger.md` tracks **tasks** inside the
+implement phase (git-ignored scratch, owned by `mri-implement`).
 4. Confirm the resumption in one sentence before continuing.
 
 ## `progress.md` schema (canonical — every skill reads/writes it this way)
