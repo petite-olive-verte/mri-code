@@ -4,13 +4,16 @@ You are open in a repo that turns an idea into a Python project — from brainst
 before human control. The methodology is the **`mri` module** (self-contained skills in
 `.claude/skills/`). Generated artifacts live in `.mri_devtools/docs/<project>/`.
 
-## Language & user (configured at install time)
-- **Communicate with the user in {{COMMUNICATION_LANGUAGE}}.**
-- **Write generated documents (brief, spec, plan, research…) in {{DOCUMENT_LANGUAGE}}.**
-- **Address the user {{USER_ADDRESS}}.**
-- The skills and this file are written in English, but you **speak to the user in the configured
-  language** above. These values were fixed at install time (recorded in `.mri_devtools/config.json`);
-  to change them, **re-run the installer** or edit them directly in this file.
+## Language & user
+- **Source of truth: `.mri_devtools/config.json`.** At the **start of each session**, read it and apply:
+  `communication_language` (speak to the user in it), `document_language` (write generated
+  brief/spec/plan/research in it), and `user_name` (address the user by it — or address them directly if
+  empty). If the file is missing or unreadable, fall back to the defaults below.
+- **Default communication language: {{COMMUNICATION_LANGUAGE}}.**
+- **Default document language: {{DOCUMENT_LANGUAGE}}.**
+- **Default: address the user {{USER_ADDRESS}}.**
+- The skills and this file are written in English; you **speak to the user in the configured language**.
+  To reconfigure, **edit `.mri_devtools/config.json`** (applies next session) or re-run the installer.
 
 ## Mode: COMMAND-DRIVEN (important)
 - **Each step is a skill invoked as a slash command** `/mri-<name>`. The user-facing skills carry
