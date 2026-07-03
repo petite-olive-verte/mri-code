@@ -286,6 +286,11 @@ These techniques are part of systematic debugging and available in this director
 - **`defense-in-depth.md`** - Add validation at multiple layers after finding root cause
 - **`condition-based-waiting.md`** - Replace arbitrary timeouts with condition polling
 
+**Test pollution / order-dependent failures (a test that only fails in the suite):** use pytest's native
+tools rather than a bespoke bisect — run the test in isolation (`pytest path::test`), disable random
+ordering (`pytest -p no:randomly`) or replay a seed with `pytest-randomly`, and use `pytest --lf` /
+`-x` to narrow down. Compare isolated vs in-suite runs to find the polluting test.
+
 **Related skills:**
 - **mri-tdd** - For creating failing test case (Phase 4, Step 1)
 - **mri-verify** - Verify fix worked before claiming success
