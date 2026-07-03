@@ -32,6 +32,18 @@ back Superpowers extrait/adapté), 17 commandes `payload/commands/mri-*.md`, rep
 Commits clés du build mri : `30cf002` (lot 0) → `db901e1` (lot 7). Historique antérieur (A1/A2/build
 initial) conservé plus bas.
 
+> **MàJ 2026-07-03 (fait autorité sur les points ci-dessous).**
+> - **Plus de dossier `payload/commands/`** : les **skills SONT les slash commands** `/mri-*`. Les 17
+>   skills d'entrée portent `disable-model-invocation: true` (mode command-driven strict) ; seuls
+>   `mri-tdd`/`mri-verify`/`mri-worktrees` restent auto-invocables. (20 skills au total.)
+> - **Plan mode intégré** : `mri-design` & `mri-devplan` entrent en plan mode natif (`EnterPlanMode`),
+>   gate = `ExitPlanMode`. `mri-devplan` produit un plan **contrat** (pas le code complet). Voir Décision 14.
+> - **Revue complète faite** (Décision 15) : DeepSeek retiré → Sonnet ; un seul `progress.md` (phases) +
+>   ledger `state/sdd/task-ledger.md` (tâches) ; titres H1 maison ; `welcome.sh` robuste sans `python3` ;
+>   `find-polluter.sh` + fixtures d'éval supprimés ; `mri-scaffold-python` corrigé (sed en staging isolé).
+> - **Reprise** : le pipeline détecte l'état via `.mri_devtools/docs/<project>/progress.md` (plus
+>   `docs/specs/*/tasks.md`). Reste toujours : **E2E live** + **push distant** (utilisateur).
+
 ### Archive — état antérieur (pré-mri)
 ```
 c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build initial

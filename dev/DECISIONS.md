@@ -204,6 +204,37 @@ non distribué) garde l'historique honnête des origines.
 
 ---
 
+## Décision 14 — `mri-devplan` = plan léger + plan mode natif (au lieu du moteur Superpowers)
+
+**Fait.** Le `plan.md` ne contient plus le **code d'implémentation complet** (héritage Superpowers, pensé
+pour des sous-agents amnésiques-transcripteurs) : il porte le **contrat** — fichiers, blocs `Interfaces`
+(signatures), **code de test**, intention. Exception gardée : les **surfaces de contrat partagées**
+(types, dataclasses, Protocols, signatures publiques dont plusieurs tâches dépendent) sont montrées en
+vrai code verbatim. **Pourquoi** : notre implémenteur (`mri-implement`) *raisonne* en TDD ; pré-écrire le
+code le duplique, le fait drifter et coûte cher. En plus, `mri-design` et `mri-devplan` **entrent
+eux-mêmes en plan mode natif** (`EnterPlanMode`) et utilisent `ExitPlanMode` comme **porte de
+validation** — on garde le raisonnement/gate natif (meilleur) plutôt que de le concurrencer. Règle
+globale AGENTS.md : à chaque transition, suggérer aussi le **modèle** de la commande suivante.
+
+## Décision 15 — Revue complète (cohérence, robustesse, nettoyage)
+
+**Fait.** Suite aux retours E2E, revue via 3 audits (flux/frontmatter, propreté/chemins, wiring/install).
+- **DeepSeek retiré** partout (provider non intégrable simplement) → **Sonnet** ; section Providers révisée.
+- **État unifié** : un seul `progress.md` (suivi de **phases**, `docs/<project>/`) ; le ledger d'exécution
+  SDD devient `state/sdd/task-ledger.md` (**tâches**). Contradiction `docs/specs/` de la constitution levée.
+- **Titres H1** uniformisés au style maison `# mri-<name> — …` ; auto-référence cassée et workflow fantôme
+  « Executing Plans » supprimés ; recherches + `adversarial-review` rendus atteignables ; fins de step
+  nommées + modèle.
+- **Robustesse** : `welcome.sh` échappeur JSON portable (ne casse plus sans `python3`) ; `ty`/`mypy` dans
+  les permissions ; prose `config.json` honnête ; scripts de skill re-chmodés à l'install.
+- **Nettoyage** : `find-polluter.sh` (script `npm test` inadapté Python) + fixtures d'éval héritées retirés.
+- **Bug de stack corrigé plus tôt** : `mri-scaffold-python` faisait un `sed -i` global qui corrompait les
+  templates partagés → rendu en staging isolé.
+- **Signalé, non traité** (le plan interdit la refonte des skills) : `mri-debug/condition-based-waiting.md`
+  (+ `.ts`) et `defense-in-depth.md` utilisent des exemples **TypeScript** dans un toolbox Python.
+
+---
+
 ## Synthèse des choix
 
 | Sujet | Décision |
