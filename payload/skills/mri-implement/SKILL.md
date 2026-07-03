@@ -425,4 +425,4 @@ the next step of the pipeline.
 ---
 **User input:** $ARGUMENTS
 
-💡 **Suggested model:** Sonnet / DeepSeek-v4 (code volume) — see `.mri_devtools/models.md`.
+💡 **Suggested model:** Sonnet (code volume) — see `.mri_devtools/models.md`.

@@ -306,4 +306,4 @@ the next step of the pipeline.
 ---
 **User input:** $ARGUMENTS
 
-💡 **Suggested model:** Sonnet / DeepSeek-v4 (Opus if the cause is stubborn) — see `.mri_devtools/models.md`.
+💡 **Suggested model:** Sonnet (Opus if the cause is stubborn) — see `.mri_devtools/models.md`.

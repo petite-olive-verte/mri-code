@@ -13,15 +13,15 @@
 | `/mri-elicit`, `/mri-adversarial-review` | critique / audit | **Opus** | depth of critique |
 | `/mri-meta-prompt` | meta-prompting | **Opus** | precise reformulation |
 | `/mri-*-research` | web research | **Sonnet** | fast, sourced synthesis |
-| `/mri-scaffold-python` | mechanical | **Sonnet / DeepSeek-v4** | deterministic, little reasoning |
-| `/mri-implement` | high-volume code (TDD) | **Sonnet / DeepSeek-v4** | economical, iterative |
-| `/mri-debug` | debugging | **Sonnet / DeepSeek-v4** | short cycles; Opus for a stubborn cause |
+| `/mri-scaffold-python` | mechanical | **Sonnet** | deterministic, little reasoning |
+| `/mri-implement` | high-volume code (TDD) | **Sonnet** | economical, iterative |
+| `/mri-debug` | debugging | **Sonnet** | short cycles; Opus for a stubborn cause |
 | `/mri-review` | code review | **Sonnet** (or **Opus** if demanding) | critical reading |
 | `/mri-finish` | git integration | any | mechanical |
 
 ## Providers
-- **Opus / Sonnet**: native Claude Code (`/model`).
-- **DeepSeek-v4**: excellent cost/efficiency ratio for code — to be added as a provider in Claude
-  Code (see the provider config). A good default "arm" when budget matters.
+- **Opus / Sonnet**: native Claude Code — switch with `/model`.
+- Principle: **Opus** for architecture/reasoning steps, **Sonnet** for high-volume code and mechanical
+  work. Adjust the table to your own budget and providers.
 
 > Nothing is automatic: these are *suggestions*. Switch models with `/model` if you wish.

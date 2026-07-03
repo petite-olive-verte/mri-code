@@ -58,7 +58,7 @@ For a web UI, use the MCP servers (`.mcp.json`): **Playwright** (drive/test) + *
 
 ## Model suggestions
 At the end of each step, each command suggests a model (not enforced) per `.mri_devtools/models.md`
-(architecture/brainstorm → Opus; code → Sonnet/DeepSeek; etc.).
+(architecture/brainstorm → Opus; code → Sonnet; etc.).
 
 ## Priority
 1. User instructions (this file, `.mri_devtools/constitution.md`, direct requests).

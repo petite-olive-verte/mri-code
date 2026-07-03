@@ -188,8 +188,8 @@ Once the user **approves** the plan (via ExitPlanMode, or inline if plan mode wa
 2. **Commit** the plan.
 3. Hand off to the next step (name the suggested model per `.mri_devtools/models.md`):
    - New project still needing a skeleton → "**Next step → `/mri-scaffold-python`** (suggested model:
-     **Sonnet / DeepSeek-v4**)".
-   - Otherwise → "**Next step → `/mri-implement`** (suggested model: **Sonnet / DeepSeek-v4**)".
+     **Sonnet**)".
+   - Otherwise → "**Next step → `/mri-implement`** (suggested model: **Sonnet**)".
 
 `mri-implement` is the execution skill: a fresh subagent per task + two-stage review, driven by the
 plan's checkboxes. Do not execute it yourself — the user launches it.

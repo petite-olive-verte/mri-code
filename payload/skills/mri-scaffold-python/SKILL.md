@@ -77,4 +77,4 @@ translating the **spec's acceptance criteria** into tests that fail first.
 ---
 **User input:** $ARGUMENTS
 
-💡 **Suggested model:** Sonnet / DeepSeek-v4 (mechanical) — see `.mri_devtools/models.md`.
+💡 **Suggested model:** Sonnet (mechanical) — see `.mri_devtools/models.md`.
