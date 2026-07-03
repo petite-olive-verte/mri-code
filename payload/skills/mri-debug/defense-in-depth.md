@@ -20,96 +20,103 @@ Different layers catch different cases:
 ## The Four Layers
 
 ### Layer 1: Entry Point Validation
-**Purpose:** Reject obviously invalid input at API boundary
+**Purpose:** Reject obviously invalid input at the API boundary
 
-```typescript
-function createProject(name: string, workingDirectory: string) {
-  if (!workingDirectory || workingDirectory.trim() === '') {
-    throw new Error('workingDirectory cannot be empty');
-  }
-  if (!existsSync(workingDirectory)) {
-    throw new Error(`workingDirectory does not exist: ${workingDirectory}`);
-  }
-  if (!statSync(workingDirectory).isDirectory()) {
-    throw new Error(`workingDirectory is not a directory: ${workingDirectory}`);
-  }
-  // ... proceed
-}
+```python
+from pathlib import Path
+
+
+def create_project(name: str, working_directory: str) -> None:
+    if not working_directory or not working_directory.strip():
+        raise ValueError("working_directory cannot be empty")
+    wd = Path(working_directory)
+    if not wd.exists():
+        raise ValueError(f"working_directory does not exist: {working_directory}")
+    if not wd.is_dir():
+        raise ValueError(f"working_directory is not a directory: {working_directory}")
+    # ... proceed
 ```
 
 ### Layer 2: Business Logic Validation
 **Purpose:** Ensure data makes sense for this operation
 
-```typescript
-function initializeWorkspace(projectDir: string, sessionId: string) {
-  if (!projectDir) {
-    throw new Error('projectDir required for workspace initialization');
-  }
-  // ... proceed
-}
+```python
+def initialize_workspace(project_dir: str, session_id: str) -> None:
+    if not project_dir:
+        raise ValueError("project_dir required for workspace initialization")
+    # ... proceed
 ```
 
 ### Layer 3: Environment Guards
 **Purpose:** Prevent dangerous operations in specific contexts
 
-```typescript
-async function gitInit(directory: string) {
-  // In tests, refuse git init outside temp directories
-  if (process.env.NODE_ENV === 'test') {
-    const normalized = normalize(resolve(directory));
-    const tmpDir = normalize(resolve(tmpdir()));
+```python
+import os
+import tempfile
+from pathlib import Path
 
-    if (!normalized.startsWith(tmpDir)) {
-      throw new Error(
-        `Refusing git init outside temp dir during tests: ${directory}`
-      );
-    }
-  }
-  // ... proceed
-}
+
+def git_init(directory: str) -> None:
+    # In tests, refuse `git init` outside temp directories.
+    if os.environ.get("PYTEST_CURRENT_TEST"):
+        target = Path(directory).resolve()
+        tmp = Path(tempfile.gettempdir()).resolve()
+        if tmp not in target.parents and target != tmp:
+            raise RuntimeError(
+                f"Refusing git init outside temp dir during tests: {directory}"
+            )
+    # ... proceed
 ```
 
 ### Layer 4: Debug Instrumentation
 **Purpose:** Capture context for forensics
 
-```typescript
-async function gitInit(directory: string) {
-  const stack = new Error().stack;
-  logger.debug('About to git init', {
-    directory,
-    cwd: process.cwd(),
-    stack,
-  });
-  // ... proceed
-}
+```python
+import logging
+import os
+import traceback
+
+logger = logging.getLogger(__name__)
+
+
+def git_init(directory: str) -> None:
+    logger.debug(
+        "About to git init",
+        extra={
+            "directory": directory,
+            "cwd": os.getcwd(),
+            "stack": "".join(traceback.format_stack()),
+        },
+    )
+    # ... proceed
 ```
 
 ## Applying the Pattern
 
 When you find a bug:
 
-1. **Trace the data flow** - Where does bad value originate? Where used?
-2. **Map all checkpoints** - List every point data passes through
+1. **Trace the data flow** - Where does the bad value originate? Where is it used?
+2. **Map all checkpoints** - List every point the data passes through
 3. **Add validation at each layer** - Entry, business, environment, debug
 4. **Test each layer** - Try to bypass layer 1, verify layer 2 catches it
 
-## Example from Session
+## Example from a Session
 
-Bug: Empty `projectDir` caused `git init` in source code
+Bug: an empty `project_dir` caused `git init` to run in the source tree.
 
 **Data flow:**
 1. Test setup → empty string
-2. `Project.create(name, '')`
-3. `WorkspaceManager.createWorkspace('')`
-4. `git init` runs in `process.cwd()`
+2. `create_project(name, "")`
+3. `initialize_workspace("", ...)`
+4. `git init` runs in `os.getcwd()`
 
 **Four layers added:**
-- Layer 1: `Project.create()` validates not empty/exists/writable
-- Layer 2: `WorkspaceManager` validates projectDir not empty
-- Layer 3: `WorktreeManager` refuses git init outside tmpdir in tests
-- Layer 4: Stack trace logging before git init
+- Layer 1: `create_project()` validates not empty / exists / is a directory
+- Layer 2: `initialize_workspace()` validates `project_dir` not empty
+- Layer 3: environment guard refuses `git init` outside `tempfile.gettempdir()` in tests
+- Layer 4: stack-trace logging before `git init`
 
-**Result:** All 1847 tests passed, bug impossible to reproduce
+**Result:** the whole suite passed and the bug became impossible to reproduce.
 
 ## Key Insight
 

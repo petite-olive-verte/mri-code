@@ -10,106 +10,112 @@ Flaky tests often guess at timing with arbitrary delays. This creates race condi
 
 ```dot
 digraph when_to_use {
-    "Test uses setTimeout/sleep?" [shape=diamond];
+    "Test uses time.sleep()?" [shape=diamond];
     "Testing timing behavior?" [shape=diamond];
-    "Document WHY timeout needed" [shape=box];
+    "Document WHY the sleep is needed" [shape=box];
     "Use condition-based waiting" [shape=box];
 
-    "Test uses setTimeout/sleep?" -> "Testing timing behavior?" [label="yes"];
-    "Testing timing behavior?" -> "Document WHY timeout needed" [label="yes"];
+    "Test uses time.sleep()?" -> "Testing timing behavior?" [label="yes"];
+    "Testing timing behavior?" -> "Document WHY the sleep is needed" [label="yes"];
     "Testing timing behavior?" -> "Use condition-based waiting" [label="no"];
 }
 ```
 
 **Use when:**
-- Tests have arbitrary delays (`setTimeout`, `sleep`, `time.sleep()`)
+- Tests have arbitrary delays (`time.sleep(...)`)
 - Tests are flaky (pass sometimes, fail under load)
-- Tests timeout when run in parallel
-- Waiting for async operations to complete
+- Tests time out when run in parallel (e.g. `pytest -n auto`)
+- Waiting for async / background work to complete
 
 **Don't use when:**
 - Testing actual timing behavior (debounce, throttle intervals)
-- Always document WHY if using arbitrary timeout
+- Always document WHY if using an arbitrary timeout
 
 ## Core Pattern
 
-```typescript
-// ❌ BEFORE: Guessing at timing
-await new Promise(r => setTimeout(r, 50));
-const result = getResult();
-expect(result).toBeDefined();
+```python
+# ❌ BEFORE: guessing at timing
+time.sleep(0.05)
+result = get_result()
+assert result is not None
 
-// ✅ AFTER: Waiting for condition
-await waitFor(() => getResult() !== undefined);
-const result = getResult();
-expect(result).toBeDefined();
+# ✅ AFTER: waiting for the condition
+result = wait_for(lambda: get_result(), "result to be produced")
+assert result is not None
 ```
 
 ## Quick Patterns
 
 | Scenario | Pattern |
 |----------|---------|
-| Wait for event | `waitFor(() => events.find(e => e.type === 'DONE'))` |
-| Wait for state | `waitFor(() => machine.state === 'ready')` |
-| Wait for count | `waitFor(() => items.length >= 5)` |
-| Wait for file | `waitFor(() => fs.existsSync(path))` |
-| Complex condition | `waitFor(() => obj.ready && obj.value > 10)` |
+| Wait for event | `wait_for(lambda: next((e for e in events if e.type == "DONE"), None), "DONE event")` |
+| Wait for state | `wait_for(lambda: machine.state == "ready", "machine ready")` |
+| Wait for count | `wait_for(lambda: len(items) >= 5, "5 items")` |
+| Wait for file | `wait_for(lambda: path.exists(), f"{path} to exist")` |
+| Complex condition | `wait_for(lambda: obj.ready and obj.value > 10, "obj ready with value > 10")` |
 
 ## Implementation
 
-Generic polling function:
-```typescript
-async function waitFor<T>(
-  condition: () => T | undefined | null | false,
-  description: string,
-  timeoutMs = 5000
-): Promise<T> {
-  const startTime = Date.now();
+Generic polling helper (put it in `tests/conftest.py` or a test util module):
 
-  while (true) {
-    const result = condition();
-    if (result) return result;
+```python
+import time
+from typing import Callable, TypeVar
 
-    if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Timeout waiting for ${description} after ${timeoutMs}ms`);
-    }
+T = TypeVar("T")
 
-    await new Promise(r => setTimeout(r, 10)); // Poll every 10ms
-  }
-}
+
+def wait_for(
+    condition: Callable[[], T],
+    description: str,
+    timeout: float = 5.0,
+    interval: float = 0.01,
+) -> T:
+    """Poll `condition` until it returns a truthy value, then return it.
+
+    Raises TimeoutError with `description` if `timeout` seconds elapse first.
+    """
+    deadline = time.monotonic() + timeout
+    while True:
+        result = condition()
+        if result:
+            return result
+        if time.monotonic() > deadline:
+            raise TimeoutError(f"Timeout waiting for {description} after {timeout}s")
+        time.sleep(interval)  # poll every 10ms by default
 ```
 
-See `condition-based-waiting-example.ts` in this directory for complete implementation with domain-specific helpers (`waitForEvent`, `waitForEventCount`, `waitForEventMatch`) from actual debugging session.
+See `condition-based-waiting-example.py` in this directory for domain-specific helpers
+(`wait_for_event`, `wait_for_event_count`, `wait_for_event_match`) built on top of `wait_for`.
 
 ## Common Mistakes
 
-**❌ Polling too fast:** `setTimeout(check, 1)` - wastes CPU
-**✅ Fix:** Poll every 10ms
+**❌ Polling too fast:** `interval=0.0001` — wastes CPU
+**✅ Fix:** Poll every ~10ms (`interval=0.01`)
 
-**❌ No timeout:** Loop forever if condition never met
-**✅ Fix:** Always include timeout with clear error
+**❌ No timeout:** loop forever if the condition is never met
+**✅ Fix:** always pass a timeout with a clear message
 
-**❌ Stale data:** Cache state before loop
-**✅ Fix:** Call getter inside loop for fresh data
+**❌ Stale data:** capturing state once before the loop
+**✅ Fix:** call the getter *inside* the lambda so each poll re-reads fresh data
 
-## When Arbitrary Timeout IS Correct
+## When an Arbitrary Timeout IS Correct
 
-```typescript
-// Tool ticks every 100ms - need 2 ticks to verify partial output
-await waitForEvent(manager, 'TOOL_STARTED'); // First: wait for condition
-await new Promise(r => setTimeout(r, 200));   // Then: wait for timed behavior
-// 200ms = 2 ticks at 100ms intervals - documented and justified
+```python
+# A worker ticks every 100ms; we need 2 ticks to verify partial output.
+wait_for(lambda: worker.started, "worker to start")  # First: wait for the condition
+time.sleep(0.2)                                       # Then: wait for timed behavior
+# 200ms = 2 ticks at 100ms — documented and justified
 ```
 
 **Requirements:**
-1. First wait for triggering condition
-2. Based on known timing (not guessing)
+1. First wait for the triggering condition
+2. Base the delay on known timing (not a guess)
 3. Comment explaining WHY
 
 ## Real-World Impact
 
-From debugging session (2025-10-03):
-- Fixed 15 flaky tests across 3 files
-- Pass rate: 60% → 100%
-- Execution time: 40% faster
-- No more race conditions
+Replacing arbitrary `time.sleep()` calls with condition polling typically:
+- Turns flaky suites green (pass rate 60% → 100%)
+- Runs faster (no over-long fixed waits)
+- Removes race conditions that only appear under CI load
