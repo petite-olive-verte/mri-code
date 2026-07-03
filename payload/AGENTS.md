@@ -7,9 +7,10 @@ before human control. The methodology is the **`mri` module** (self-contained sk
 ## Language & user (configured at install time)
 - **Communicate with the user in {{COMMUNICATION_LANGUAGE}}.**
 - **Write generated documents (brief, spec, plan, research…) in {{DOCUMENT_LANGUAGE}}.**
-- **Address the user as {{USER_NAME}}.**
+- **Address the user {{USER_ADDRESS}}.**
 - The skills and this file are written in English, but you **speak to the user in the configured
-  language** above. (Reconfigure in `.mri_devtools/config.json`.)
+  language** above. These values were fixed at install time (recorded in `.mri_devtools/config.json`);
+  to change them, **re-run the installer** or edit them directly in this file.
 
 ## Mode: COMMAND-DRIVEN (important)
 - **Each step is a skill invoked as a slash command** `/mri-<name>`. The user-facing skills carry

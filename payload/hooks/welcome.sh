@@ -28,7 +28,19 @@ Flow: /mri-brainstorm → /mri-forge → /mri-design → /mri-devplan → /mri-s
 Optional: /mri-elicit · /mri-adversarial-review · /mri-market-research · /mri-domain-research · /mri-technical-research · /mri-document-project · /mri-debug · /mri-meta-prompt · /mri-resume
 ${resume}"
 
-esc() { python3 -c 'import json,sys;print(json.dumps(sys.stdin.read()))'; }
+# Portable JSON-string encoder: jq if available, else python3, else a pure-bash fallback
+# (the message contains no " or \, so escaping backslash/quote/newline is sufficient).
+esc() {
+  if command -v jq >/dev/null 2>&1; then
+    jq -Rs .
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c 'import json,sys;print(json.dumps(sys.stdin.read()))'
+  else
+    local s; s=$(cat)
+    s=${s//\\/\\\\}; s=${s//\"/\\\"}; s=${s//$'\n'/\\n}
+    printf '"%s"' "$s"
+  fi
+}
 ctx=$(printf '%s' "$msg" | esc)
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":%s}}\n' "$ctx"
 exit 0

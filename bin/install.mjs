@@ -55,6 +55,11 @@ fs.writeFileSync(join(MRI, 'config.json'),
 const cl = mkdirp(join(TARGET, '.claude'));
 for (const sub of ['skills', 'hooks']) { fs.rmSync(join(cl, sub), { recursive: true, force: true }); cp(join(PAYLOAD, sub), join(cl, sub)); }
 for (const h of fs.readdirSync(join(cl, 'hooks'))) fs.chmodSync(join(cl, 'hooks', h), 0o755);
+// Make skill scripts executable too (parity with hooks — they are invoked by bare path).
+for (const skill of fs.readdirSync(join(cl, 'skills'))) {
+  const sdir = join(cl, 'skills', skill, 'scripts');
+  if (fs.existsSync(sdir)) for (const s of fs.readdirSync(sdir)) fs.chmodSync(join(sdir, s), 0o755);
+}
 cp(join(PAYLOAD, 'settings.json'), join(cl, 'settings.json'));
 
 // 3) Racine + injection de la config dans AGENTS.md / CLAUDE.md
@@ -66,6 +71,7 @@ const subst = (p) => {
   let s = fs.readFileSync(p, 'utf8');
   s = s.replaceAll('{{COMMUNICATION_LANGUAGE}}', lang)
        .replaceAll('{{DOCUMENT_LANGUAGE}}', docLang)
+       .replaceAll('{{USER_ADDRESS}}', user ? `as ${user}` : 'directly (no preferred name set)')
        .replaceAll('{{USER_NAME}}', user || 'the user');
   fs.writeFileSync(p, s);
 };
