@@ -4,7 +4,7 @@ description: Use when you have a spec or requirements for a multi-step task, bef
 disable-model-invocation: true
 ---
 
-# Writing Plans
+# mri-devplan — turn a spec into a task plan
 
 > ┌─ mri devtools ─┐
 

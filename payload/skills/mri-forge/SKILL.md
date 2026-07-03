@@ -78,7 +78,9 @@ become a panel debate: cross-examine what matters, then **synthesize into your n
 - **HARDENED** — the idea is stronger and precise enough to be used. **Distill into `brief.md`**
   (update/add a "Hardening" section: locked decisions, rejected options + reasons,
   surviving weak points). Extremely short, in substance; no conversation recap. → next:
-  `/mri-design` (or research first).
+  `/mri-design`. **Optional side-steps first** (suggest when relevant, then return to the flow):
+  `/mri-market-research`, `/mri-domain-research`, `/mri-technical-research` to close a knowledge gap,
+  or `/mri-adversarial-review` to audit `brief.md` before designing.
 - **KILLED** — the idea doesn't hold. Say so plainly, **note why** in `brief.md`. Finding out
   early is a win. → next: `/mri-brainstorm` (start over).
 - **CLARIFIED** — better understood, but nothing to harden. Leave the notes as a trace; no

@@ -4,7 +4,7 @@ description: Use when executing implementation plans with independent tasks in t
 disable-model-invocation: true
 ---
 
-# Subagent-Driven Development
+# mri-implement — execute a plan (subagent-driven, TDD)
 
 > ┌─ mri devtools ─┐
 
@@ -272,7 +272,7 @@ a ledger file, not only in todos.
 ## Example Workflow
 
 ```
-You: I'm using Subagent-Driven Development to execute this plan.
+You: I'm using mri-implement to execute this plan (subagent-driven).
 
 [Read plan file once: .mri_devtools/docs/<project>/feature-plan.md]
 [Create todos for all tasks]
@@ -339,11 +339,7 @@ Done!
 - Fresh context per task (no confusion)
 - Parallel-safe (subagents don't interfere)
 - Subagent can ask questions (before AND during work)
-
-**vs. Executing Plans:**
-- Same session (no handoff)
-- Continuous progress (no waiting)
-- Review checkpoints automatic
+- Same session, continuous progress, automatic review checkpoints (no handoff, no waiting)
 
 **Efficiency gains:**
 - Controller curates exactly what context is needed; bulk artifacts move
@@ -413,14 +409,12 @@ Done!
 
 **Subagents should use:**
 - **mri-tdd** - Subagents follow TDD for each task
-
-**Alternative workflow:**
-- **mri-implement** - Use for parallel session instead of same-session execution
+- **mri-verify** - Verification before a task is reported complete
 
 ## Tracking (progress.md)
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
-file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
-the next step of the pipeline.
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and suggest
+**`/mri-review`** (suggested model: **Sonnet**).
 
 ---
 **User input:** $ARGUMENTS

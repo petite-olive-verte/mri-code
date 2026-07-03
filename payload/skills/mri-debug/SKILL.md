@@ -4,7 +4,7 @@ description: Use when encountering any bug, test failure, or unexpected behavior
 disable-model-invocation: true
 ---
 
-# Systematic Debugging
+# mri-debug — systematic debugging
 
 > ┌─ mri devtools ─┐
 
@@ -300,8 +300,8 @@ From debugging sessions:
 
 ## Tracking (progress.md)
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
-file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
-the next step of the pipeline.
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and **return to
+the step that called you** (typically `/mri-implement`).
 
 ---
 **User input:** $ARGUMENTS

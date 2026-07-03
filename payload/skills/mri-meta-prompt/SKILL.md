@@ -4,7 +4,7 @@ description: Turns a vague request into a precise, structured, ready-to-use prom
 disable-model-invocation: true
 ---
 
-# Meta-prompt — vague → precise
+# mri-meta-prompt — vague → precise
 
 > ┌─ mri devtools ─┐
 

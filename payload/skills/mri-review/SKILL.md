@@ -4,7 +4,7 @@ description: Use when completing tasks, implementing major features, or before m
 disable-model-invocation: true
 ---
 
-# Requesting Code Review
+# mri-review — request a code review
 
 > ┌─ mri devtools ─┐
 
@@ -75,18 +75,13 @@ You: [Fix progress indicators]
 [Continue to Task 3]
 ```
 
-## Integration with Workflows
+## Integration with the flow
 
-**Subagent-Driven Development:**
-- Review after EACH task
-- Catch issues before they compound
-- Fix before moving to next task
+**During `mri-implement`:**
+- Review after EACH task (this is the per-task review `mri-implement` dispatches)
+- Catch issues before they compound; fix before moving to the next task
 
-**Executing Plans:**
-- Review after each task or at natural checkpoints
-- Get feedback, apply, continue
-
-**Ad-Hoc Development:**
+**Ad-hoc:**
 - Review before merge
 - Review when stuck
 
@@ -107,8 +102,8 @@ See template at: [code-reviewer.md](code-reviewer.md)
 
 ## Tracking (progress.md)
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
-file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
-the next step of the pipeline.
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and suggest
+**`/mri-finish`** (suggested model: any — mechanical).
 
 ---
 **User input:** $ARGUMENTS

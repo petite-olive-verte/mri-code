@@ -4,7 +4,7 @@ description: Use when implementation is complete, all tests pass, and you need t
 disable-model-invocation: true
 ---
 
-# Finishing a Development Branch
+# mri-finish — finish a development branch
 
 > ┌─ mri devtools ─┐
 
@@ -14,13 +14,13 @@ Guide completion of development work by presenting clear options and handling ch
 
 **Core principle:** Verify tests → Detect environment → Present options → Execute choice → Clean up.
 
-**Announce at start:** "I'm using the finishing-a-development-branch skill to complete this work."
+**Announce at start:** "I'm using mri-finish to complete this work."
 
 ## The Process
 
 ### Step 1: Verify Tests
 
-**Before presenting options, verify tests pass:**
+**Before presenting options, verify tests pass** (apply `mri-verify` — evidence before any "done" claim):
 
 ```bash
 # Run project's test suite
@@ -245,8 +245,8 @@ git worktree prune  # Self-healing: clean up any stale registrations
 
 ## Tracking (progress.md)
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
-file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]` and point to
-the next step of the pipeline.
+file if missing — schema in the `/mri-resume` command). At the **end**, set it to `[x]`. This is the
+**end of the pipeline** — the work is integrated; no further step to suggest.
 
 ---
 **User input:** $ARGUMENTS

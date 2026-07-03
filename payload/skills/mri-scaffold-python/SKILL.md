@@ -4,7 +4,7 @@ description: Use when initializing/scaffolding the Python project structure (uv 
 disable-model-invocation: true
 ---
 
-# Scaffolding a Python project (uv + ruff + pytest)
+# mri-scaffold-python — scaffold a Python project (uv + ruff + pytest)
 
 > ┌─ mri devtools ─┐
 
