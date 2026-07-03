@@ -230,8 +230,12 @@ globale AGENTS.md : à chaque transition, suggérer aussi le **modèle** de la c
 - **Nettoyage** : `find-polluter.sh` (script `npm test` inadapté Python) + fixtures d'éval héritées retirés.
 - **Bug de stack corrigé plus tôt** : `mri-scaffold-python` faisait un `sed -i` global qui corrompait les
   templates partagés → rendu en staging isolé.
-- **Signalé, non traité** (le plan interdit la refonte des skills) : `mri-debug/condition-based-waiting.md`
-  (+ `.ts`) et `defense-in-depth.md` utilisent des exemples **TypeScript** dans un toolbox Python.
+- **`config.json` rendu autoritaire** : `AGENTS.md` instruit de le lire au démarrage (source de vérité
+  langue/nom) ; valeurs injectées à l'install en repli. Éditer le JSON reconfigure sans réinstaller.
+- **Traduction Python complète** : tout le TypeScript/JS hérité (Superpowers) a été réécrit en Python —
+  docs de `mri-debug` (condition-based-waiting + `.ts`→`.py`, defense-in-depth, root-cause-tracing),
+  exemples et annexe React de `mri-tdd` (testing-anti-patterns → pytest/unittest.mock), détection de setup
+  `mri-worktrees` → `uv sync`. **Payload 100% Python, zéro bloc TypeScript.**
 
 ---
 
