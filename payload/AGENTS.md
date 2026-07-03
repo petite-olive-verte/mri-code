@@ -14,7 +14,9 @@ before human control. The methodology is the **`mri` module** (self-contained sk
 ## Mode: COMMAND-DRIVEN (important)
 - **Each step is a skill invoked as a slash command** `/mri-<name>`. The user-facing skills carry
   `disable-model-invocation: true`, so **you never auto-trigger them** — the user launches each one.
-- **At the end of each step, suggest the next command** (do not run it yourself).
+- **At the end of each step, suggest the next command** (do not run it yourself). **Always name the
+  recommended model for that next command** (per `.mri_devtools/models.md`), so the user can switch with
+  `/model` before launching it — e.g. "Next step → `/mri-devplan` (suggested model: **Opus**)".
 - Skills are **local and self-contained**; there is no external plugin.
 
 ## At session start

@@ -10,9 +10,18 @@ disable-model-invocation: true
 
 ## Overview
 
-Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
+Write an implementation plan that is a **map of the work, not the pre-written codebase**. The plan
+carries the **contract** of each task — which files to touch, the interfaces/signatures it produces and
+consumes, the tests to write, the acceptance criteria, and the order — so that `mri-implement` (TDD) can
+execute it. **It does not carry the implementation bodies**: the real code is written at implementation
+time, once. Give the whole thing as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
 
-Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
+Assume the implementer is a skilled developer who knows almost nothing about our problem domain: the plan
+must make the **intent, boundaries and contracts** unambiguous, and let them write the code.
+
+**Why not embed the code:** a plan that pre-writes every function body duplicates what `mri-implement`
+produces, drifts from it immediately, bloats the document, and is expensive to generate. The test code is
+the exception — it *defines* the contract precisely, so showing it is useful.
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
@@ -61,7 +70,7 @@ independently testable deliverable.
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use mri-implement (recommended) or mri-implement to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use mri-implement to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -95,7 +104,7 @@ include this section.]
   and return types. A task's implementer sees only their own task; this
   block is how they learn the names and types neighboring tasks use.]
 
-- [ ] **Step 1: Write the failing test**
+- [ ] **Step 1: Write the failing test** — show the test code (it defines the contract)
 
 ```python
 def test_specific_behavior():
@@ -108,12 +117,10 @@ def test_specific_behavior():
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: FAIL with "function not defined"
 
-- [ ] **Step 3: Write minimal implementation**
+- [ ] **Step 3: Implement `function(input) -> ReturnType`** to make the test pass
 
-```python
-def function(input):
-    return expected
-```
+Intent: [one line — what the implementation must do]. Constraints: [invariants, edge cases to
+handle]. **Do not write the body here** — the implementer writes it in `mri-implement`.
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -128,19 +135,21 @@ git commit -m "feat: add specific feature"
 ```
 ````
 
-## No Placeholders
+## No vague placeholders
 
-Every step must contain the actual content an engineer needs. These are **plan failures** — never write them:
+The plan carries the *contract*, not the code — but the contract must be **precise**. These are **plan
+failures** — never write them:
 - "TBD", "TODO", "implement later", "fill in details"
-- "Add appropriate error handling" / "add validation" / "handle edge cases"
-- "Write tests for the above" (without actual test code)
-- "Similar to Task N" (repeat the code — the engineer may be reading tasks out of order)
-- Steps that describe what to do without showing how (code blocks required for code steps)
-- References to types, functions, or methods not defined in any task
+- "Add appropriate error handling" / "add validation" / "handle edge cases" — name the *specific* errors
+  and edge cases the task must handle instead.
+- "Write tests for the above" (without the test code — the test code IS required, it defines the contract)
+- An implementation step with no stated intent, signature, or constraints
+- References to types, functions, or methods whose signature is defined in no task's **Interfaces** block
 
 ## Remember
 - Exact file paths always
-- Complete code in every step — if a step changes code, show the code
+- Show **test code** (defines the contract); describe implementation by **intent + signature**, not body
+- Every produced/consumed type or signature lives in an **Interfaces** block
 - Exact commands with expected output
 - DRY, YAGNI, TDD, frequent commits
 

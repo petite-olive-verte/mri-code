@@ -9,7 +9,7 @@
 | `/mri-brainstorm` | ideation / framing | **Opus** | open-ended reasoning, challenge |
 | `/mri-forge` | adversarial pressure-test | **Opus** | multi-persona argumentation |
 | `/mri-design` | architecture | **Opus** | multi-file design, trade-offs |
-| `/mri-devplan` | planning | **Opus** | task breakdown, complete code |
+| `/mri-devplan` | planning | **Opus** | task breakdown, interfaces & contracts |
 | `/mri-elicit`, `/mri-adversarial-review` | critique / audit | **Opus** | depth of critique |
 | `/mri-meta-prompt` | meta-prompting | **Opus** | precise reformulation |
 | `/mri-*-research` | web research | **Sonnet** | fast, sourced synthesis |
