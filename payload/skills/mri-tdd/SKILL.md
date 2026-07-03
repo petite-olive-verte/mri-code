@@ -117,7 +117,7 @@ Vague name, tests mock not code
 **MANDATORY. Never skip.**
 
 ```bash
-npm test path/to/test.test.ts
+uv run pytest path/to/test_module.py::test_name
 ```
 
 Confirm:
@@ -172,7 +172,7 @@ Don't add features, refactor other code, or "improve" beyond the test.
 **MANDATORY.**
 
 ```bash
-npm test path/to/test.test.ts
+uv run pytest path/to/test_module.py::test_name
 ```
 
 Confirm:
@@ -294,33 +294,30 @@ Tests-first force edge case discovery before implementing. Tests-after verify yo
 **Bug:** Empty email accepted
 
 **RED**
-```typescript
-test('rejects empty email', async () => {
-  const result = await submitForm({ email: '' });
-  expect(result.error).toBe('Email required');
-});
+```python
+def test_rejects_empty_email():
+    result = submit_form(email="")
+    assert result.error == "Email required"
 ```
 
 **Verify RED**
 ```bash
-$ npm test
-FAIL: expected 'Email required', got undefined
+$ uv run pytest -q
+FAILED test_form.py::test_rejects_empty_email - AttributeError: 'NoneType' ...
 ```
 
 **GREEN**
-```typescript
-function submitForm(data: FormData) {
-  if (!data.email?.trim()) {
-    return { error: 'Email required' };
-  }
-  // ...
-}
+```python
+def submit_form(email: str) -> Result:
+    if not email.strip():
+        return Result(error="Email required")
+    # ...
 ```
 
 **Verify GREEN**
 ```bash
-$ npm test
-PASS
+$ uv run pytest -q
+1 passed
 ```
 
 **REFACTOR**

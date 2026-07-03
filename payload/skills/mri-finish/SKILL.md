@@ -23,8 +23,7 @@ Guide completion of development work by presenting clear options and handling ch
 **Before presenting options, verify tests pass** (apply `mri-verify` — evidence before any "done" claim):
 
 ```bash
-# Run project's test suite
-npm test / cargo test / pytest / go test ./...
+uv run pytest
 ```
 
 **If tests fail:**

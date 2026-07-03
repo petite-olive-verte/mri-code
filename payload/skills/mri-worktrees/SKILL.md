@@ -125,8 +125,7 @@ if [ -f go.mod ]; then go mod download; fi
 Run tests to ensure workspace starts clean:
 
 ```bash
-# Use project-appropriate command
-npm test / cargo test / pytest / go test ./...
+uv run pytest
 ```
 
 **If tests fail:** Report failures, ask whether to proceed or investigate.
