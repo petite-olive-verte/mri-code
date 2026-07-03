@@ -23,11 +23,24 @@ must make the **intent, boundaries and contracts** unambiguous, and let them wri
 produces, drifts from it immediately, bloats the document, and is expensive to generate. The test code is
 the exception — it *defines* the contract precisely, so showing it is useful.
 
-**Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
+**The one exception beyond tests — shared contract surfaces.** Types, dataclasses, Protocols/interfaces
+and public signatures that *multiple tasks depend on* ARE the contract: show them as **real code,
+verbatim**, in the task's Interfaces block. Every dependent task must see the identical definition, so
+this is the one place fully-written code earns its keep. What stays prose is the implementation *body*
+internal to a single task.
+
+**Announce at start:** "I'm using mri-devplan to turn the spec into an implementation plan."
+
+**Enter plan mode first.** Begin the step by entering native Claude Code plan mode (call the plan-mode
+tool yourself — the user does not toggle it). Plan mode is read-only, so no file is written while you
+reason and decompose. Present the task breakdown via ExitPlanMode — **that approval is the step's gate.**
+Only after the user approves do you write the plan to disk (see "Execution Handoff"). If plan mode is
+unavailable (non-interactive run), fall back to presenting the plan inline and getting explicit approval
+before writing.
 
 **Context:** If working in an isolated worktree, it should have been created via the `mri-worktrees` skill at execution time.
 
-**Save plans to:** `.mri_devtools/docs/<project>/plan.md`
+**Save plans to:** `.mri_devtools/docs/<project>/plan.md` (written on approval)
 - (User preferences for plan location override this default)
 
 ## Scope Check
@@ -103,6 +116,9 @@ include this section.]
 - Produces: [what later tasks rely on — exact function names, parameter
   and return types. A task's implementer sees only their own task; this
   block is how they learn the names and types neighboring tasks use.]
+- Shared contract surfaces (a type/dataclass, a Protocol/interface, a public API
+  signature depended on by more than one task) → show them here as **real code, verbatim**.
+  Implementation *bodies* stay intent + test (Step 3 below).
 
 - [ ] **Step 1: Write the failing test** — show the test code (it defines the contract)
 
@@ -167,23 +183,16 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Execution Handoff
 
-After saving the plan, offer execution choice:
+Once the user **approves** the plan (via ExitPlanMode, or inline if plan mode was unavailable):
+1. **Write** the plan to `.mri_devtools/docs/<project>/plan.md` and seed/update `progress.md`.
+2. **Commit** the plan.
+3. Hand off to the next step (name the suggested model per `.mri_devtools/models.md`):
+   - New project still needing a skeleton → "**Next step → `/mri-scaffold-python`** (suggested model:
+     **Sonnet / DeepSeek-v4**)".
+   - Otherwise → "**Next step → `/mri-implement`** (suggested model: **Sonnet / DeepSeek-v4**)".
 
-**"Plan complete and saved to `.mri_devtools/docs/<project>/plan.md`. Two execution options:**
-
-**1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
-
-**2. Inline Execution** - Execute tasks in this session using executing-plans, batch execution with checkpoints
-
-**Which approach?"**
-
-**If Subagent-Driven chosen:**
-- **REQUIRED SUB-SKILL:** Use mri-implement
-- Fresh subagent per task + two-stage review
-
-**If Inline Execution chosen:**
-- **REQUIRED SUB-SKILL:** Use mri-implement
-- Batch execution with checkpoints for review
+`mri-implement` is the execution skill: a fresh subagent per task + two-stage review, driven by the
+plan's checkboxes. Do not execute it yourself — the user launches it.
 
 ## Tracking (progress.md)
 At the **start** of this step, mark it `[~]` in `.mri_devtools/docs/<project>/progress.md` (create the
