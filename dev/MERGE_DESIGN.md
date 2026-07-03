@@ -26,9 +26,9 @@ le `SKILL.md` Superpowers et l'adapter (chemins/namespace/ledger).
 |---|---|---|---|
 | `mri-brainstorm` | BMAD brainstorming (base = notre `brainstorm-facilitation`, enrichie) | Reimpl. | `.mri_devtools/docs/<projet>/brief.md` |
 | `mri-design` | Superpowers `brainstorming` (le **pont**) | Extract+adapt | `.mri_devtools/docs/<projet>/spec.md` (design technique) |
-| `mri-devplan` | Superpowers `writing-plans` | Extract+adapt | `plan.md` + `tasks.md` (cases) |
+| `mri-devplan` | Superpowers `writing-plans` | Extract+adapt | `plan.md` (cases à cocher intégrées) |
 | `mri-scaffold-python` | maison (existant) | — | structure projet |
-| `mri-implement` | Superpowers `subagent-driven-development` (+ TDD sous-skill) | Extract+adapt | commits, `tasks.md` coché |
+| `mri-implement` | Superpowers `subagent-driven-development` (+ TDD sous-skill) | Extract+adapt | commits, cases de `plan.md` cochées |
 | `mri-review` | Superpowers `requesting-code-review` | Extract+adapt | revue (règle collision `/review`) |
 | `mri-finish` | Superpowers `finishing-a-development-branch` | Extract+adapt | merge/PR/cleanup |
 
@@ -102,11 +102,12 @@ Règles clés : recherches **uniquement après forge-succès** (jamais sur idée
 ```
 mri-brainstorm → .mri_devtools/docs/<projet>/brief.md   (vision, utilisateurs, périmètre, contraintes, idées)
 mri-design     → .mri_devtools/docs/<projet>/spec.md    (design technique : archi, composants, flux, erreurs, tests)
-mri-devplan    → .mri_devtools/docs/<projet>/plan.md + tasks.md
-mri-implement  → commits + tasks.md coché
+mri-devplan    → .mri_devtools/docs/<projet>/plan.md   (cases à cocher intégrées)
+mri-implement  → commits + cases de plan.md cochées
 ```
 - **Une convention de dossier** : `.mri_devtools/docs/<projet>/` (on réécrit les chemins Superpowers en dur).
-- **Ledgers, 2 niveaux complémentaires** : `progress.md` = phases ; `tasks.md` = tâches fines *dans* implement.
+- **Ledgers, 2 niveaux complémentaires** : `progress.md` = phases (dans `docs/<projet>/`) ;
+  `state/sdd/task-ledger.md` = tâches fines *dans* implement.
 
 ## 5. État de pipeline `progress.md` + `/mri-resume`
 

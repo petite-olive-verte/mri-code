@@ -1,7 +1,7 @@
 # État du projet — reprise de session
 
 > **À lire en premier par une nouvelle instance qui REPREND LE DÉVELOPPEMENT du module.**
-> Dernière mise à jour : 2026-07-02.
+> Dernière mise à jour : 2026-07-03.
 > ⚠️ Ce fichier contient de l'HISTORIQUE (sections « ancien état », carte pré-reorg…). La réalité
 > actuelle est décrite dans le bloc « Statut » ci-dessous + `dev/MERGE_DESIGN.md` + `dev/BUILD_PLAN.md`.
 
@@ -49,14 +49,14 @@ initial) conservé plus bas.
 c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build initial
 ```
 
-### Vérifié ✅
+### Vérifié ✅ (⚠️ log HISTORIQUE pré-mri — noms/chemins périmés : `/brainstorm`, `docs/specs/`, `tasks.md`, submodule, marketplace. Réalité actuelle = bloc « MàJ 2026-07-03 » + « Plan de test (E2E) » ci-dessus)
 - Scaffold Python d'essai : `uv sync` + `pytest` (100% cov) + `ruff` verts ; aucun jeton résiduel.
 - Hooks `format.sh`/`lint-test.sh` : no-op sans `pyproject.toml`, PASS dans un projet, non-bloquants.
 - `welcome.sh` (SessionStart) : produit un JSON `additionalContext` valide, détecte un plan inachevé
   (`docs/specs/*/tasks.md` avec `- [ ]`) → suggère `/implement`, sinon `/brainstorm`.
 - A2 : submodule déplacé (`git mv`), `.gitmodules`/settings/skill/setup à jour, marketplace.json présent.
 
-### Pas encore testé en live (session interactive requise)
+### Pas encore testé en live (⚠️ HISTORIQUE pré-mri — remplacé par « Plan de test (E2E) — À JOUR » ci-dessus ; plus de plugin/submodule/marketplace)
 - **Mode command-driven en vrai** : que l'agent N'auto-déclenche PAS et attende les commandes
   (override du bootstrap Superpowers via AGENTS.md — à confirmer ; sinon durcir, ex. ne pas charger
   son hook).
@@ -135,12 +135,26 @@ c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build init
 - Adaptateurs Codex/ZCode dédiés ; orchestration multi-agents (Claude cerveau / GLM bras) ;
   distribution en plugin installable ; skill `refine-prompt` si besoin réel.
 
-## Plan de test (E2E)
-> Dans une **copie** du repo (`cp -r` ou clone), pour ne pas transformer le template en projet.
-1. Ouvre Claude Code ; le message d'accueil doit s'afficher (commandes + `/brainstorm`).
-2. `/brainstorm une petite CLI todo en python` → questions, puis `docs/specs/<projet>/spec.md`.
-   Vérifie que l'agent **n'a pas** auto-déclenché de skill avant la commande.
-3. `/devplan` → `plan.md` + `tasks.md` (cases) validés en plan mode.
-4. `/scaffold` → `src/`/`tests/`/`pyproject.toml` selon `.toolbox/constitution.md` ; `uv run pytest` vert.
-5. `/implement` → TDD, cases cochées au fur et à mesure ; hooks actifs.
-6. `/review` → `/finish`. (Web : redémarrer + approuver MCP pour le feedback visuel.)
+## Plan de test (E2E) — À JOUR 2026-07-03
+> Dans une **cible jetable** (`node bin/install.mjs /tmp/e2e-test --lang French --user Mathieu`), ouvrir
+> Claude Code **dans la cible** (pas dans ce repo). Idée d'exemple : « une petite CLI todo en Python ».
+> Ce que l'E2E valide et que le statique ne couvre pas :
+
+1. **Accueil + command-driven** : `welcome.sh` s'affiche (logo + `/mri-brainstorm`) ; l'agent
+   **n'auto-déclenche aucune** skill avant ta commande.
+2. **config.json lu au démarrage** : l'agent parle en French et t'appelle Mathieu (édite le JSON → effet
+   à la session suivante).
+3. `/mri-brainstorm` → facilitation (une question à la fois) → `.mri_devtools/docs/<projet>/brief.md`.
+   Puis `/mri-forge` (pressure-test) optionnel.
+4. `/mri-design` → **⚠️ vérifier qu'il ENTRE en plan mode tout seul** (point non garanti d'ici) ;
+   `ExitPlanMode` = gate → `spec.md`. Suggère `/mri-devplan` **+ le modèle**.
+5. `/mri-devplan` → plan mode ; `plan.md` = **contrat** (pas 2000 lignes de code). → scaffold/implement.
+6. `/mri-scaffold-python` → `uv sync`+`pytest`+`ruff` verts ; **vérifier que les templates
+   `.mri_devtools/templates/` ne sont PAS corrompus** (le bug du `sed` corrigé).
+7. `/mri-implement` → TDD, cases cochées dans `plan.md`, `state/sdd/task-ledger.md`, hooks actifs.
+8. **Reprise** : tuer la session en cours → rouvrir → `welcome.sh` suggère `/mri-resume` (via
+   `progress.md`) → ré-entre à la bonne étape.
+9. `/mri-review` → `/mri-finish`. (Web : approuver les MCP pour le feedback visuel.)
+
+> Filet si `/mri-design` n'entre pas seul en plan mode : `permissions.defaultMode: "plan"` dans
+> `settings.json` (au démarrage de session).
