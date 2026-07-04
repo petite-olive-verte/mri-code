@@ -5,10 +5,10 @@
  ██║╚██╔╝██║██╔══██╗██║
  ██║ ╚═╝ ██║██║  ██║██║
  ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝
-   devtools · idea → shipped
+   code · idea → shipped
 ```
 
-# mri-devtools
+# mri-code
 
 A **command-driven** module that turns an idea into a Python project with a coding agent:
 `brainstorm → forge → design → devplan → scaffold → TDD implementation → review → finish`, with visual
@@ -22,17 +22,17 @@ deploys it into a target project.
 **One command (recommended, no curl, over SSH):**
 ```bash
 cd my-project
-npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git                       # install into the current dir
-# pin a version:  npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git#v0.1.0
-# with config:    npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git -- --lang English --doc-lang English --user Alice
+npx git+ssh://git@github.com/MatioRIGARD/mri-code.git                       # install into the current dir
+# pin a version:  npx git+ssh://git@github.com/MatioRIGARD/mri-code.git#v0.1.0
+# with config:    npx git+ssh://git@github.com/MatioRIGARD/mri-code.git -- --lang English --doc-lang English --user Alice
 ```
 > `curl … | bash` does **not** work here: the repo is private (raw needs auth). `npx` over `git+ssh`
 > uses the collaborator's **SSH key** (access already granted) — no token to manage.
 
 **Alternative without Node (clone + script):**
 ```bash
-git clone git@github.com:MatioRIGARD/mri-devtools.git
-./mri-devtools/install.sh my-project --lang English --user Alice
+git clone git@github.com:MatioRIGARD/mri-code.git
+./mri-code/install.sh my-project --lang English --user Alice
 ```
 
 ### Configuration (asked interactively, or via flags)
@@ -42,7 +42,7 @@ git clone git@github.com:MatioRIGARD/mri-devtools.git
 | `--doc-lang` | language of generated documents (brief/spec/plan…) | = `--lang` |
 | `--user` | how the agent addresses you | (unset) |
 
-Values are written to `.mri_devtools/config.json` and injected into the target `AGENTS.md`. The skills
+Values are written to `.mri_code/config.json` and injected into the target `AGENTS.md`. The skills
 themselves are always in English; only the agent's communication/document language is configurable.
 
 ## What gets installed (copy only — no symlink)
@@ -50,15 +50,15 @@ themselves are always in English; only the agent's communication/document langua
 my-project/
   AGENTS.md  CLAUDE.md  .mcp.json      ← entries (required at root by Claude Code)
   .claude/  commands/ (flat) · skills/ · hooks/ · settings.json   ← real files (copied)
-  .mri_devtools/                       ← config.json · constitution.md · models.md · templates/ · docs/<project>/
+  .mri_code/                           ← config.json · constitution.md · models.md · templates/ · docs/<project>/
   .agents/skills/                      ← portable mirror (Codex)
 ```
 Your project root stays **clean**: only your code + dotfiles. The install deposits **only the
 installation**, not the whole repo (no `dev/`, no `bin/`, no `.git`).
 
 ## Usage
-When you open an agent, the welcome message lists the commands. Start with **`/mri-brainstorm`**, resume
-with **`/mri-resume`**. The full flow and optional commands are described in `AGENTS.md`.
+When you open an agent, the welcome message lists the commands. Start with **`/mri-code-brainstorm`**, resume
+with **`/mri-code-resume`**. The full flow and optional commands are described in `AGENTS.md`.
 
 ## Develop the module
 Sources in `payload/`; internal docs in `dev/` (`MERGE_DESIGN.md`, `DECISIONS.md`, `BUILD_PLAN.md` —

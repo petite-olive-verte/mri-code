@@ -7,56 +7,56 @@
 
 ## Ce qu'est ce projet (actuel)
 
-**`mri-devtools`** : un **repo source-first distribuable** (pas un template). Contenu installable dans
+**`mri-code`** : un **repo source-first distribuable** (pas un template). Contenu installable dans
 `payload/`, installeur `bin/install.mjs`/`install.sh` (+ `package.json`) qui **copie** le module dans un
-projet cible (`.claude/` = vrais fichiers, `.mri_devtools/` = config+constitution+models+templates+docs).
-Installation : `npx git+ssh://git@github.com/MatioRIGARD/mri-devtools.git` (privé/SSH) ou clone+`install.sh`,
+projet cible (`.claude/` = vrais fichiers, `.mri_code/` = config+constitution+models+templates+docs).
+Installation : `npx git+ssh://git@github.com/MatioRIGARD/mri-code.git` (privé/SSH) ou clone+`install.sh`,
 avec config `--lang`/`--doc-lang`/`--user`. **Payload entièrement en anglais** ; langue de l'agent
 configurable. Le **submodule Superpowers a été retiré** (skills déjà extraites ; attribution dans `LICENSE`).
-Méthodo = module `mri` (fusion BMAD analyse × Superpowers exécution). Voir Décisions 9-12.
+Méthodo = module `mri-code` (fusion BMAD analyse × Superpowers exécution). Voir Décisions 9-12.
 
-## Statut : MODULE « mri » CONSTRUIT (fusion BMAD × Superpowers) — reste l'E2E live
+## Statut : MODULE « mri-code » CONSTRUIT (fusion BMAD × Superpowers) — reste l'E2E live
 
 > **MàJ 2026-07-02.** Source de vérité : **`dev/MERGE_DESIGN.md`** + **`dev/BUILD_PLAN.md`**. Le module
-> `mri` est construit (Lots 0-8) PUIS le repo a été **réorganisé en source-first distribuable** :
+> `mri-code` est construit (Lots 0-8) PUIS le repo a été **réorganisé en source-first distribuable** :
 > contenu installable dans **`payload/`**, méta-docs dans **`dev/`** (submodule → `dev/superpowers`),
 > **installeur** `bin/install.mjs` (+ `install.sh`, `package.json`). Installation :
-> **`npx git+ssh://git@github.com/MatioRIGARD/dev-toolbox.git`** (privé/SSH) ou `git clone`+`./install.sh`.
+> **`npx git+ssh://git@github.com/MatioRIGARD/mri-code.git`** (privé/SSH) ou `git clone`+`./install.sh`.
 > Reste : **E2E live** (interactif) + **push du repo distant** (par l'utilisateur).
 
-Le module `mri` remplace l'ancien flux : 19 skills `payload/skills/mri-*` (front BMAD réimplémenté +
-back Superpowers extrait/adapté), 17 commandes `payload/commands/mri-*.md`, reprise via `progress.md`
-+ `/mri-resume`, suggestions de modèle (`payload/models.md`), installeur `bin/install.mjs`
-→ `.mri_devtools/`. Plugin Superpowers **désactivé** (skills auto-portantes). Voir Décisions 11 & 12.
+Le module `mri-code` remplace l'ancien flux : 19 skills `payload/skills/mri-code-*` (front BMAD réimplémenté +
+back Superpowers extrait/adapté), 17 commandes `payload/commands/mri-code-*.md`, reprise via `progress.md`
++ `/mri-code-resume`, suggestions de modèle (`payload/models.md`), installeur `bin/install.mjs`
+→ `.mri_code/`. Plugin Superpowers **désactivé** (skills auto-portantes). Voir Décisions 11 & 12.
 
-Commits clés du build mri : `30cf002` (lot 0) → `db901e1` (lot 7). Historique antérieur (A1/A2/build
+Commits clés du build mri-code : `30cf002` (lot 0) → `db901e1` (lot 7). Historique antérieur (A1/A2/build
 initial) conservé plus bas.
 
 > **MàJ 2026-07-03 (fait autorité sur les points ci-dessous).**
-> - **Plus de dossier `payload/commands/`** : les **skills SONT les slash commands** `/mri-*`. Les 17
+> - **Plus de dossier `payload/commands/`** : les **skills SONT les slash commands** `/mri-code-*`. Les 17
 >   skills d'entrée portent `disable-model-invocation: true` (mode command-driven strict) ; seuls
->   `mri-tdd`/`mri-verify`/`mri-worktrees` restent auto-invocables. (20 skills au total.)
-> - **Plan mode intégré** : `mri-design` & `mri-devplan` entrent en plan mode natif (`EnterPlanMode`),
->   gate = `ExitPlanMode`. `mri-devplan` produit un plan **contrat** (pas le code complet). Voir Décision 14.
+>   `mri-code-tdd`/`mri-code-verify`/`mri-code-worktrees` restent auto-invocables. (20 skills au total.)
+> - **Plan mode intégré** : `mri-code-design` & `mri-code-devplan` entrent en plan mode natif (`EnterPlanMode`),
+>   gate = `ExitPlanMode`. `mri-code-devplan` produit un plan **contrat** (pas le code complet). Voir Décision 14.
 > - **Revue complète faite** (Décision 15) : DeepSeek retiré → Sonnet ; un seul `progress.md` (phases) +
 >   ledger `state/sdd/task-ledger.md` (tâches) ; titres H1 maison ; `welcome.sh` robuste sans `python3` ;
->   `find-polluter.sh` + fixtures d'éval supprimés ; `mri-scaffold-python` corrigé (sed en staging isolé).
-> - **Reprise** : le pipeline détecte l'état via `.mri_devtools/docs/<project>/progress.md` (plus
+>   `find-polluter.sh` + fixtures d'éval supprimés ; `mri-code-scaffold-python` corrigé (sed en staging isolé).
+> - **Reprise** : le pipeline détecte l'état via `.mri_code/docs/<project>/progress.md` (plus
 >   `docs/specs/*/tasks.md`). Reste toujours : **E2E live** + **push distant** (utilisateur).
 
-### Archive — état antérieur (pré-mri)
+### Archive — état antérieur (pré-mri-code)
 ```
 c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build initial
 ```
 
-### Vérifié ✅ (⚠️ log HISTORIQUE pré-mri — noms/chemins périmés : `/brainstorm`, `docs/specs/`, `tasks.md`, submodule, marketplace. Réalité actuelle = bloc « MàJ 2026-07-03 » + « Plan de test (E2E) » ci-dessus)
+### Vérifié ✅ (⚠️ log HISTORIQUE pré-mri-code — noms/chemins périmés : `/brainstorm`, `docs/specs/`, `tasks.md`, submodule, marketplace. Réalité actuelle = bloc « MàJ 2026-07-03 » + « Plan de test (E2E) » ci-dessus)
 - Scaffold Python d'essai : `uv sync` + `pytest` (100% cov) + `ruff` verts ; aucun jeton résiduel.
 - Hooks `format.sh`/`lint-test.sh` : no-op sans `pyproject.toml`, PASS dans un projet, non-bloquants.
 - `welcome.sh` (SessionStart) : produit un JSON `additionalContext` valide, détecte un plan inachevé
   (`docs/specs/*/tasks.md` avec `- [ ]`) → suggère `/implement`, sinon `/brainstorm`.
 - A2 : submodule déplacé (`git mv`), `.gitmodules`/settings/skill/setup à jour, marketplace.json présent.
 
-### Pas encore testé en live (⚠️ HISTORIQUE pré-mri — remplacé par « Plan de test (E2E) — À JOUR » ci-dessus ; plus de plugin/submodule/marketplace)
+### Pas encore testé en live (⚠️ HISTORIQUE pré-mri-code — remplacé par « Plan de test (E2E) — À JOUR » ci-dessus ; plus de plugin/submodule/marketplace)
 - **Mode command-driven en vrai** : que l'agent N'auto-déclenche PAS et attende les commandes
   (override du bootstrap Superpowers via AGENTS.md — à confirmer ; sinon durcir, ex. ne pas charger
   son hook).
@@ -140,21 +140,21 @@ c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build init
 > Claude Code **dans la cible** (pas dans ce repo). Idée d'exemple : « une petite CLI todo en Python ».
 > Ce que l'E2E valide et que le statique ne couvre pas :
 
-1. **Accueil + command-driven** : `welcome.sh` s'affiche (logo + `/mri-brainstorm`) ; l'agent
+1. **Accueil + command-driven** : `welcome.sh` s'affiche (logo + `/mri-code-brainstorm`) ; l'agent
    **n'auto-déclenche aucune** skill avant ta commande.
 2. **config.json lu au démarrage** : l'agent parle en French et t'appelle Mathieu (édite le JSON → effet
    à la session suivante).
-3. `/mri-brainstorm` → facilitation (une question à la fois) → `.mri_devtools/docs/<projet>/brief.md`.
-   Puis `/mri-forge` (pressure-test) optionnel.
-4. `/mri-design` → **⚠️ vérifier qu'il ENTRE en plan mode tout seul** (point non garanti d'ici) ;
-   `ExitPlanMode` = gate → `spec.md`. Suggère `/mri-devplan` **+ le modèle**.
-5. `/mri-devplan` → plan mode ; `plan.md` = **contrat** (pas 2000 lignes de code). → scaffold/implement.
-6. `/mri-scaffold-python` → `uv sync`+`pytest`+`ruff` verts ; **vérifier que les templates
-   `.mri_devtools/templates/` ne sont PAS corrompus** (le bug du `sed` corrigé).
-7. `/mri-implement` → TDD, cases cochées dans `plan.md`, `state/sdd/task-ledger.md`, hooks actifs.
-8. **Reprise** : tuer la session en cours → rouvrir → `welcome.sh` suggère `/mri-resume` (via
+3. `/mri-code-brainstorm` → facilitation (une question à la fois) → `.mri_code/docs/<projet>/brief.md`.
+   Puis `/mri-code-forge` (pressure-test) optionnel.
+4. `/mri-code-design` → **⚠️ vérifier qu'il ENTRE en plan mode tout seul** (point non garanti d'ici) ;
+   `ExitPlanMode` = gate → `spec.md`. Suggère `/mri-code-devplan` **+ le modèle**.
+5. `/mri-code-devplan` → plan mode ; `plan.md` = **contrat** (pas 2000 lignes de code). → scaffold/implement.
+6. `/mri-code-scaffold-python` → `uv sync`+`pytest`+`ruff` verts ; **vérifier que les templates
+   `.mri_code/templates/` ne sont PAS corrompus** (le bug du `sed` corrigé).
+7. `/mri-code-implement` → TDD, cases cochées dans `plan.md`, `state/sdd/task-ledger.md`, hooks actifs.
+8. **Reprise** : tuer la session en cours → rouvrir → `welcome.sh` suggère `/mri-code-resume` (via
    `progress.md`) → ré-entre à la bonne étape.
-9. `/mri-review` → `/mri-finish`. (Web : approuver les MCP pour le feedback visuel.)
+9. `/mri-code-review` → `/mri-code-finish`. (Web : approuver les MCP pour le feedback visuel.)
 
-> Filet si `/mri-design` n'entre pas seul en plan mode : `permissions.defaultMode: "plan"` dans
+> Filet si `/mri-code-design` n'entre pas seul en plan mode : `permissions.defaultMode: "plan"` dans
 > `settings.json` (au démarrage de session).

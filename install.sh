@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install the mri module into a target project (COPY — no symlink).
+# Install the mri-code module into a target project (COPY — no symlink).
 #   ./install.sh [target] [--lang <lang>] [--doc-lang <lang>] [--user <name>]
 #   default target: current directory. Missing values are prompted (interactive) or defaulted (English).
 set -euo pipefail

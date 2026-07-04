@@ -164,38 +164,38 @@ phase 2 n'est pas faite, puis sera remplacé par le module curé.
 
 ---
 
-## Décision 11 — Le module curé « mri » (exécution de la Décision 10)
+## Décision 11 — Le module curé « mri-code » (exécution de la Décision 10)
 
-**Fait.** Construction du module `mri` (voir `MERGE_DESIGN.md` + `BUILD_PLAN.md`) : **front d'analyse
-réimplémenté de BMAD** (mri-brainstorm avec le vrai catalogue 108 techniques + 3 modes, mri-forge à
+**Fait.** Construction du module `mri-code` (voir `MERGE_DESIGN.md` + `BUILD_PLAN.md`) : **front d'analyse
+réimplémenté de BMAD** (mri-code-brainstorm avec le vrai catalogue 108 techniques + 3 modes, mri-code-forge à
 panel de personas fixe, + elicit/adversarial-review/recherches/document-project) et **back d'exécution
-extrait+adapté de Superpowers** (mri-design=pont brief→spec, devplan, implement/tdd, review, debug,
-finish, verify, worktrees). **Runtime BMAD strippé** ; namespaces `superpowers:*` → `mri-*` ; chemins
-normalisés sur `.mri_devtools/docs/<projet>/`. Préfixe **`mri-`** sur skills ET commandes (règle la
+extrait+adapté de Superpowers** (mri-code-design=pont brief→spec, devplan, implement/tdd, review, debug,
+finish, verify, worktrees). **Runtime BMAD strippé** ; namespaces `superpowers:*` → `mri-code-*` ; chemins
+normalisés sur `.mri_code/docs/<projet>/`. Préfixe **`mri-`** sur skills ET commandes (règle la
 collision `/review` avec le natif). **Plugin Superpowers désactivé** (skills auto-portantes ; supprime
-le bootstrap agressif). **Handoff** : `brief.md` (mri-brainstorm) → `spec.md` (mri-design, le pont) →
-`plan.md` (mri-devplan) → implémentation. **Amende la Décision 9** : le brainstorming Superpowers
-revient dans un rôle *différent* (synthèse de design = mri-design), pas comme front d'idéation.
+le bootstrap agressif). **Handoff** : `brief.md` (mri-code-brainstorm) → `spec.md` (mri-code-design, le pont) →
+`plan.md` (mri-code-devplan) → implémentation. **Amende la Décision 9** : le brainstorming Superpowers
+revient dans un rôle *différent* (synthèse de design = mri-code-design), pas comme front d'idéation.
 
-## Décision 12 — Installation par installeur dans `.mri_devtools/` (pas de template)
+## Décision 12 — Installation par installeur dans `.mri_code/` (pas de template)
 
 **Fait.** Abandon du modèle « repo template ». Un **installeur** (`install.sh <cible> [--copy]`) dépose
-le module dans **`.mri_devtools/`** (dossier caché) et génère le câblage imposé par Claude Code :
+le module dans **`.mri_code/`** (dossier caché) et génère le câblage imposé par Claude Code :
 `.claude/commands/*` **à plat** (bug de découverte des sous-dossiers), `.claude/skills/*`, hooks +
 `settings.json`, et `AGENTS.md`/`CLAUDE.md`/`.mcp.json` à la racine. `.claude/` = **pointeurs**
 (symlink par défaut, `--copy` en fallback). La racine du projet reste **propre** (projet + dotfiles).
 Le repo de dev n'est **pas** restructuré : l'installeur package ses sources vers la cible. `état généré`
-(brief/spec/plan/progress) sous `.mri_devtools/docs/<projet>/` ; reprise via `/mri-resume`.
+(brief/spec/plan/progress) sous `.mri_code/docs/<projet>/` ; reprise via `/mri-code-resume`.
 
 > **MàJ v0.1.0** : la Décision 12 a évolué — repo **source-first** (`payload/` + `dev/`), installeur
-> **`bin/install.mjs`** (Node) + `install.sh`, distribution **`npx git+ssh://…mri-devtools.git`** (privé),
+> **`bin/install.mjs`** (Node) + `install.sh`, distribution **`npx git+ssh://…mri-code.git`** (privé),
 > **copy-only** (plus de symlink ; `.claude/` = vrais fichiers), config à l'install
 > (`--lang`/`--doc-lang`/`--user`), **submodule Superpowers retiré**.
 
 ## Décision 13 — White-label + attribution concentrée dans LICENSE
 
 **Fait (v0.1.0).** Le contenu **distribué** (`payload/`, `README.md`, `package.json`) ne mentionne plus
-Superpowers ni BMAD (retrait cosmétique) ; un **logo ASCII maison `mri`** est apposé sur les 19 skills et
+Superpowers ni BMAD (retrait cosmétique) ; un **logo ASCII maison `mri-code`** est apposé sur les 19 skills et
 au message d'accueil. **L'attribution MIT reste dans `LICENSE`** (obligation légale : conserver la notice
 « dans toutes les copies » — satisfaite par un seul fichier). Fuites périmées corrigées au passage
 (directive `superpowers:brainstorming`, chemins de marque, commentaire submodule). **Pourquoi** :
@@ -204,14 +204,14 @@ non distribué) garde l'historique honnête des origines.
 
 ---
 
-## Décision 14 — `mri-devplan` = plan léger + plan mode natif (au lieu du moteur Superpowers)
+## Décision 14 — `mri-code-devplan` = plan léger + plan mode natif (au lieu du moteur Superpowers)
 
 **Fait.** Le `plan.md` ne contient plus le **code d'implémentation complet** (héritage Superpowers, pensé
 pour des sous-agents amnésiques-transcripteurs) : il porte le **contrat** — fichiers, blocs `Interfaces`
 (signatures), **code de test**, intention. Exception gardée : les **surfaces de contrat partagées**
 (types, dataclasses, Protocols, signatures publiques dont plusieurs tâches dépendent) sont montrées en
-vrai code verbatim. **Pourquoi** : notre implémenteur (`mri-implement`) *raisonne* en TDD ; pré-écrire le
-code le duplique, le fait drifter et coûte cher. En plus, `mri-design` et `mri-devplan` **entrent
+vrai code verbatim. **Pourquoi** : notre implémenteur (`mri-code-implement`) *raisonne* en TDD ; pré-écrire le
+code le duplique, le fait drifter et coûte cher. En plus, `mri-code-design` et `mri-code-devplan` **entrent
 eux-mêmes en plan mode natif** (`EnterPlanMode`) et utilisent `ExitPlanMode` comme **porte de
 validation** — on garde le raisonnement/gate natif (meilleur) plutôt que de le concurrencer. Règle
 globale AGENTS.md : à chaque transition, suggérer aussi le **modèle** de la commande suivante.
@@ -228,14 +228,14 @@ globale AGENTS.md : à chaque transition, suggérer aussi le **modèle** de la c
 - **Robustesse** : `welcome.sh` échappeur JSON portable (ne casse plus sans `python3`) ; `ty`/`mypy` dans
   les permissions ; prose `config.json` honnête ; scripts de skill re-chmodés à l'install.
 - **Nettoyage** : `find-polluter.sh` (script `npm test` inadapté Python) + fixtures d'éval héritées retirés.
-- **Bug de stack corrigé plus tôt** : `mri-scaffold-python` faisait un `sed -i` global qui corrompait les
+- **Bug de stack corrigé plus tôt** : `mri-code-scaffold-python` faisait un `sed -i` global qui corrompait les
   templates partagés → rendu en staging isolé.
 - **`config.json` rendu autoritaire** : `AGENTS.md` instruit de le lire au démarrage (source de vérité
   langue/nom) ; valeurs injectées à l'install en repli. Éditer le JSON reconfigure sans réinstaller.
 - **Traduction Python complète** : tout le TypeScript/JS hérité (Superpowers) a été réécrit en Python —
-  docs de `mri-debug` (condition-based-waiting + `.ts`→`.py`, defense-in-depth, root-cause-tracing),
-  exemples et annexe React de `mri-tdd` (testing-anti-patterns → pytest/unittest.mock), détection de setup
-  `mri-worktrees` → `uv sync`. **Payload 100% Python, zéro bloc TypeScript.**
+  docs de `mri-code-debug` (condition-based-waiting + `.ts`→`.py`, defense-in-depth, root-cause-tracing),
+  exemples et annexe React de `mri-code-tdd` (testing-anti-patterns → pytest/unittest.mock), détection de setup
+  `mri-code-worktrees` → `uv sync`. **Payload 100% Python, zéro bloc TypeScript.**
 
 ---
 

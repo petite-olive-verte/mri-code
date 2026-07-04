@@ -27,7 +27,7 @@ build/
 
 # Artefacts générés par un self-install (dogfood) — la source vit dans payload/
 /.claude/
-/.mri_devtools/
+/.mri_code/
 /.agents/
 /AGENTS.md
 /CLAUDE.md

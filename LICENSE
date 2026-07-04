@@ -25,11 +25,11 @@ SOFTWARE.
 Attributions (œuvres dérivées, sous licence MIT) :
 
 - Superpowers — Copyright (c) Jesse Vincent — https://github.com/obra/superpowers (MIT).
-  Les skills d'exécution (payload/skills/mri-{design,devplan,implement,tdd,review,debug,finish,
+  Les skills d'exécution (payload/skills/mri-code-{design,devplan,implement,tdd,review,debug,finish,
   verify,worktrees}) en sont extraites et adaptées.
 - BMAD-METHOD — Copyright (c) BMad Code, LLC — https://github.com/bmad-code-org/BMAD-METHOD (MIT).
-  Les skills d'analyse (payload/skills/mri-{brainstorm,forge,elicit,adversarial-review,
+  Les skills d'analyse (payload/skills/mri-code-{brainstorm,forge,elicit,adversarial-review,
   market/domain/technical-research,document-project}) en sont réimplémentées ; le catalogue
-  payload/skills/mri-brainstorm/assets/brain-methods.csv en provient.
+  payload/skills/mri-code-brainstorm/assets/brain-methods.csv en provient.
   « BMad™ », « BMad Method™ » et « BMad Core™ » sont des marques de BMad Code, LLC ; ce module n'utilise
-  pas ces marques dans ses noms (préfixe neutre « mri- »).
+  pas ces marques dans ses noms (préfixe neutre « mri-code- »).
