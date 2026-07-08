@@ -13,21 +13,28 @@ export const cp = (src, dst) => fs.cpSync(src, dst, { recursive: true });
 export const rm = (p) => fs.rmSync(p, { recursive: true, force: true });
 
 // Chemins (relatifs à TARGET) que l'outil possède entièrement : install les crée, update les
-// réécrit, uninstall les retire. `.mri_code/docs/` n'y figure JAMAIS : ce sont les documents
-// produits par l'agent pendant le travail (brief/spec/plan...) — on ne les touche jamais.
-export const MANAGED_PATHS = [
-  'AGENTS.md',
-  'CLAUDE.md',
-  '.mcp.json',
-  '.claude/skills',
-  '.claude/hooks',
-  '.claude/settings.json',
-  '.agents/skills',
-  '.mri_code/constitution.md',
-  '.mri_code/models.md',
-  '.mri_code/templates',
-  '.mri_code/config.json',
-];
+// réécrit, uninstall les retire. Calculés à partir du contenu réel de payload/ — les skills et
+// hooks sont listés PAR NOM, jamais comme un dossier entier, pour ne jamais toucher un skill ou
+// un hook que l'utilisateur aurait ajouté lui-même dans .claude/skills ou .claude/hooks.
+// `.mri_code/docs/` n'y figure JAMAIS : ce sont les documents produits par l'agent pendant le
+// travail (brief/spec/plan...) — on ne les touche jamais.
+export function computeManagedPaths() {
+  const skillNames = fs.readdirSync(join(PAYLOAD, 'skills'));
+  const hookNames = fs.readdirSync(join(PAYLOAD, 'hooks'));
+  return [
+    'AGENTS.md',
+    'CLAUDE.md',
+    '.mcp.json',
+    ...skillNames.map((n) => `.claude/skills/${n}`),
+    ...hookNames.map((n) => `.claude/hooks/${n}`),
+    '.claude/settings.json',
+    ...skillNames.map((n) => `.agents/skills/${n}`),
+    '.mri_code/constitution.md',
+    '.mri_code/models.md',
+    '.mri_code/templates',
+    '.mri_code/config.json',
+  ];
+}
 const MANIFEST_NAME = '.manifest.json';
 
 export const manifestPath = (target) => join(target, '.mri_code', MANIFEST_NAME);
@@ -68,15 +75,26 @@ export function deploy(target, { lang, docLang, user }) {
   fs.writeFileSync(join(MRI, 'config.json'),
     JSON.stringify({ communication_language: lang, document_language: docLang, user_name: user }, null, 2) + '\n');
 
-  const cl = mkdirp(join(target, '.claude'));
-  for (const sub of ['skills', 'hooks']) { rm(join(cl, sub)); cp(join(PAYLOAD, sub), join(cl, sub)); }
-  for (const h of fs.readdirSync(join(cl, 'hooks'))) fs.chmodSync(join(cl, 'hooks', h), 0o755);
-  // Make skill scripts executable too (parity with hooks — they are invoked by bare path).
-  for (const skill of fs.readdirSync(join(cl, 'skills'))) {
-    const sdir = join(cl, 'skills', skill, 'scripts');
+  // .claude/skills et .claude/hooks : on gère chaque entrée du payload PAR NOM (on ne vide/écrase
+  // jamais le dossier entier), pour ne jamais toucher un skill ou un hook ajouté par l'utilisateur.
+  const clSkills = mkdirp(join(target, '.claude', 'skills'));
+  const skillNames = fs.readdirSync(join(PAYLOAD, 'skills'));
+  for (const name of skillNames) {
+    rm(join(clSkills, name));
+    cp(join(PAYLOAD, 'skills', name), join(clSkills, name));
+    // Make skill scripts executable too (parity with hooks — they are invoked by bare path).
+    const sdir = join(clSkills, name, 'scripts');
     if (fs.existsSync(sdir)) for (const s of fs.readdirSync(sdir)) fs.chmodSync(join(sdir, s), 0o755);
   }
-  cp(join(PAYLOAD, 'settings.json'), join(cl, 'settings.json'));
+
+  const clHooks = mkdirp(join(target, '.claude', 'hooks'));
+  for (const name of fs.readdirSync(join(PAYLOAD, 'hooks'))) {
+    rm(join(clHooks, name));
+    cp(join(PAYLOAD, 'hooks', name), join(clHooks, name));
+    fs.chmodSync(join(clHooks, name), 0o755);
+  }
+
+  cp(join(PAYLOAD, 'settings.json'), join(target, '.claude', 'settings.json'));
 
   cp(join(PAYLOAD, 'AGENTS.md'), join(target, 'AGENTS.md'));
   cp(join(PAYLOAD, 'CLAUDE.md'), join(target, 'CLAUDE.md'));
@@ -84,11 +102,11 @@ export function deploy(target, { lang, docLang, user }) {
   subst(join(target, 'AGENTS.md'), { lang, docLang, user });
   subst(join(target, 'CLAUDE.md'), { lang, docLang, user });
 
-  // Miroir Codex (copies)
+  // Miroir Codex (copies) — même principe : uniquement les skills du payload, par nom.
   const ag = mkdirp(join(target, '.agents', 'skills'));
-  for (const name of fs.readdirSync(join(cl, 'skills'))) { rm(join(ag, name)); cp(join(cl, 'skills', name), join(ag, name)); }
+  for (const name of skillNames) { rm(join(ag, name)); cp(join(clSkills, name), join(ag, name)); }
 
-  const manifest = { version: VERSION, installedAt: new Date().toISOString(), paths: MANAGED_PATHS };
+  const manifest = { version: VERSION, installedAt: new Date().toISOString(), paths: computeManagedPaths() };
   fs.writeFileSync(manifestPath(target), JSON.stringify(manifest, null, 2) + '\n');
   return manifest;
 }

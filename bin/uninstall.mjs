@@ -4,14 +4,16 @@
 //   - target : dossier du projet (défaut : dossier courant)
 //   - --yes / -y : ne pas demander confirmation
 //
-// Retire tout ce que l'install/update a déposé (skills, hooks, settings.json, AGENTS.md,
-// CLAUDE.md, .mcp.json, miroir .agents/skills, config.json/constitution/models/templates dans
-// .mri_code/). Ne touche JAMAIS .mri_code/docs/ : ce sont les documents produits par l'agent
-// en cours de travail (brief/spec/plan...) — systématiquement conservés, avec ou sans --yes.
+// Retire tout ce que l'install/update a déposé — skills et hooks du module PAR NOM (jamais les
+// dossiers .claude/skills ou .claude/hooks entiers : les skills/hooks ajoutés par l'utilisateur
+// sont préservés), settings.json, AGENTS.md, CLAUDE.md, .mcp.json, miroir .agents/skills,
+// config.json/constitution/models/templates dans .mri_code/. Ne touche JAMAIS .mri_code/docs/ :
+// ce sont les documents produits par l'agent en cours de travail (brief/spec/plan...) —
+// systématiquement conservés, avec ou sans --yes.
 import fs from 'node:fs';
 import { join } from 'node:path';
 import readline from 'node:readline/promises';
-import { MANAGED_PATHS, manifestPath, readManifest, rm } from './lib/core.mjs';
+import { computeManagedPaths, manifestPath, readManifest, rm } from './lib/core.mjs';
 
 export async function runUninstall(argv) {
   const yes = argv.includes('--yes') || argv.includes('-y');
@@ -19,7 +21,7 @@ export async function runUninstall(argv) {
   const TARGET = fs.realpathSync(targetArg || process.cwd());
 
   const manifest = readManifest(TARGET);
-  const paths = manifest ? manifest.paths : MANAGED_PATHS;
+  const paths = manifest ? manifest.paths : computeManagedPaths();
   const existing = paths.filter((p) => fs.existsSync(join(TARGET, p)));
 
   if (existing.length === 0 && !fs.existsSync(manifestPath(TARGET))) {
@@ -45,8 +47,10 @@ export async function runUninstall(argv) {
   for (const p of existing) rm(join(TARGET, p));
   rm(manifestPath(TARGET));
 
-  // Nettoie les dossiers conteneurs devenus vides. Jamais .mri_code/ lui-même : docs/ doit survivre.
-  for (const dir of ['.claude', '.agents']) {
+  // Nettoie les dossiers conteneurs devenus vides — enfants d'abord. Un dossier qui contient
+  // encore des skills/hooks ajoutés par l'utilisateur n'est PAS vide et reste donc en place.
+  // Jamais .mri_code/ lui-même : docs/ doit survivre.
+  for (const dir of ['.claude/skills', '.claude/hooks', '.agents/skills', '.claude', '.agents']) {
     const p = join(TARGET, dir);
     if (fs.existsSync(p) && fs.readdirSync(p).length === 0) fs.rmdirSync(p);
   }
