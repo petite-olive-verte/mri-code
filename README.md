@@ -45,6 +45,30 @@ git clone git@github.com:MatioRIGARD/mri-code.git
 Values are written to `.mri_code/config.json` and injected into the target `AGENTS.md`. The skills
 themselves are always in English; only the agent's communication/document language is configurable.
 
+## Update / uninstall
+
+Same single-command pattern as the install, via subcommands:
+
+```bash
+# update — re-deploys the module in place, reusing the target's existing config
+cd my-project
+npx git+ssh://git@github.com/MatioRIGARD/mri-code.git update
+# or, from a local clone:
+./mri-code/update.sh my-project
+
+# uninstall — removes everything the install/update deposited, asks for confirmation
+npx git+ssh://git@github.com/MatioRIGARD/mri-code.git uninstall
+# or:
+./mri-code/uninstall.sh my-project
+# skip the confirmation prompt: add --yes (append flags after `--` in the npx form)
+./mri-code/uninstall.sh my-project --yes
+```
+
+`update` keeps `--lang`/`--doc-lang`/`--user` from `.mri_code/config.json` unless you pass new
+values, and removes any file that existed in the previous version but not in the new one.
+`.mri_code/docs/` — the brief/spec/plan/etc. the agent produces while you work — is **never**
+touched by either command, no matter what flags are passed.
+
 ## What gets installed (copy only — no symlink)
 ```
 my-project/

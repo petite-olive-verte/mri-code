@@ -7,79 +7,39 @@
 //   - --user     : comment l'agent appelle l'utilisateur (défaut : vide)
 //   En terminal interactif, les valeurs manquantes sont demandées ; sinon défauts (npx piped).
 //
+// Voir aussi : bin/update.mjs (mise à jour en place), bin/uninstall.mjs (retrait).
+//
 // Produit dans la cible :
 //   .claude/  = skills · hooks · settings.json  (VRAIS FICHIERS, copiés ; les skills sont les slash /mri-code-*)
 //   .mri_code/ = config.json · constitution.md · models.md · templates/ · docs/ (généré)
 //   AGENTS.md CLAUDE.md .mcp.json à la racine ; .agents/skills/ (miroir Codex)
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
 import fs from 'node:fs';
 import readline from 'node:readline/promises';
+import { deploy, mkdirp } from './lib/core.mjs';
 
-const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
-const PAYLOAD = join(SCRIPT_DIR, '..', 'payload');
-const args = process.argv.slice(2);
-const flag = (n) => { const i = args.indexOf(n); return i >= 0 && i + 1 < args.length ? args[i + 1] : null; };
-const mkdirp = (p) => { fs.mkdirSync(p, { recursive: true }); return p; };
-const cp = (src, dst) => fs.cpSync(src, dst, { recursive: true });
+export async function runInstall(argv) {
+  const flag = (n) => { const i = argv.indexOf(n); return i >= 0 && i + 1 < argv.length ? argv[i + 1] : null; };
+  const TARGET = fs.realpathSync(mkdirp(argv.find((a) => !a.startsWith('--')) || process.cwd()));
 
-const TARGET = fs.realpathSync(mkdirp(args.find((a) => !a.startsWith('--')) || process.cwd()));
-const MRI = join(TARGET, '.mri_code');
+  // --- Config (flags, sinon prompt interactif, sinon défauts) ---
+  let lang = flag('--lang'), docLang = flag('--doc-lang'), user = flag('--user');
+  if (process.stdin.isTTY && (lang === null || user === null || docLang === null)) {
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    if (lang === null) lang = (await rl.question('Communication language [English]: ')).trim();
+    if (docLang === null) docLang = (await rl.question(`Document language [${lang || 'English'}]: `)).trim();
+    if (user === null) user = (await rl.question('How should the agent address you? []: ')).trim();
+    rl.close();
+  }
+  lang = lang || 'English';
+  docLang = docLang || lang;
+  user = user || '';
 
-// --- Config (flags, sinon prompt interactif, sinon défauts) ---
-let lang = flag('--lang'), docLang = flag('--doc-lang'), user = flag('--user');
-if (process.stdin.isTTY && (lang === null || user === null || docLang === null)) {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  if (lang === null) lang = (await rl.question('Communication language [English]: ')).trim();
-  if (docLang === null) docLang = (await rl.question(`Document language [${lang || 'English'}]: `)).trim();
-  if (user === null) user = (await rl.question('How should the agent address you? []: ')).trim();
-  rl.close();
+  console.log(`==> Installing mri-code module into: ${TARGET}`);
+  console.log(`    lang=${lang} · doc-lang=${docLang} · user=${user || '(unset)'}`);
+  deploy(TARGET, { lang, docLang, user });
+  console.log('==> Done. Open an agent in the target (welcome message → /mri-code-brainstorm).');
 }
-lang = lang || 'English';
-docLang = docLang || lang;
-user = user || '';
 
-if (!fs.existsSync(PAYLOAD)) { console.error(`payload/ introuvable (${PAYLOAD})`); process.exit(1); }
-console.log(`==> Installing mri-code module into: ${TARGET}`);
-console.log(`    lang=${lang} · doc-lang=${docLang} · user=${user || '(unset)'}`);
-
-// 1) .mri_code/ = config + data (PAS de skills ici)
-mkdirp(join(MRI, 'docs'));
-cp(join(PAYLOAD, 'constitution.md'), join(MRI, 'constitution.md'));
-cp(join(PAYLOAD, 'models.md'), join(MRI, 'models.md'));
-cp(join(PAYLOAD, 'templates'), join(MRI, 'templates'));
-fs.writeFileSync(join(MRI, 'config.json'),
-  JSON.stringify({ communication_language: lang, document_language: docLang, user_name: user }, null, 2) + '\n');
-
-// 2) .claude/ = vrais fichiers copiés (les skills SONT les slash commands /mri-code-*, pas de dossier commands)
-const cl = mkdirp(join(TARGET, '.claude'));
-for (const sub of ['skills', 'hooks']) { fs.rmSync(join(cl, sub), { recursive: true, force: true }); cp(join(PAYLOAD, sub), join(cl, sub)); }
-for (const h of fs.readdirSync(join(cl, 'hooks'))) fs.chmodSync(join(cl, 'hooks', h), 0o755);
-// Make skill scripts executable too (parity with hooks — they are invoked by bare path).
-for (const skill of fs.readdirSync(join(cl, 'skills'))) {
-  const sdir = join(cl, 'skills', skill, 'scripts');
-  if (fs.existsSync(sdir)) for (const s of fs.readdirSync(sdir)) fs.chmodSync(join(sdir, s), 0o755);
+if (import.meta.url === `file://${process.argv[1]}`) {
+  await runInstall(process.argv.slice(2));
 }
-cp(join(PAYLOAD, 'settings.json'), join(cl, 'settings.json'));
-
-// 3) Racine + injection de la config dans AGENTS.md / CLAUDE.md
-cp(join(PAYLOAD, 'AGENTS.md'), join(TARGET, 'AGENTS.md'));
-cp(join(PAYLOAD, 'CLAUDE.md'), join(TARGET, 'CLAUDE.md'));
-cp(join(PAYLOAD, 'mcp', 'servers.json'), join(TARGET, '.mcp.json'));
-const subst = (p) => {
-  if (!fs.existsSync(p)) return;
-  let s = fs.readFileSync(p, 'utf8');
-  s = s.replaceAll('{{COMMUNICATION_LANGUAGE}}', lang)
-       .replaceAll('{{DOCUMENT_LANGUAGE}}', docLang)
-       .replaceAll('{{USER_ADDRESS}}', user ? `as ${user}` : 'directly (no preferred name set)')
-       .replaceAll('{{USER_NAME}}', user || 'the user');
-  fs.writeFileSync(p, s);
-};
-subst(join(TARGET, 'AGENTS.md'));
-subst(join(TARGET, 'CLAUDE.md'));
-
-// 4) Miroir Codex (copies)
-const ag = mkdirp(join(TARGET, '.agents', 'skills'));
-for (const name of fs.readdirSync(join(cl, 'skills'))) { fs.rmSync(join(ag, name), { recursive: true, force: true }); cp(join(cl, 'skills', name), join(ag, name)); }
-
-console.log('==> Done. Open an agent in the target (welcome message → /mri-code-brainstorm).');
