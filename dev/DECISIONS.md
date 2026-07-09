@@ -275,6 +275,72 @@ d'autres agents (Codex...).
 
 ---
 
+## Décision 17 — Topologie inversée : outil unique installé, modules = pure donnée (supersède le vendoring)
+
+> **Statut : DIFFÉRÉE — non exécutée (YAGNI).** Design cible conservé pour référence, pas la
+> direction courante. **Signal de réveil** : ≥3 modules dont ≥2 partagent des fichiers
+> (`.mcp.json`, `AGENTS.md`, `.claude/settings.json`) — la douleur du vendoring est aujourd'hui à
+> N=1 (seul mri-code utilise le kit), donc construire l'outil serait spéculatif (cf. Décision 10 :
+> extraire *après* l'E2E). **En attendant** : mri-code garde son installeur vendoré actuel (il
+> marche, testé, committé) ; les modules simples (skills only, ex. mri-slides) s'installent par
+> simple copie des dossiers de skills dans `.claude/skills/`. Le corps ci-dessous reste valable
+> comme cible à exécuter le jour venu.
+
+**Contexte.** À l'usage, la Décision 16 (moteur générique **vendoré** dans chaque module) travaille
+contre l'objectif directeur — « installer facilement et de façon fiable plusieurs modules ». Trois
+frictions constatées :
+1. **Le vendoring contredit le « moteur unique ».** L'engine est copié dans chaque module ; un fix
+   engine impose de **re-vendorer dans N repos + rebuild + redistribuer**. On paie le couplage d'une
+   dépendance partagée sans son ergonomie de mise à jour. L'argument « l'utilisateur final n'a jamais
+   besoin du repo kit » ne tient pas : `uvx --from git+…/module.git` télécharge déjà tout le module.
+2. **Boilerplate élevé pour un module « pure donnée »** : `<module>_installer/main.py`, câblage
+   `pyproject.toml` + force-include, piège `VERSION`, 3 scripts shell, `self_vendor.py`. L'onboarding
+   en 6 étapes avec footguns (documenté dans le README du kit) est le symptôme d'une abstraction qui fuit.
+3. Le fardeau ci-dessus se répète **à chaque nouveau module**, alors que plusieurs sont en préparation.
+
+**Options** : (A) s'appuyer sur les **plugins/marketplace natifs** Claude Code ; (B) **garder le
+vendoring** (statu quo Déc. 16) ; (C) **inverser la topologie** — un seul outil installé, modules =
+pure donnée *(choisi)*.
+
+**Choix : C.**
+- **`mri-installer-kit` devient un outil installé une fois**, pas une lib copiée N fois :
+  `uvx --from git+ssh://…/mri-installer-kit mri-install add <module> <cible>` (éphémère, engine
+  toujours à jour — calque de l'habitude `uvx --from …`), ou `uv tool install …` pour l'avoir en
+  permanent (`add`/`update`/`remove`/`list`). `<module>` = URL git (`git clone --depth 1` dans un
+  cache) **ou** chemin local ; puis on appelle le **`deploy()` existant, inchangé**.
+- **Chaque module devient un repo de pure donnée** : `installer.toml` + `payload/` (+ `VERSION`
+  optionnel). Plus de `<module>_installer/`, plus de câblage `pyproject`, plus de scripts shell,
+  plus de `.mri-installer-kit/` vendoré, plus de `self_vendor.py`. **Nouveau module = un dossier +
+  un toml.**
+- **Scaffold fourni par le kit** : `mri-install new <nom>` génère le squelette (`installer.toml`
+  commenté + `payload/skills/` + `VERSION` + README stub) — toujours en phase avec l'engine. Un repo
+  GitHub `mri-module-template` (*Use this template*) reste une **option** secondaire (sinon = une
+  2ᵉ chose à maintenir qui dérive de l'engine, soit exactement le problème qu'on tue).
+
+**Ce qui est superseded** : la partie **vendoring** de la Décision 16 (« copie, pas de dépendance » /
+« self-contained par module ») et la « décision délibérée » du handoff associée. La distribution
+`uvx --from git+ssh://…` par SSH (dépôts privés sans nouveau token) est **conservée**, juste pointée
+sur le kit.
+
+**Ce qui est conservé, intact et renforcé** : **`engine.py`** et ses primitives de coexistence
+(`named_entry_dirs` = Rule 1 « jamais d'écrasement en bloc », `markdown_blocks`, `json_merges` avec
+traçage de propriété, manifest idempotent). La coexistence multi-modules dans un même projet est un
+besoin **réel et proche** (mri-code + mri-slides écrivant tous deux dans `.mcp.json`) — cette
+machinerie gagne sa place, et c'est aussi *l'argument le plus fort contre l'option A* (les plugins
+natifs ne fusionnent pas proprement `.mcp.json` entre modules).
+
+**Pourquoi pas A (plugins natifs)** : inchangé depuis la Déc. 16 — verrouillerait sur Claude Code,
+alors que le miroir `AGENTS.md`/`.agents/skills/` doit rester (porte ouverte au multi-CLI, gardée
+comme *option* peu coûteuse, pas comme contrainte structurante).
+
+**Compromis** : (1) un prérequis `uv` côté utilisateur (déjà vrai — mri-code scaffolde du Python/uv) ;
+(2) résoudre un module par URL introduit une petite couche de fetch/cache dans `cli.py` (bien
+cadrée). **Sous-décision ouverte (indépendante)** : le mini-langage de template (`_split_top_level_pipe`
++ forme repli-global `primary|repli`) n'existe que pour 4 placeholders — candidat à simplification
+(garder `{champ}`/`{champ|repli}`, jeter le repli-global), à trancher au montage, ne bloque rien.
+
+---
+
 ## Synthèse des choix
 
 | Sujet | Décision |
