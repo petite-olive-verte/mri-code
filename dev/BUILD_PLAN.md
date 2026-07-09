@@ -11,6 +11,11 @@
 > (`npx git+ssh://…` en privé). Les chemins `.claude/`/`.toolbox/` ci-dessous décrivent la **cible
 > installée**, pas le repo source. Voir README + `dev/MERGE_DESIGN.md`.
 
+> **MàJ 2026-07-09** : l'installeur est réécrit en **Python** (`mri_code_installer/`) sur un moteur
+> générique vendoré depuis **`mri-installer-kit`** (repo séparé) — `bin/*.mjs`+`package.json` (Node)
+> supprimés ; distribution à distance `npx git+ssh://…` → `uvx --from git+ssh://… mri-code`. Voir
+> Décision 16.
+
 
 > Copie versionnée du plan d'exécution (source : plan approuvé en session). Les cases sont le **ledger
 > de reprise** : mises à jour après chaque lot. Conception détaillée dans `MERGE_DESIGN.md`.

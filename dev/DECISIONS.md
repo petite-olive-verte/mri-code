@@ -237,6 +237,42 @@ globale AGENTS.md : à chaque transition, suggérer aussi le **modèle** de la c
   exemples et annexe React de `mri-code-tdd` (testing-anti-patterns → pytest/unittest.mock), détection de setup
   `mri-code-worktrees` → `uv sync`. **Payload 100% Python, zéro bloc TypeScript.**
 
+## Décision 16 — Installeur extrait en moteur générique Python (`mri-installer-kit`)
+
+**Fait.** Un second module (`mri-slides`) a besoin de la même mécanique d'install/update/uninstall
+que mri-code (distribution de skills dans un projet cible). Plutôt que dupliquer/adapter
+`bin/*.mjs` à la main pour chaque futur module, la partie générique (dépôt/manifeste, gestion par
+nom des skills/hooks, update/uninstall) est extraite dans un repo séparé, **`mri-installer-kit`**
+(privé, Python stdlib), **vendoré** (copié, pas en dépendance de gestionnaire de paquets) dans
+`.mri-installer-kit/` de chaque module consommateur — committé, donc les utilisateurs finaux de
+mri-code n'ont jamais besoin d'accès au repo du kit. mri-code migre dessus : `bin/*.mjs` +
+`package.json` (Node) → `mri_code_installer/` (`spec.py` + `main.py`) ; `install.sh`/`update.sh`/
+`uninstall.sh` appellent désormais `python3` ; distribution à distance `npx git+ssh://…` devient
+`uvx --from git+ssh://… mri-code` (uv gère les dépôts privés via SSH à l'identique — pas de nouveau
+token à distribuer).
+
+Au passage, deux primitives corrigent un problème que l'ancien installeur ne gérait pas : deux
+modules `mri-*` installés dans le **même** projet cible s'écrasaient mutuellement dans
+`AGENTS.md`/`CLAUDE.md`/`.mcp.json`/`.claude/settings.json` (écrasement total). Le kit introduit
+`markdown_blocks` (chaque module insère un bloc délimité par des marqueurs dans une enveloppe
+commune `<!-- mri-modules:start/end -->`, jamais un écrasement du fichier — les blocs restent
+contigus quel que soit l'ordre d'install) et `json_merges` (fusion récursive avec traçage de
+propriété par module : objets fusionnés clé par clé, tableaux unis avec retrait précis à
+l'uninstall, doublons tolérés le temps que deux modules coexistent). `.claude/skills`/
+`.claude/hooks` restent gérés **par nom** (`named_entry_dirs`) — cf. le bug corrigé pendant ce
+chantier : l'ancien installeur `rm`ait le dossier entier avant recopie, supprimant tout skill/hook
+ajouté par l'utilisateur en dehors de mri-code.
+
+**Pourquoi Python plutôt que Node** : mri-code scaffold des projets Python/uv — les collaborateurs
+ont `uv` déjà installé, contrairement à Node.js ; `uvx --from git+ssh://…` reproduit exactement le
+tour `npx git+ssh://…`. **Pourquoi vendoring plutôt qu'une dépendance** de gestionnaire de paquets :
+évite un `node_modules`/venv et une clé SSH supplémentaire à distribuer côté consommateur pour une
+simple lib ; garde la philosophie « copie, pas de gestion de dépendances » déjà affichée dans le
+README. **Pourquoi pas les plugins natifs Claude Code** (qui couvriraient une partie du besoin,
+recherché et écarté délibérément) : dépendre de cet outil créerait un verrouillage, alors que
+mri-code maintient déjà `AGENTS.md`/`.agents/skills/` précisément pour rester portable vers
+d'autres agents (Codex...).
+
 ---
 
 ## Synthèse des choix

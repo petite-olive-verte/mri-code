@@ -1,19 +1,24 @@
 # État du projet — reprise de session
 
 > **À lire en premier par une nouvelle instance qui REPREND LE DÉVELOPPEMENT du module.**
-> Dernière mise à jour : 2026-07-03.
+> Dernière mise à jour : 2026-07-09.
 > ⚠️ Ce fichier contient de l'HISTORIQUE (sections « ancien état », carte pré-reorg…). La réalité
 > actuelle est décrite dans le bloc « Statut » ci-dessous + `dev/MERGE_DESIGN.md` + `dev/BUILD_PLAN.md`.
 
 ## Ce qu'est ce projet (actuel)
 
 **`mri-code`** : un **repo source-first distribuable** (pas un template). Contenu installable dans
-`payload/`, installeur `bin/install.mjs`/`install.sh` (+ `package.json`) qui **copie** le module dans un
-projet cible (`.claude/` = vrais fichiers, `.mri_code/` = config+constitution+models+templates+docs).
-Installation : `npx git+ssh://git@github.com/MatioRIGARD/mri-code.git` (privé/SSH) ou clone+`install.sh`,
-avec config `--lang`/`--doc-lang`/`--user`. **Payload entièrement en anglais** ; langue de l'agent
-configurable. Le **submodule Superpowers a été retiré** (skills déjà extraites ; attribution dans `LICENSE`).
-Méthodo = module `mri-code` (fusion BMAD analyse × Superpowers exécution). Voir Décisions 9-12.
+`payload/`, installeur `mri_code_installer/` (`spec.py`+`main.py`, **Python**) + `install.sh` sur un
+moteur générique vendoré depuis **`mri-installer-kit`** (repo séparé, voir Décision 16) qui **copie**
+le module dans un projet cible (`.claude/` = vrais fichiers, `.mri_code/` =
+config+constitution+models+templates+docs). Installation :
+`uvx --from git+ssh://git@github.com/MatioRIGARD/mri-code.git mri-code` (privé/SSH) ou
+clone+`install.sh`, avec config `--lang`/`--doc-lang`/`--user`. `AGENTS.md`/`CLAUDE.md`/
+`.mcp.json`/`.claude/settings.json` sont **partagés entre modules mri-*** (fusion, pas
+écrasement) — plusieurs modules peuvent coexister dans la même cible sans se marcher dessus.
+**Payload entièrement en anglais** ; langue de l'agent configurable. Le **submodule Superpowers a
+été retiré** (skills déjà extraites ; attribution dans `LICENSE`). Méthodo = module `mri-code`
+(fusion BMAD analyse × Superpowers exécution). Voir Décisions 9-12, 16.
 
 ## Statut : MODULE « mri-code » CONSTRUIT (fusion BMAD × Superpowers) — reste l'E2E live
 
@@ -43,6 +48,20 @@ initial) conservé plus bas.
 >   `find-polluter.sh` + fixtures d'éval supprimés ; `mri-code-scaffold-python` corrigé (sed en staging isolé).
 > - **Reprise** : le pipeline détecte l'état via `.mri_code/docs/<project>/progress.md` (plus
 >   `docs/specs/*/tasks.md`). Reste toujours : **E2E live** + **push distant** (utilisateur).
+
+> **MàJ 2026-07-09 (fait autorité sur les points ci-dessous).**
+> - **Installeur réécrit Node → Python** (`mri_code_installer/` + moteur vendoré depuis
+>   **`mri-installer-kit`**, nouveau repo séparé, privé, local pour l'instant — `git init` +
+>   commit fait, **pas encore poussé sur GitHub**). `bin/*.mjs`+`package.json` supprimés.
+>   `install.sh`/`update.sh`/`uninstall.sh` appellent `python3` ; distribution à distance
+>   `npx git+ssh://…` → `uvx --from git+ssh://… mri-code`. Voir Décision 16.
+> - **Multi-modules sans collision** : `AGENTS.md`/`CLAUDE.md`/`.mcp.json`/`.claude/settings.json`
+>   ne sont plus écrasés en bloc — fusion (`markdown_blocks`/`json_merges`) avec traçage de
+>   propriété par module, testée bout en bout (deux modules synthétiques coexistants, désinstall
+>   sélective de l'un).
+> - **Suivi** : pousser `mri-installer-kit` sur GitHub (repo privé, action externe à confirmer),
+>   puis brancher **`mri-slides`** dessus (`mri-slides/exemple_install/` est une copie brute
+>   périmée de l'ancien installeur JS, à supprimer une fois le vrai kit branché).
 
 ### Archive — état antérieur (pré-mri-code)
 ```
@@ -135,8 +154,8 @@ c27405d A1 command-driven · 228b8c9 A2 .toolbox/ · b1f5caf..b8d4b93 build init
 - Adaptateurs Codex/ZCode dédiés ; orchestration multi-agents (Claude cerveau / GLM bras) ;
   distribution en plugin installable ; skill `refine-prompt` si besoin réel.
 
-## Plan de test (E2E) — À JOUR 2026-07-03
-> Dans une **cible jetable** (`node bin/install.mjs /tmp/e2e-test --lang French --user Mathieu`), ouvrir
+## Plan de test (E2E) — À JOUR 2026-07-03 (commande d'install mise à jour 2026-07-09)
+> Dans une **cible jetable** (`./install.sh /tmp/e2e-test --lang French --user Mathieu`), ouvrir
 > Claude Code **dans la cible** (pas dans ce repo). Idée d'exemple : « une petite CLI todo en Python ».
 > Ce que l'E2E valide et que le statique ne couvre pas :
 

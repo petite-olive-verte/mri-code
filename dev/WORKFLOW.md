@@ -32,8 +32,8 @@ command-driven est fixé dans `AGENTS.md`.
 ### 0. Installation (une fois)
 ```bash
 # Installe le module dans un projet cible (copie, pas de symlink) :
-npx git+ssh://git@github.com/MatioRIGARD/mri-code.git -- <cible> --lang French --user Ton-Nom
-# ou, en local : node bin/install.mjs <cible> --lang French --user Ton-Nom
+uvx --from git+ssh://git@github.com/MatioRIGARD/mri-code.git mri-code <cible> --lang French --user Ton-Nom
+# ou, en local : ./install.sh <cible> --lang French --user Ton-Nom
 cd <cible> && claude          # ouvre l'agent DANS la cible
 ```
 
