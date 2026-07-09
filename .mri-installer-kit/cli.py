@@ -22,6 +22,7 @@ from engine import (
     read_manifest,
     remove_managed_paths,
     remove_path,
+    render_template,
     strip_json_ownerships,
     strip_markdown_blocks,
 )
@@ -52,11 +53,11 @@ def _resolve_config(argv: list[str], spec: Spec, existing: dict | None) -> dict:
         if value is None and existing is not None:
             value = existing.get(f.key)
         if value is None and interactive:
-            default = f.default(cfg) if callable(f.default) else f.default
+            default = render_template(f.default, cfg)
             suffix = f" [{default}]" if default else ""
             value = input(f"{f.prompt}{suffix}: ").strip() or None
         if value is None:
-            value = f.default(cfg) if callable(f.default) else f.default
+            value = render_template(f.default, cfg)
         cfg[f.key] = value or ""
     return cfg
 

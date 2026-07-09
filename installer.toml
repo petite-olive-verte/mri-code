@@ -1,0 +1,59 @@
+name = "mri-code"
+payload_dir = "payload"
+data_dir_name = ".mri_code"
+preserve_in_data_dir = ["docs"]
+data_files = ["constitution.md", "models.md"]
+data_dirs = ["templates"]
+
+[[named_entry_dirs]]
+payload_sub = "skills"
+target_sub = ".claude/skills"
+chmod_subdir = "scripts"
+mirror_target_sub = ".agents/skills"
+
+[[named_entry_dirs]]
+payload_sub = "hooks"
+target_sub = ".claude/hooks"
+chmod_self = true
+
+[[markdown_blocks]]
+src = "AGENTS.md"
+dst = "AGENTS.md"
+substitute = true
+
+[[markdown_blocks]]
+src = "CLAUDE.md"
+dst = "CLAUDE.md"
+substitute = true
+
+[[json_merges]]
+src = "mcp/servers.json"
+dst = ".mcp.json"
+
+[[json_merges]]
+src = "settings.json"
+dst = ".claude/settings.json"
+
+[[config_fields]]
+key = "communication_language"
+flag = "--lang"
+prompt = "Communication language"
+default = "English"
+
+[[config_fields]]
+key = "document_language"
+flag = "--doc-lang"
+prompt = "Document language"
+default = "{communication_language}"
+
+[[config_fields]]
+key = "user_name"
+flag = "--user"
+prompt = "How should the agent address you?"
+default = ""
+
+[placeholders]
+"{{COMMUNICATION_LANGUAGE}}" = "{communication_language}"
+"{{DOCUMENT_LANGUAGE}}" = "{document_language}"
+"{{USER_NAME}}" = "{user_name|the user}"
+"{{USER_ADDRESS}}" = "as {user_name}|directly (no preferred name set)"

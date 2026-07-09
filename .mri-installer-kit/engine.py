@@ -10,10 +10,10 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import tomllib
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable
 
 MANIFEST_NAME = ".manifest.json"
 _ENVELOPE_START = "<!-- mri-modules:start -->"
@@ -66,7 +66,9 @@ class ConfigField:
     key: str
     flag: str
     prompt: str
-    default: str | Callable[[dict], str] = ""
+    # Plain string, rendered by render_template() — e.g. "English", "{other_field}",
+    # "{other_field|fallback}". Never a callable: a declarative Spec must stay data, not code.
+    default: str = ""
 
 
 @dataclass
@@ -83,7 +85,8 @@ class Spec:
     markdown_blocks: list[MarkdownBlock] = field(default_factory=list)
     json_merges: list[JsonMerge] = field(default_factory=list)
     config_fields: list[ConfigField] = field(default_factory=list)
-    placeholders: Callable[[dict], dict[str, str]] = lambda cfg: {}
+    # {{TOKEN}} -> template string, rendered by render_template() against the resolved config.
+    placeholders: dict[str, str] = field(default_factory=dict)
 
 
 # --- filesystem helpers -------------------------------------------------------------------
@@ -302,6 +305,83 @@ def strip_json_ownerships(target: Path, ownership: dict[str, dict]) -> None:
         strip_json_ownership(target / dst, owned)
 
 
+# --- declarative template mini-language ------------------------------------------------------
+# Used for ConfigField.default and Spec.placeholders values so a Spec can stay pure TOML data
+# instead of hand-written Python callables. Deliberately not a general templating language — two
+# composable forms only:
+#   - "{field}" / "...{field|inline fallback}..." — per-token substitution, embeddable anywhere.
+#   - "primary|whole fallback" (a "|" outside any {...}) — whole fallback used when every {field}
+#     referenced in `primary` is empty; needed when the surrounding text itself must change, not
+#     just a value within it (e.g. "as {user_name}|directly (no preferred name set)").
+
+_TOKEN_RE = re.compile(r"\{([a-zA-Z_][a-zA-Z0-9_]*)(?:\|([^{}]*))?\}")
+
+
+def _split_top_level_pipe(value: str) -> tuple[str, str | None]:
+    depth = 0
+    for i, ch in enumerate(value):
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth = max(0, depth - 1)
+        elif ch == "|" and depth == 0:
+            return value[:i], value[i + 1 :]
+    return value, None
+
+
+def _render_tokens(text: str, config: dict) -> str:
+    def _sub(m: re.Match) -> str:
+        value = config.get(m.group(1))
+        return str(value) if value else (m.group(2) if m.group(2) is not None else "")
+
+    return _TOKEN_RE.sub(_sub, text)
+
+
+def render_template(value: str, config: dict) -> str:
+    primary, whole_fallback = _split_top_level_pipe(value)
+    if whole_fallback is not None:
+        fields = _TOKEN_RE.findall(primary)
+        if fields and all(not config.get(f) for f, _ in fields):
+            return _render_tokens(whole_fallback, config)
+    return _render_tokens(primary, config)
+
+
+def resolve_placeholders(spec: Spec, config: dict) -> dict[str, str]:
+    return {token: render_template(template, config) for token, template in spec.placeholders.items()}
+
+
+# --- declarative spec loading -----------------------------------------------------------------
+
+def resolve_version(repo_root: Path) -> str:
+    version_file = repo_root / "VERSION"
+    if version_file.exists():
+        return version_file.read_text().strip()
+    pyproject = repo_root / "pyproject.toml"
+    if pyproject.exists():
+        return tomllib.loads(pyproject.read_text())["project"]["version"]
+    raise FileNotFoundError(f"no VERSION file or pyproject.toml with a version under {repo_root}")
+
+
+def load_spec(toml_path: Path, *, version: str) -> Spec:
+    data = tomllib.loads(toml_path.read_text())
+    repo_root = toml_path.parent
+    return Spec(
+        name=data["name"],
+        version=version,
+        payload_dir=repo_root / data.get("payload_dir", "."),
+        data_dir_name=data["data_dir_name"],
+        preserve_in_data_dir=data.get("preserve_in_data_dir", []),
+        data_files=data.get("data_files", []),
+        data_dirs=data.get("data_dirs", []),
+        named_entry_dirs=[NamedEntryDir(**d) for d in data.get("named_entry_dirs", [])],
+        whole_files=[WholeFile(**d) for d in data.get("whole_files", [])],
+        markdown_blocks=[MarkdownBlock(**d) for d in data.get("markdown_blocks", [])],
+        json_merges=[JsonMerge(**d) for d in data.get("json_merges", [])],
+        config_fields=[ConfigField(**d) for d in data.get("config_fields", [])],
+        placeholders=data.get("placeholders", {}),
+    )
+
+
 # --- substitution ----------------------------------------------------------------------------
 
 def _substitute_text(text: str, mapping: dict[str, str]) -> str:
@@ -354,10 +434,12 @@ def deploy(target: Path, config: dict, spec: Spec) -> dict:
                 remove_path(mirror_dir / name)
                 copy_path(target_dir / name, mirror_dir / name)
 
+    resolved_placeholders = resolve_placeholders(spec, config)
+
     for wf in spec.whole_files:
         copy_path(spec.payload_dir / wf.src, target / wf.dst)
         if wf.substitute:
-            _substitute_file(target / wf.dst, spec.placeholders(config))
+            _substitute_file(target / wf.dst, resolved_placeholders)
 
     old_manifest = read_manifest(target, spec) or {}
 
@@ -366,7 +448,7 @@ def deploy(target: Path, config: dict, spec: Spec) -> dict:
     for mb in spec.markdown_blocks:
         content = (spec.payload_dir / mb.src).read_text()
         if mb.substitute:
-            content = _substitute_text(content, spec.placeholders(config))
+            content = _substitute_text(content, resolved_placeholders)
         apply_markdown_block(target / mb.dst, spec.name, content)
         new_md_dsts.append(mb.dst)
     for stale_dst in old_md_dsts - set(new_md_dsts):

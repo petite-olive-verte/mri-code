@@ -2,7 +2,7 @@
 name = "mri-code"
 version = "0.1.0"
 description = "mri-code — agentic pipeline (analysis -> design -> TDD implementation) installable into a Python project"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = []
 
 [project.scripts]
@@ -19,3 +19,4 @@ packages = ["mri_code_installer"]
 "payload" = "payload"
 ".mri-installer-kit" = ".mri-installer-kit"
 "VERSION" = "VERSION"
+"installer.toml" = "installer.toml"
