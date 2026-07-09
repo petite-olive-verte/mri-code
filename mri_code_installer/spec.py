@@ -1,4 +1,6 @@
 """mri-code's Spec instance — see mri-installer-kit's README for the contract this follows."""
+# ruff: noqa: I001 — order is load-bearing: importing mri_code_installer first puts the
+# vendored engine on sys.path, which `engine` (bare, no parent package) then resolves against.
 from mri_code_installer import PAYLOAD_DIR, VERSION
 from engine import ConfigField, JsonMerge, MarkdownBlock, NamedEntryDir, Spec  # vendored
 
