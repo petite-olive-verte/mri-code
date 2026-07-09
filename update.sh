@@ -5,9 +5,5 @@
 #   default target: current directory.
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
-command -v node >/dev/null 2>&1 || { echo "Node.js required (https://nodejs.org)."; exit 1; }
-if [ -d "$here/.git" ]; then
-  git -C "$here" pull --ff-only --quiet 2>/dev/null \
-    || echo "warning: could not fast-forward $here (local changes or detached HEAD?) — using current checkout" >&2
-fi
-exec node "$here/bin/update.mjs" "$@"
+command -v python3 >/dev/null 2>&1 || { echo "Python 3 required (https://www.python.org)."; exit 1; }
+PYTHONPATH="$here${PYTHONPATH:+:$PYTHONPATH}" exec python3 -m mri_code_installer.main update "$@"

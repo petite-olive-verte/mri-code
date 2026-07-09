@@ -5,5 +5,5 @@
 #   default target: current directory. Prompts for confirmation unless --yes/-y is given.
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
-command -v node >/dev/null 2>&1 || { echo "Node.js required (https://nodejs.org)."; exit 1; }
-exec node "$here/bin/uninstall.mjs" "$@"
+command -v python3 >/dev/null 2>&1 || { echo "Python 3 required (https://www.python.org)."; exit 1; }
+PYTHONPATH="$here${PYTHONPATH:+:$PYTHONPATH}" exec python3 -m mri_code_installer.main uninstall "$@"

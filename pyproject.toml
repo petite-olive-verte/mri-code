@@ -1,0 +1,21 @@
+[project]
+name = "mri-code"
+version = "0.1.0"
+description = "mri-code — agentic pipeline (analysis -> design -> TDD implementation) installable into a Python project"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+mri-code = "mri_code_installer.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mri_code_installer"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"payload" = "payload"
+".mri-installer-kit" = ".mri-installer-kit"
+"VERSION" = "VERSION"
