@@ -17,6 +17,4 @@ packages = ["mri_code_installer"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "payload" = "payload"
-".mri-installer-kit" = ".mri-installer-kit"
 "VERSION" = "VERSION"
-"installer.toml" = "installer.toml"
