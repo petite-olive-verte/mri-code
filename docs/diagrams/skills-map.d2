@@ -1,0 +1,45 @@
+# mri-code — full skills map (core flow + optional + internal sub-skills)
+# Static sketch. See render.sh.
+direction: down
+
+core: Core flow {
+  direction: right
+  style.fill: transparent
+  brainstorm -> forge -> design -> devplan -> scaffold -> implement -> review -> finish
+  forge -> brainstorm: killed { style.stroke-dash: 3 }
+  devplan -> implement: existing { style.stroke-dash: 3 }
+}
+
+optional: On-demand skills {
+  style.fill: transparent
+  research: "market · domain · technical\nresearch"
+  document: document-project
+  debug
+  elicit
+  adversarial: adversarial-review
+  meta: meta-prompt
+  resume
+}
+
+internal: Internal sub-skills {
+  style.fill: transparent
+  tdd
+  verify
+  worktrees
+}
+
+# how the optional skills hook into the flow
+core.forge -> optional.research: after forge { style.stroke-dash: 3 }
+optional.document -> core.brainstorm: brownfield { style.stroke-dash: 3 }
+core.implement -> optional.debug: on failure { style.stroke-dash: 3 }
+optional.elicit -> core.design: deepen { style.stroke-dash: 3 }
+optional.adversarial -> core.design: audit { style.stroke-dash: 3 }
+optional.resume -> core.devplan: re-enter { style.stroke-dash: 3 }
+
+# internal sub-skills are driven by implement
+core.implement -> internal.tdd { style.stroke-dash: 3 }
+core.implement -> internal.verify { style.stroke-dash: 3 }
+core.implement -> internal.worktrees { style.stroke-dash: 3 }
+
+# meta-prompt is standalone (outside the pipeline)
+optional.meta: meta-prompt\n(standalone)

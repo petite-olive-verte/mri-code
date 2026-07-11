@@ -1,0 +1,25 @@
+# mri-code — core pipeline (idea -> shipped)
+# Rendered sketch + animated. See render.sh.
+direction: down
+
+brainstorm:  "/brainstorm"
+forge:       "/forge"
+design:      "/design"
+devplan:     "/devplan"
+scaffold:    "/scaffold-python"
+implement:   "/implement"
+review:      "/review"
+finish:      "/finish"
+
+# animated spine — the happy path
+brainstorm -> forge: { style.animated: true }
+forge -> design: hardened { style.animated: true }
+design -> devplan: { style.animated: true }
+devplan -> scaffold: new project { style.animated: true }
+scaffold -> implement: { style.animated: true }
+implement -> review: TDD + MCP { style.animated: true }
+review -> finish: { style.animated: true }
+
+# branches (static)
+forge -> brainstorm: killed { style.stroke-dash: 4 }
+devplan -> implement: existing { style.stroke-dash: 4 }
