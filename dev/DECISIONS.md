@@ -362,3 +362,29 @@ cadrée). **Sous-décision ouverte (indépendante)** : le mini-langage de templa
 2. Feedback visuel/runtime (`.mcp.json` : Playwright + Chrome DevTools).
 3. Scaffold Python (`templates/python-uv/`) + `constitution.md` éditable.
 4. Skill `meta-prompt` autonome + commande `/meta-prompt`.
+
+---
+
+## Décision 18 — Shared files : écrire-si-absent + deep-merge `.mcp.json` (au lieu de print-only)
+
+**Statut : FAIT.** Motivation : rendre l'installeur *drop-in* dans un projet **existant** (cas réel :
+intégrer les skills mri-code à une toolbox déjà dotée de sa propre doctrine). L'ancien comportement
+(imprimer les 4 shared files + demander une fusion manuelle) était pénible et, pour un repo qui a
+déjà son `CLAUDE.md`, poussait à écraser sa doctrine.
+
+**Choix** (dans `main.py`, `apply_shared_files`) :
+- `AGENTS.md`, `CLAUDE.md`, `.claude/settings.json` → **write-if-absent** (`write_if_absent`) : écrits
+  seulement si absents ; un fichier existant n'est **jamais** touché. Le doc reste de la prose non
+  fusionnable proprement → single-owner, write-if-absent suffit.
+- `.mcp.json` → **deep-merge** (`merge_mcp_servers`) : JSON structuré, donc fusionnable ; on n'ajoute
+  que les clés `mcpServers` absentes, on n'écrase jamais un serveur de même nom (co-owné par un autre
+  module type mri-slides). Idempotent.
+
+Le manifest trace `created_shared_files` (avec hash) et `mcp_servers_added` ; `uninstall` défait
+**exactement** ça (doc retiré seulement s'il est resté identique ; seuls nos serveurs MCP retirés).
+
+C'est la version *pragmatique et minimale* des primitives `json_merges`/`markdown_blocks` esquissées
+Déc. 16/17, sans engine séparé ni enveloppe multi-modules à marqueurs — cohérent avec « garder
+l'installeur vendoré actuel, l'améliorer » (Déc. 17 restant DIFFÉRÉE tant qu'on est à N=1 module).
+`settings.json` reste write-if-absent (hooks/permissions intrusifs, laissés opt-in) — pas de merge.
+

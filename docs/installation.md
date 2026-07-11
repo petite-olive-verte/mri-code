@@ -80,19 +80,22 @@ my-project/
 The install deposits **only the installation**, not the whole repo — no `dev/`, no `.git`.
 Your project root stays clean: your code plus these dotfiles.
 
-## Shared files: never modified automatically
+## Shared files: handled non-destructively
 
 `AGENTS.md`, `CLAUDE.md`, `.mcp.json` and `.claude/settings.json` may already exist in your
-project, or be owned by another tool. The installer **never writes, creates or edits
-them** — not even when they're absent. Instead, `install` and `update` write a single
-**`TODO_MRI_CODE_INSTALL.md`** at your project root: for each of the four files it holds the
-rendered content (placeholders substituted) plus a ready-to-paste prompt — *"merge this into
-`<dst>`: create it if missing, otherwise merge without disturbing the existing content."*
-The terminal only prints a short reminder pointing at that file.
+project, or be owned by another tool. The installer handles them **without ever clobbering
+your content**, so mri-code drops cleanly into an existing repo:
 
-Open `TODO_MRI_CODE_INSTALL.md`, apply the four snippets by hand or hand the whole file to
-your coding agent, then delete it. `uninstall` writes the equivalent
-`TODO_MRI_CODE_UNINSTALL.md` (and removes any leftover install TODO). You stay in full
-control of these four files, and the installer needs no LLM of its own to manage them.
+- **`AGENTS.md`, `CLAUDE.md`, `.claude/settings.json` → written only if absent.** If the file
+  already exists it is **left untouched** (a one-line note is printed so you can fold in the
+  mri-code section by hand if you want the full command-driven pipeline).
+- **`.mcp.json` → deep-merged.** The two servers (`playwright`, `chrome-devtools`) are added
+  only when missing; a server another tool already registered under the same name is never
+  overwritten. Re-running is a no-op.
+
+The manifest records exactly what the installer created, so `uninstall` reverses **only** that:
+a shared doc is deleted only if it is still byte-for-byte what was written (an edited one is
+kept), and only the installer's own MCP servers are stripped from `.mcp.json`. No LLM needed —
+the rules are plain Python.
 
 For how these pieces are produced and deployed, see **[architecture.md](architecture.md)**.

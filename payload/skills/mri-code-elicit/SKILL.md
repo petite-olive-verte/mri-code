@@ -1,5 +1,6 @@
 ---
 name: mri-code-elicit
+model: opus
 description: >-
   Prompts reconsidering, refining, and improving the last produced output (yours or a doc).
   On-demand deepening/critique (Socratic, first principles, pre-mortem, red-team…).

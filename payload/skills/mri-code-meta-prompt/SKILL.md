@@ -1,5 +1,6 @@
 ---
 name: mri-code-meta-prompt
+model: opus
 description: Turns a vague request into a precise, structured, ready-to-use prompt for an LLM/agent. One-off tool, outside the idea->code pipeline; invoked explicitly (command /meta-prompt).
 disable-model-invocation: true
 ---

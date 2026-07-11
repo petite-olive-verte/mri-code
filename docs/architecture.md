@@ -26,11 +26,11 @@ The installer is a single self-contained module, `mri_code_installer/main.py`:
 - **Config substitution.** `--lang` / `--doc-lang` / `--user` are written to
   `.mri_code/config.json` and substituted into the content the installer renders. The
   agent reads that config at the start of every session.
-- **Shared files stay yours.** `AGENTS.md`, `CLAUDE.md`, `.mcp.json` and
-  `.claude/settings.json` are never written automatically — the installer writes their
-  rendered content plus a merge prompt to `TODO_MRI_CODE_INSTALL.md` at the project root, and
-  only prints a short reminder. See
-  [installation.md → Shared files](installation.md#shared-files-never-modified-automatically).
+- **Shared files stay yours.** `AGENTS.md`, `CLAUDE.md` and `.claude/settings.json` are written
+  only if absent (an existing file is never touched), and `.mcp.json` is deep-merged (only the
+  installer's own servers are added, never overwriting one already there). The manifest records
+  what was created so `uninstall` reverses exactly that. See
+  [installation.md → Shared files](installation.md#shared-files-handled-non-destructively).
 
 The `update` and `uninstall` subcommands reuse the same rules: `update` re-deploys and
 prunes files dropped between versions; `uninstall` removes what was deposited. Neither

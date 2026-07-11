@@ -1,5 +1,6 @@
 ---
 name: mri-code-forge
+model: opus
 description: >-
   Pressure-test an idea through multi-persona interrogation until it hardens, clarifies, or
   dies cheaply. FIXED persona panel. Invoked by /mri-code-forge, usually after /mri-code-brainstorm.

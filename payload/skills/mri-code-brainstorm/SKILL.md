@@ -1,5 +1,6 @@
 ---
 name: mri-code-brainstorm
+model: opus
 description: >-
   Structured, challenging brainstorming facilitation. The agent is a FACILITATOR who draws ideas out
   of the user via a catalog of techniques, pushes on assumptions, then converges into a product brief.

@@ -1,5 +1,6 @@
 ---
 name: mri-code-resume
+model: sonnet
 description: >-
   Resume the mri pipeline where it stopped: reads progress.md and re-enters the current step.
   Invoked by the user via /mri-code-resume.

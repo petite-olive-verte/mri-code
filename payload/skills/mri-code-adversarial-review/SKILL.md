@@ -1,5 +1,6 @@
 ---
 name: mri-code-adversarial-review
+model: opus
 description: >-
   Cynical review of a document (brief, spec, plan, diff, doc) → findings report. Skeptical audit,
   looks for what's missing as much as what's wrong.  Invoked by /mri-code-adversarial-review.

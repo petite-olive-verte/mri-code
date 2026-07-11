@@ -2,13 +2,16 @@
 
 Single self-contained module: no vendored engine, no TOML spec. Deployment is deterministic and
 local — skills, hooks and `.mri_code/` data are copied straight from `payload/`. The 4 files a
-project may already own (AGENTS.md, CLAUDE.md, .mcp.json, .claude/settings.json) are **never**
-written automatically, even when absent: install/update write their rendered content plus a
-ready-to-paste merge prompt to `TODO_MRI_CODE_INSTALL.md` at the project root, so the user (or
-their coding agent) decides how to integrate them. A short reminder is printed to the terminal.
+project may already own are handled non-destructively so the module drops cleanly into an
+existing repo: the markdown docs (AGENTS.md, CLAUDE.md) and `.claude/settings.json` are written
+only when **absent** (an existing file is never touched), while `.mcp.json` is **deep-merged** —
+our two servers are added only if missing, never overwriting one another module owns. The
+manifest records exactly what we created so `uninstall` undoes only that (docs removed only if
+still unchanged; only our MCP servers stripped).
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import sys
@@ -95,6 +98,86 @@ def substitute(text: str, mapping: dict[str, str]) -> str:
     return text
 
 
+# --- shared-file application (write-if-absent for docs, deep-merge for .mcp.json) -----------
+
+def _sha(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def write_if_absent(dst: Path, content: str) -> str | None:
+    """Write content only when dst is absent (or already byte-identical to ours, so
+    a re-install is a no-op). Returns the content hash when we own the file, else
+    None — meaning the project already has its own version, left untouched."""
+    if not dst.exists():
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_text(content)
+        return _sha(content)
+    if _sha(dst.read_text()) == _sha(content):
+        return _sha(content)
+    return None
+
+
+def merge_mcp_servers(dst: Path, incoming: dict) -> tuple[list[str], list[str]]:
+    """Deep-merge incoming `mcpServers` into dst without ever overwriting a server
+    already present under the same name (another module may own it). Returns
+    (owned, added): owned = names whose entry equals ours (removable on uninstall),
+    added = names newly written this run. Idempotent: a re-run adds nothing."""
+    existing: dict = {}
+    if dst.exists():
+        try:
+            existing = json.loads(dst.read_text())
+        except (json.JSONDecodeError, OSError):
+            existing = {}
+    servers = existing.setdefault("mcpServers", {})
+    owned: list[str] = []
+    added: list[str] = []
+    for name, spec in incoming.get("mcpServers", {}).items():
+        if name not in servers:
+            servers[name] = spec
+            owned.append(name)
+            added.append(name)
+        elif servers[name] == spec:
+            owned.append(name)
+    if added or not dst.exists():
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_text(json.dumps(existing, indent=2) + "\n")
+    return owned, added
+
+
+def apply_shared_files(target: Path, config: dict) -> dict:
+    """Install the shared files non-destructively: the markdown docs and settings.json
+    are written only if absent (or already ours); `.mcp.json` is deep-merged. Prints a
+    concise summary and returns ownership info recorded in the manifest for uninstall."""
+    mapping = resolve_placeholders(config)
+    created: dict[str, str] = {}
+    mcp_owned: list[str] = []
+    skipped: list[str] = []
+    print()
+    print("==> Shared files (non-destructive):")
+    for src, dst, sub in SHARED_FILES:
+        content = (PAYLOAD / src).read_text()
+        if sub:
+            content = substitute(content, mapping)
+        dst_path = target / dst
+        if dst == ".mcp.json":
+            mcp_owned, added = merge_mcp_servers(dst_path, json.loads(content))
+            if added:
+                print(f"    {dst}: merged +{', '.join(added)}")
+            else:
+                print(f"    {dst}: our servers already present (no change)")
+        else:
+            digest = write_if_absent(dst_path, content)
+            if digest is None:
+                skipped.append(dst)
+                print(f"    {dst}: exists (yours) — left untouched")
+            else:
+                created[dst] = digest
+                print(f"    {dst}: written")
+    if skipped:
+        print(f"    -> to fold {NAME} into your existing {', '.join(skipped)}, merge by hand.")
+    return {"created_shared_files": created, "mcp_servers_added": mcp_owned}
+
+
 # --- config resolution ----------------------------------------------------------------------
 
 def _flag(argv: list[str], name: str) -> str | None:
@@ -177,7 +260,7 @@ def compute_managed_paths() -> list[str]:
 
 # --- deploy (shared by install/update) ------------------------------------------------------
 
-def deploy(target: Path, config: dict, *, version: str) -> dict:
+def deploy(target: Path, config: dict, *, version: str, shared: dict | None = None) -> dict:
     if not PAYLOAD.exists():
         raise FileNotFoundError(f"payload directory not found: {PAYLOAD}")
 
@@ -220,78 +303,55 @@ def deploy(target: Path, config: dict, *, version: str) -> dict:
         "installed_at": datetime.now(timezone.utc).isoformat(),
         "paths": compute_managed_paths(),
         "shared_files": [dst for _src, dst, _sub in SHARED_FILES],
+        "created_shared_files": (shared or {}).get("created_shared_files", {}),
+        "mcp_servers_added": (shared or {}).get("mcp_servers_added", []),
     }
     manifest_path(target).write_text(json.dumps(manifest, indent=2) + "\n")
     return manifest
 
 
-# --- shared files: written to a root TODO file, never applied automatically -------------------
+# --- shared files: precise, non-destructive removal on uninstall ----------------------------
 
-INSTALL_TODO = "TODO_MRI_CODE_INSTALL.md"
-UNINSTALL_TODO = "TODO_MRI_CODE_UNINSTALL.md"
+def remove_shared_files(target: Path, manifest: dict | None) -> None:
+    """Undo exactly what apply_shared_files did: delete the shared docs we created
+    (only if still unchanged since install), and strip from `.mcp.json` only the
+    servers we added (leaving any owned by the user or another module)."""
+    created = (manifest.get("created_shared_files") if manifest else {}) or {}
+    mcp_added = (manifest.get("mcp_servers_added") if manifest else []) or []
 
-
-def _fenced(content: str, lang: str) -> str:
-    """Wrap content in a code fence long enough to survive backticks inside it."""
-    longest = run = 0
-    for ch in content:
-        run = run + 1 if ch == "`" else 0
-        longest = max(longest, run)
-    fence = "`" * max(3, longest + 1)
-    return f"{fence}{lang}\n{content.rstrip(chr(10))}\n{fence}"
-
-
-def build_shared_files_todo(config: dict, *, removal: bool = False) -> str:
-    mapping = resolve_placeholders(config)
-    parts: list[str] = []
-    if removal:
-        parts.append(
-            f"# {NAME} — shared files to clean up\n\n"
-            f"`{NAME}` never edits the four files below, because your project may own them. It "
-            f"left them untouched at uninstall too. If you had merged the config in, undo it by "
-            f"hand — or hand this whole file to your coding agent. Then delete this file."
-        )
-    else:
-        parts.append(
-            f"# {NAME} — finish the install\n\n"
-            f"`{NAME}` never writes the four files below: your project may already own them. Merge "
-            f"each snippet into your project (do it by hand, or hand this whole file to your coding "
-            f"agent), then delete this file."
-        )
-    for src, dst, sub in SHARED_FILES:
-        content = (PAYLOAD / src).read_text()
-        if sub:
-            content = substitute(content, mapping)
-        lang = "json" if dst.endswith(".json") else "markdown" if dst.endswith(".md") else ""
-        if removal:
-            instruction = (f"Remove the {NAME} configuration from `{dst}` if you added it there. "
-                           f"Reference content, as installed:")
+    for dst, digest in created.items():
+        p = target / dst
+        if not p.exists():
+            continue
+        if _sha(p.read_text()) == digest:
+            p.unlink()
+            print(f"    removed {dst}")
         else:
-            instruction = (f"Merge this into `{dst}`: create the file if it doesn't exist, "
-                           f"otherwise merge without disturbing the existing content.")
-        parts.append(f"## `{dst}`\n\n{instruction}\n\n{_fenced(content, lang)}")
-    return "\n\n".join(parts) + "\n"
+            print(f"    kept {dst} (modified since install)")
 
-
-def write_shared_files_todo(target: Path, config: dict, *, removal: bool = False) -> Path:
-    path = target / (UNINSTALL_TODO if removal else INSTALL_TODO)
-    path.write_text(build_shared_files_todo(config, removal=removal))
-    return path
-
-
-def _print_todo_reminder(path: Path, *, removal: bool = False) -> None:
-    try:
-        shown = path.relative_to(Path.cwd())
-    except ValueError:
-        shown = path
-    files = "AGENTS.md, CLAUDE.md, .mcp.json, .claude/settings.json"
-    print()
-    if removal:
-        print(f"==> 4 shared files were left untouched ({files}).")
-        print(f"    See {shown} to remove the {NAME} config from them by hand.")
-    else:
-        print(f"==> One step left: 4 shared files were NOT written ({files}).")
-        print(f"    Open {shown} and merge them — or hand that file to your coding agent.")
+    if mcp_added:
+        p = target / ".mcp.json"
+        if not p.exists():
+            return
+        try:
+            data = json.loads(p.read_text())
+        except (json.JSONDecodeError, OSError):
+            return
+        if not isinstance(data, dict):
+            return
+        servers = data.get("mcpServers", {})
+        ours = json.loads((PAYLOAD / "mcp/servers.json").read_text()).get("mcpServers", {})
+        removed = []
+        for name in mcp_added:
+            if name in servers and servers[name] == ours.get(name):
+                del servers[name]
+                removed.append(name)
+        if removed:
+            if not servers and set(data.keys()) == {"mcpServers"}:
+                p.unlink()  # the file only ever held our servers
+            else:
+                p.write_text(json.dumps(data, indent=2) + "\n")
+            print(f"    .mcp.json: removed {', '.join(removed)}")
 
 
 # --- commands ---------------------------------------------------------------------------------
@@ -304,10 +364,9 @@ def run_install(argv: list[str]) -> None:
 
     print(f"==> Installing {NAME} into: {target}")
     print(f"    {config_summary(config)}")
-    deploy(target, config, version=version)
-    todo = write_shared_files_todo(target, config)
+    shared = apply_shared_files(target, config)
+    deploy(target, config, version=version, shared=shared)
     print("==> Done.")
-    _print_todo_reminder(todo)
 
 
 def run_update(argv: list[str]) -> None:
@@ -329,7 +388,8 @@ def run_update(argv: list[str]) -> None:
     print(f"    {config_summary(config)}")
     print(f"    {old_manifest.get('version')} -> {version}")
 
-    new_manifest = deploy(target, config, version=version)
+    shared = apply_shared_files(target, config)
+    new_manifest = deploy(target, config, version=version, shared=shared)
 
     kept = set(new_manifest["paths"])
     for p in old_manifest.get("paths", []):
@@ -337,9 +397,7 @@ def run_update(argv: list[str]) -> None:
             remove_path(target / p)
             print(f"    removed stale: {p}")
 
-    todo = write_shared_files_todo(target, config)
     print("==> Update done.")
-    _print_todo_reminder(todo)
 
 
 def _container_dirs() -> list[Path]:
@@ -367,14 +425,14 @@ def run_uninstall(argv: list[str]) -> None:
     manifest = read_manifest(target)
     paths = manifest["paths"] if manifest else compute_managed_paths()
     existing = [p for p in paths if (target / p).exists()]
-    shared_dsts = manifest.get("shared_files", []) if manifest else [dst for _s, dst, _sub in SHARED_FILES]
+    created_shared = list((manifest.get("created_shared_files") if manifest else {}) or {})
+    mcp_added = (manifest.get("mcp_servers_added") if manifest else []) or []
 
     if not existing and manifest is None:
         print(f"Nothing to uninstall in {target}.")
         return
     if manifest is None:
         print("(No manifest found — using the current payload as a best-effort fallback.)")
-    removal_config = read_config(target) or {}
 
     print(f"==> Will remove from {target}:")
     for p in existing:
@@ -382,7 +440,10 @@ def run_uninstall(argv: list[str]) -> None:
     print(f"    - {DATA_DIR}/{MANIFEST_NAME}")
     preserved = ", ".join(f"{DATA_DIR}/{d}/" for d in PRESERVE_IN_DATA_DIR)
     print(f"==> Preserved (never touched): {preserved}")
-    print(f"==> Never touched (shared, not owned): {', '.join(shared_dsts)}")
+    if created_shared:
+        print(f"==> Shared files we created (removed only if unchanged): {', '.join(created_shared)}")
+    if mcp_added:
+        print(f"==> MCP servers we added (stripped from .mcp.json): {', '.join(mcp_added)}")
 
     if not yes:
         answer = input("Proceed? [y/N] ").strip().lower()
@@ -392,13 +453,11 @@ def run_uninstall(argv: list[str]) -> None:
 
     for p in existing:
         remove_path(target / p)
+    remove_shared_files(target, manifest)
     remove_path(manifest_path(target))
-    remove_path(target / INSTALL_TODO)  # stale install reminder, if the user never deleted it
     _cleanup_empty_dirs(target)
 
-    todo = write_shared_files_todo(target, removal_config, removal=True)
     print(f"==> Uninstalled {NAME}.")
-    _print_todo_reminder(todo, removal=True)
 
 
 def main() -> None:

@@ -1,5 +1,6 @@
 ---
 name: mri-code-market-research
+model: sonnet
 description: >-
   Market research (competition, customers, trends) on current web data with cited sources.
   On-demand, suggested after /mri-code-forge.

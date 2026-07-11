@@ -1,0 +1,97 @@
+"""Tests for the non-destructive shared-file handling of the installer.
+
+Covers the two behaviours that make mri-code drop cleanly into an existing repo:
+markdown/settings written only when absent, and `.mcp.json` deep-merged (never
+overwriting a server another module owns), plus a precise, reversible uninstall.
+"""
+import json
+
+from mri_code_installer import main
+
+
+# --- write_if_absent -------------------------------------------------------------------------
+
+def test_write_if_absent_writes_when_missing(tmp_path):
+    p = tmp_path / "AGENTS.md"
+    digest = main.write_if_absent(p, "hello")
+    assert p.read_text() == "hello"
+    assert digest == main._sha("hello")
+
+
+def test_write_if_absent_owns_identical(tmp_path):
+    p = tmp_path / "doc.md"
+    p.write_text("same")
+    assert main.write_if_absent(p, "same") == main._sha("same")
+
+
+def test_write_if_absent_leaves_foreign_untouched(tmp_path):
+    p = tmp_path / "doc.md"
+    p.write_text("mine")
+    assert main.write_if_absent(p, "theirs") is None
+    assert p.read_text() == "mine"  # never clobbered
+
+
+# --- merge_mcp_servers -----------------------------------------------------------------------
+
+def test_merge_mcp_into_absent_file(tmp_path):
+    p = tmp_path / ".mcp.json"
+    owned, added = main.merge_mcp_servers(p, {"mcpServers": {"a": {"command": "x"}}})
+    assert added == ["a"] and owned == ["a"]
+    assert json.loads(p.read_text())["mcpServers"]["a"] == {"command": "x"}
+
+
+def test_merge_mcp_preserves_foreign_and_is_idempotent(tmp_path):
+    p = tmp_path / ".mcp.json"
+    p.write_text(json.dumps({"mcpServers": {"foo": {"command": "f"}}}))
+    incoming = {"mcpServers": {"pw": {"command": "p"}}}
+
+    owned, added = main.merge_mcp_servers(p, incoming)
+    assert added == ["pw"] and owned == ["pw"]
+    assert set(json.loads(p.read_text())["mcpServers"]) == {"foo", "pw"}
+
+    before = p.read_text()
+    owned2, added2 = main.merge_mcp_servers(p, incoming)
+    assert added2 == [] and owned2 == ["pw"]
+    assert p.read_text() == before  # re-run is a no-op
+
+
+def test_merge_mcp_never_overwrites_a_same_named_server(tmp_path):
+    p = tmp_path / ".mcp.json"
+    p.write_text(json.dumps({"mcpServers": {"pw": {"command": "USER"}}}))
+    owned, added = main.merge_mcp_servers(p, {"mcpServers": {"pw": {"command": "OURS"}}})
+    assert added == [] and owned == []  # differing spec => not ours, untouched
+    assert json.loads(p.read_text())["mcpServers"]["pw"] == {"command": "USER"}
+
+
+# --- full install/uninstall round-trip -------------------------------------------------------
+
+def test_install_is_nondestructive_then_uninstall_is_precise(tmp_path):
+    (tmp_path / "AGENTS.md").write_text("USER OWNED AGENTS")
+    (tmp_path / ".mcp.json").write_text(json.dumps({"mcpServers": {"foo": {"command": "f"}}}))
+
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+
+    # existing doc untouched; absent docs created; mcp merged, foreign server kept
+    assert (tmp_path / "AGENTS.md").read_text() == "USER OWNED AGENTS"
+    assert (tmp_path / "CLAUDE.md").exists()
+    assert (tmp_path / ".claude/settings.json").exists()
+    servers = json.loads((tmp_path / ".mcp.json").read_text())["mcpServers"]
+    assert {"foo", "playwright", "chrome-devtools"} <= set(servers)
+
+    manifest = json.loads((tmp_path / ".mri_code/.manifest.json").read_text())
+    assert set(manifest["created_shared_files"]) == {"CLAUDE.md", ".claude/settings.json"}
+    assert set(manifest["mcp_servers_added"]) == {"playwright", "chrome-devtools"}
+
+    main.run_uninstall([str(tmp_path), "--yes"])
+
+    assert (tmp_path / "AGENTS.md").exists()          # never ours
+    assert not (tmp_path / "CLAUDE.md").exists()      # ours + unchanged => removed
+    servers = json.loads((tmp_path / ".mcp.json").read_text())["mcpServers"]
+    assert "foo" in servers and "playwright" not in servers
+
+
+def test_uninstall_keeps_a_shared_doc_modified_after_install(tmp_path):
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+    (tmp_path / "CLAUDE.md").write_text("user edited this after install")
+    main.run_uninstall([str(tmp_path), "--yes"])
+    assert (tmp_path / "CLAUDE.md").read_text() == "user edited this after install"

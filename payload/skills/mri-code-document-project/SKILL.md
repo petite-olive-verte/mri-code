@@ -1,5 +1,6 @@
 ---
 name: mri-code-document-project
+model: sonnet
 description: >-
   Documents an existing (brownfield) project to give the agent context: structure, stack,
   conventions, entry points, how to run/test.  On-demand, ahead of /mri-code-brainstorm on an existing repo.

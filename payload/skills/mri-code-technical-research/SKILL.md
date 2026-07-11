@@ -1,5 +1,6 @@
 ---
 name: mri-code-technical-research
+model: sonnet
 description: >-
   Technical research: feasibility, architecture options, libraries, integration patterns.
   On-demand, suggested after /mri-code-forge.

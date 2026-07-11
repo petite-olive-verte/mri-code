@@ -1,5 +1,6 @@
 ---
 name: mri-code-domain-research
+model: sonnet
 description: >-
   Domain/industry research: expertise, terminology, patterns, regulatory constraints.
   On-demand, suggested after /mri-code-forge.
