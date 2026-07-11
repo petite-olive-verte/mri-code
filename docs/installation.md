@@ -84,11 +84,15 @@ Your project root stays clean: your code plus these dotfiles.
 
 `AGENTS.md`, `CLAUDE.md`, `.mcp.json` and `.claude/settings.json` may already exist in your
 project, or be owned by another tool. The installer **never writes, creates or edits
-them** — not even when they're absent. Instead, `install` and `update` *print*, for each of
-the four files, its rendered content (placeholders substituted) plus a ready-to-paste
-prompt: *"merge this mri-code configuration into `<dst>`: create it if missing, otherwise
-merge without disturbing the existing content."* Hand that to your coding agent, or apply
-it by hand. `uninstall` prints the equivalent removal reminder. You stay in full control of
-these four files, and the installer needs no LLM of its own to manage them.
+them** — not even when they're absent. Instead, `install` and `update` write a single
+**`TODO_MRI_CODE_INSTALL.md`** at your project root: for each of the four files it holds the
+rendered content (placeholders substituted) plus a ready-to-paste prompt — *"merge this into
+`<dst>`: create it if missing, otherwise merge without disturbing the existing content."*
+The terminal only prints a short reminder pointing at that file.
+
+Open `TODO_MRI_CODE_INSTALL.md`, apply the four snippets by hand or hand the whole file to
+your coding agent, then delete it. `uninstall` writes the equivalent
+`TODO_MRI_CODE_UNINSTALL.md` (and removes any leftover install TODO). You stay in full
+control of these four files, and the installer needs no LLM of its own to manage them.
 
 For how these pieces are produced and deployed, see **[architecture.md](architecture.md)**.

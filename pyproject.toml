@@ -3,6 +3,8 @@ name = "mri-code"
 version = "0.1.0"
 description = "mri-code — agentic pipeline (analysis -> design -> TDD implementation) installable into a Python project"
 requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = []
 
 [project.scripts]

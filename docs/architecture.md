@@ -27,8 +27,9 @@ The installer is a single self-contained module, `mri_code_installer/main.py`:
   `.mri_code/config.json` and substituted into the content the installer renders. The
   agent reads that config at the start of every session.
 - **Shared files stay yours.** `AGENTS.md`, `CLAUDE.md`, `.mcp.json` and
-  `.claude/settings.json` are never written automatically — the installer only prints their
-  rendered content plus a merge prompt. See
+  `.claude/settings.json` are never written automatically — the installer writes their
+  rendered content plus a merge prompt to `TODO_MRI_CODE_INSTALL.md` at the project root, and
+  only prints a short reminder. See
   [installation.md → Shared files](installation.md#shared-files-never-modified-automatically).
 
 The `update` and `uninstall` subcommands reuse the same rules: `update` re-deploys and

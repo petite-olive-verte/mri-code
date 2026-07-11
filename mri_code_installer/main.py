@@ -3,8 +3,9 @@
 Single self-contained module: no vendored engine, no TOML spec. Deployment is deterministic and
 local — skills, hooks and `.mri_code/` data are copied straight from `payload/`. The 4 files a
 project may already own (AGENTS.md, CLAUDE.md, .mcp.json, .claude/settings.json) are **never**
-written automatically, even when absent: install/update print their rendered content plus a
-ready-to-paste prompt so the user (or their coding agent) decides how to integrate them.
+written automatically, even when absent: install/update write their rendered content plus a
+ready-to-paste merge prompt to `TODO_MRI_CODE_INSTALL.md` at the project root, so the user (or
+their coding agent) decides how to integrate them. A short reminder is printed to the terminal.
 """
 from __future__ import annotations
 
@@ -224,28 +225,73 @@ def deploy(target: Path, config: dict, *, version: str) -> dict:
     return manifest
 
 
-# --- shared files: print-only, never written -------------------------------------------------
+# --- shared files: written to a root TODO file, never applied automatically -------------------
 
-def print_shared_files_prompt(config: dict, *, removal: bool = False) -> None:
+INSTALL_TODO = "TODO_MRI_CODE_INSTALL.md"
+UNINSTALL_TODO = "TODO_MRI_CODE_UNINSTALL.md"
+
+
+def _fenced(content: str, lang: str) -> str:
+    """Wrap content in a code fence long enough to survive backticks inside it."""
+    longest = run = 0
+    for ch in content:
+        run = run + 1 if ch == "`" else 0
+        longest = max(longest, run)
+    fence = "`" * max(3, longest + 1)
+    return f"{fence}{lang}\n{content.rstrip(chr(10))}\n{fence}"
+
+
+def build_shared_files_todo(config: dict, *, removal: bool = False) -> str:
     mapping = resolve_placeholders(config)
-    print()
-    print("==> Shared files (never modified automatically) — apply by hand or hand this to your agent:")
+    parts: list[str] = []
+    if removal:
+        parts.append(
+            f"# {NAME} — shared files to clean up\n\n"
+            f"`{NAME}` never edits the four files below, because your project may own them. It "
+            f"left them untouched at uninstall too. If you had merged the config in, undo it by "
+            f"hand — or hand this whole file to your coding agent. Then delete this file."
+        )
+    else:
+        parts.append(
+            f"# {NAME} — finish the install\n\n"
+            f"`{NAME}` never writes the four files below: your project may already own them. Merge "
+            f"each snippet into your project (do it by hand, or hand this whole file to your coding "
+            f"agent), then delete this file."
+        )
     for src, dst, sub in SHARED_FILES:
         content = (PAYLOAD / src).read_text()
         if sub:
             content = substitute(content, mapping)
-        print()
-        print(f"--- {dst} " + "-" * max(1, 60 - len(dst)))
+        lang = "json" if dst.endswith(".json") else "markdown" if dst.endswith(".md") else ""
         if removal:
-            print(f"Retire la config {NAME} de `{dst}` si tu l'y avais ajoutée. Texte de référence "
-                  f"(tel qu'installé) :")
-            print(content)
+            instruction = (f"Remove the {NAME} configuration from `{dst}` if you added it there. "
+                           f"Reference content, as installed:")
         else:
-            print(
-                f"Intègre la configuration {NAME} suivante dans `{dst}` : crée le fichier s'il "
-                f"n'existe pas, sinon fusionne sans perturber le contenu existant.\n"
-            )
-            print(content)
+            instruction = (f"Merge this into `{dst}`: create the file if it doesn't exist, "
+                           f"otherwise merge without disturbing the existing content.")
+        parts.append(f"## `{dst}`\n\n{instruction}\n\n{_fenced(content, lang)}")
+    return "\n\n".join(parts) + "\n"
+
+
+def write_shared_files_todo(target: Path, config: dict, *, removal: bool = False) -> Path:
+    path = target / (UNINSTALL_TODO if removal else INSTALL_TODO)
+    path.write_text(build_shared_files_todo(config, removal=removal))
+    return path
+
+
+def _print_todo_reminder(path: Path, *, removal: bool = False) -> None:
+    try:
+        shown = path.relative_to(Path.cwd())
+    except ValueError:
+        shown = path
+    files = "AGENTS.md, CLAUDE.md, .mcp.json, .claude/settings.json"
+    print()
+    if removal:
+        print(f"==> 4 shared files were left untouched ({files}).")
+        print(f"    See {shown} to remove the {NAME} config from them by hand.")
+    else:
+        print(f"==> One step left: 4 shared files were NOT written ({files}).")
+        print(f"    Open {shown} and merge them — or hand that file to your coding agent.")
 
 
 # --- commands ---------------------------------------------------------------------------------
@@ -259,8 +305,9 @@ def run_install(argv: list[str]) -> None:
     print(f"==> Installing {NAME} into: {target}")
     print(f"    {config_summary(config)}")
     deploy(target, config, version=version)
+    todo = write_shared_files_todo(target, config)
     print("==> Done.")
-    print_shared_files_prompt(config)
+    _print_todo_reminder(todo)
 
 
 def run_update(argv: list[str]) -> None:
@@ -290,8 +337,9 @@ def run_update(argv: list[str]) -> None:
             remove_path(target / p)
             print(f"    removed stale: {p}")
 
+    todo = write_shared_files_todo(target, config)
     print("==> Update done.")
-    print_shared_files_prompt(config)
+    _print_todo_reminder(todo)
 
 
 def _container_dirs() -> list[Path]:
@@ -345,10 +393,12 @@ def run_uninstall(argv: list[str]) -> None:
     for p in existing:
         remove_path(target / p)
     remove_path(manifest_path(target))
+    remove_path(target / INSTALL_TODO)  # stale install reminder, if the user never deleted it
     _cleanup_empty_dirs(target)
 
+    todo = write_shared_files_todo(target, removal_config, removal=True)
     print(f"==> Uninstalled {NAME}.")
-    print_shared_files_prompt(removal_config, removal=True)
+    _print_todo_reminder(todo, removal=True)
 
 
 def main() -> None:

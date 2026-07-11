@@ -1,4 +1,4 @@
-# Fichiers de travail locaux (perso)
+# Local scratch files
 tmp/
 
 # Python
@@ -15,21 +15,23 @@ dist/
 build/
 uv.lock
 
-# Environnement
+# Environment
 .env
 .env.*
 !.env.example
 
-# OS / éditeur
+# OS / editor
 .DS_Store
 *.swp
 .idea/
 .vscode/
 
-# Artefacts générés par un self-install (dogfood) — la source vit dans payload/
+# Artifacts from a self-install (dogfood) — the source lives in payload/
 /.claude/
 /.mri_code/
 /.agents/
 /AGENTS.md
 /CLAUDE.md
 /.mcp.json
+/TODO_MRI_CODE_INSTALL.md
+/TODO_MRI_CODE_UNINSTALL.md

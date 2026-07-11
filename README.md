@@ -40,7 +40,7 @@ That copies the skills into `my-project/`. Open a coding agent, then start with
 - **A command-driven pipeline** — `brainstorm → forge → design → devplan → scaffold → implement → review → finish`, plus on-demand research, audit, and debug skills. You launch each step and keep control.
 - **Work that survives the session** — brief, spec, plan and progress are written to `.mri_code/docs/<project>/`, so you can stop and `/mri-code-resume` later.
 - **Quality baked in** — TDD-per-task, a review gate, and MCP visual feedback (Playwright + Chrome DevTools) for web UIs.
-- **Your repo stays clean** — skills are copied as plain files; shared files like `AGENTS.md` / `CLAUDE.md` are *never* written without you (the installer only prints what to merge).
+- **Your repo stays clean** — skills are copied as plain files; shared files like `AGENTS.md` / `CLAUDE.md` are *never* written without you (the installer drops the snippets to merge in a `TODO_MRI_CODE_INSTALL.md` you delete once done).
 
 See the full catalogue and how the skills fit together → **[docs/skills.md](docs/skills.md)**.
 
