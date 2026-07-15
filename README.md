@@ -10,7 +10,7 @@
 
 # mri-code
 
-**Turn an idea into a shipped Python project, one command at a time.**
+**Turn an idea into a shipped Python or PHP/Symfony project, one command at a time.**
 
 `mri-code` drops a set of self-contained skills into your project so a coding agent can
 walk the whole path — from a fuzzy idea to reviewed, tested code — as a sequence of slash

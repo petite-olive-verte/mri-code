@@ -5,6 +5,7 @@
       "Bash(git log:*)","Bash(git branch:*)","Bash(git checkout:*)","Bash(git switch:*)",
       "Bash(uv:*)","Bash(ruff:*)","Bash(pytest:*)","Bash(python:*)","Bash(python3:*)",
       "Bash(ty:*)","Bash(mypy:*)",
+      "Bash(composer:*)","Bash(php:*)","Bash(symfony:*)","Bash(vendor/bin/:*)",
       "Bash(pre-commit:*)","Bash(mkdir:*)","Bash(ls:*)","Bash(cat:*)","Bash(rg:*)"
     ],
     "deny": [

@@ -187,8 +187,11 @@ Once the user **approves** the plan (via ExitPlanMode, or inline if plan mode wa
 1. **Write** the plan to `.mri_code/docs/<project>/plan.md` and seed/update `progress.md`.
 2. **Commit** the plan.
 3. Hand off to the next step (name the suggested model per `.mri_code/models.md`):
-   - New project still needing a skeleton → "**Next step → `/mri-code-scaffold-python`** (suggested model:
-     **Sonnet**)".
+   - New project still needing a skeleton → suggest the scaffold matching the stack in
+     `.mri_code/constitution.md` (suggested model: **Sonnet**):
+     - Python → "**Next step → `/mri-code-scaffold-python`**";
+     - PHP/Symfony → "**Next step → `/mri-code-scaffold-symfony`**" (or
+       "**`/mri-code-scaffold-symfony-hexagonal`**" for a ports-and-adapters layout).
    - Otherwise → "**Next step → `/mri-code-implement`** (suggested model: **Sonnet**)".
 
 `mri-code-implement` is the execution skill: a fresh subagent per task + two-stage review, driven by the

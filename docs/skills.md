@@ -22,7 +22,9 @@ writes the next.
 | `/mri-code-forge` | Pressure-tests the idea through a fixed multi-persona panel until it hardens, clarifies, or dies cheaply. | `brief.md` → *hardened* / *killed* |
 | `/mri-code-design` | The analysis→execution **bridge**: takes product intent as given and designs the architecture. Runs in plan mode. | `brief.md` → `spec.md` |
 | `/mri-code-devplan` | Breaks the spec into an ordered plan of independent, checkable tasks. Runs in plan mode. | `spec.md` → `plan.md` |
-| `/mri-code-scaffold-python` | Scaffolds the project structure (uv + ruff + pytest + mypy, `src/` layout) from the template. New projects only. | `plan.md` → project skeleton |
+| `/mri-code-scaffold-python` | Scaffolds a Python project (uv + ruff + pytest + mypy, `src/` layout) from the template. New projects only. | `plan.md` → project skeleton |
+| `/mri-code-scaffold-symfony` | Scaffolds a Symfony project (latest stable PHP/Symfony, PHPStan max, PHP-CS-Fixer, PHPUnit, Doctrine) from the template. New projects only. | `plan.md` → project skeleton |
+| `/mri-code-scaffold-symfony-hexagonal` | Scaffolds a Symfony project with a hexagonal (ports & adapters) layout — pure Domain / Application / Infrastructure, Doctrine XML mapping. New projects only. | `plan.md` → project skeleton |
 | `/mri-code-implement` | Executes the plan task by task with TDD and MCP visual feedback. Drives the internal sub-skills. | `plan.md` → code + tests |
 | `/mri-code-review` | Verifies the work meets the spec and plan before integration. | code → review findings |
 | `/mri-code-finish` | Completes the work: merge, PR, or cleanup. | reviewed code → integrated |

@@ -95,3 +95,20 @@ def test_uninstall_keeps_a_shared_doc_modified_after_install(tmp_path):
     (tmp_path / "CLAUDE.md").write_text("user edited this after install")
     main.run_uninstall([str(tmp_path), "--yes"])
     assert (tmp_path / "CLAUDE.md").read_text() == "user edited this after install"
+
+
+# --- Symfony support is deployed -------------------------------------------------------------
+
+def test_install_deploys_symfony_skills_and_templates(tmp_path):
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+
+    for skill in ("mri-code-scaffold-symfony", "mri-code-scaffold-symfony-hexagonal"):
+        assert (tmp_path / ".claude/skills" / skill / "SKILL.md").exists()
+        assert (tmp_path / ".agents/skills" / skill / "SKILL.md").exists()
+
+    # Both project templates land under the data dir, ready for the scaffold skills.
+    assert (tmp_path / ".mri_code/templates/symfony/composer.json").exists()
+    assert (tmp_path / ".mri_code/templates/symfony/.env").exists()
+    assert (
+        tmp_path / ".mri_code/templates/symfony-hexagonal/src/Domain/Model/Task.php"
+    ).exists()

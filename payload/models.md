@@ -13,7 +13,7 @@
 | `/mri-code-elicit`, `/mri-code-adversarial-review` | critique / audit | **Opus** | depth of critique |
 | `/mri-code-meta-prompt` | meta-prompting | **Opus** | precise reformulation |
 | `/mri-code-*-research` | web research | **Sonnet** | fast, sourced synthesis |
-| `/mri-code-scaffold-python` | mechanical | **Sonnet** | deterministic, little reasoning |
+| `/mri-code-scaffold-python`, `/mri-code-scaffold-symfony`, `/mri-code-scaffold-symfony-hexagonal` | mechanical | **Sonnet** | deterministic, little reasoning |
 | `/mri-code-implement` | high-volume code (TDD) | **Sonnet** | economical, iterative |
 | `/mri-code-debug` | debugging | **Sonnet** | short cycles; Opus for a stubborn cause |
 | `/mri-code-review` | code review | **Sonnet** (or **Opus** if demanding) | critical reading |
