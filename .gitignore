@@ -19,8 +19,8 @@ uv.lock
 .env
 .env.*
 !.env.example
-# Symfony template ships a committed .env (framework convention)
-!payload/templates/symfony/.env
+# Symfony templates ship a committed .env (framework convention)
+!payload/templates/*/.env
 
 # OS / editor
 .DS_Store
