@@ -1,0 +1,16 @@
+parameters:
+
+services:
+    # Default configuration for services in *this* file.
+    _defaults:
+        autowire: true      # inject dependencies by type-hint
+        autoconfigure: true # register commands, subscribers, message handlers, etc.
+
+    # Make every class under App\ available as a service by default.
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+
+    # Add explicit bindings, decorators or aliases below as the app grows, e.g.:
+    #   App\Domain\Clock\Clock: '@App\Infrastructure\Clock\SystemClock'

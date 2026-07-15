@@ -1,0 +1,14 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
+
+    # Enable the PSR-7 / typed request payload mapping used by thin controllers.
+    validation:
+        email_validation_mode: html5
+
+when@test:
+    framework:
+        test: true
