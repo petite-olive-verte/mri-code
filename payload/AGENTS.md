@@ -1,8 +1,9 @@
 # Bootstrap — kickoff assistant (command-driven mode)
 
-You are open in a repo that turns an idea into a working project — Python or PHP/Symfony — from
-brainstorm to implementation, before human control. The methodology is the **`mri-code` module**
-(self-contained skills in `.claude/skills/`). Generated artifacts live in `.mri_code/docs/<project>/`.
+You are open in a repo that turns an idea into a working project — from brainstorm to
+implementation, before human control. The stack is whatever the constitution declares (a scaffold
+skill exists per supported stack). The methodology is the **`mri-code` module** (self-contained
+skills in `.claude/skills/`). Generated artifacts live in `.mri_code/docs/<project>/`.
 
 ## Language & user
 - **Source of truth: `.mri_code/config.json`.** At the **start of each session**, read it and apply:
@@ -34,8 +35,7 @@ Core flow:
 - `/mri-code-forge` (pressure-test, persona panel) → `/mri-code-design` (HARDENED) or `/mri-code-brainstorm` (KILLED)
 - `/mri-code-design` (the **bridge**: `brief.md` → `spec.md`) → `/mri-code-devplan`
 - `/mri-code-devplan` (`spec.md` → `plan.md`) → a scaffold skill (new project) else `/mri-code-implement`
-- Scaffold (new project, per the constitution's stack): `/mri-code-scaffold-python` ·
-  `/mri-code-scaffold-symfony` · `/mri-code-scaffold-symfony-hexagonal` → `/mri-code-implement`
+- `/mri-code-scaffold-*` (new project): the scaffold matching the constitution's stack → `/mri-code-implement`
 - `/mri-code-implement` (TDD + MCP) → `/mri-code-review`
 - `/mri-code-review` → `/mri-code-finish`
 - `/mri-code-finish` (merge / PR / cleanup)

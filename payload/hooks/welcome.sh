@@ -24,7 +24,7 @@ msg=" ███╗   ███╗██████╗ ██╗        ██�
                         idea → shipped
 
 Command-driven mode (I wait for your commands, I auto-trigger nothing).
-Flow: /mri-code-brainstorm → /mri-code-forge → /mri-code-design → /mri-code-devplan → scaffold (python · symfony · symfony-hexagonal) → /mri-code-implement → /mri-code-review → /mri-code-finish
+Flow: /mri-code-brainstorm → /mri-code-forge → /mri-code-design → /mri-code-devplan → /mri-code-scaffold-* → /mri-code-implement → /mri-code-review → /mri-code-finish
 Optional: /mri-code-elicit · /mri-code-adversarial-review · /mri-code-market-research · /mri-code-domain-research · /mri-code-technical-research · /mri-code-document-project · /mri-code-debug · /mri-code-meta-prompt · /mri-code-resume
 ${resume}"
 

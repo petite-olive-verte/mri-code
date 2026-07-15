@@ -22,9 +22,7 @@ writes the next.
 | `/mri-code-forge` | Pressure-tests the idea through a fixed multi-persona panel until it hardens, clarifies, or dies cheaply. | `brief.md` → *hardened* / *killed* |
 | `/mri-code-design` | The analysis→execution **bridge**: takes product intent as given and designs the architecture. Runs in plan mode. | `brief.md` → `spec.md` |
 | `/mri-code-devplan` | Breaks the spec into an ordered plan of independent, checkable tasks. Runs in plan mode. | `spec.md` → `plan.md` |
-| `/mri-code-scaffold-python` | Scaffolds a Python project (uv + ruff + pytest + mypy, `src/` layout) from the template. New projects only. | `plan.md` → project skeleton |
-| `/mri-code-scaffold-symfony` | Scaffolds a Symfony project (latest stable PHP/Symfony, PHPStan max, PHP-CS-Fixer, PHPUnit, Doctrine) from the template. New projects only. | `plan.md` → project skeleton |
-| `/mri-code-scaffold-symfony-hexagonal` | Scaffolds a Symfony project with a hexagonal (ports & adapters) layout — pure Domain / Application / Infrastructure, Doctrine XML mapping. New projects only. | `plan.md` → project skeleton |
+| `/mri-code-scaffold-*` | Scaffolds the project skeleton from a template, matching the stack in the constitution. New projects only. One skill per supported stack — see [Scaffold skills](#scaffold-skills). | `plan.md` → project skeleton |
 | `/mri-code-implement` | Executes the plan task by task with TDD and MCP visual feedback. Drives the internal sub-skills. | `plan.md` → code + tests |
 | `/mri-code-review` | Verifies the work meets the spec and plan before integration. | code → review findings |
 | `/mri-code-finish` | Completes the work: merge, PR, or cleanup. | reviewed code → integrated |
@@ -44,6 +42,18 @@ Suggested at the right moment, then you return to the flow.
 | `/mri-code-debug` | Systematic root-cause investigation before proposing fixes. | a bug or failing test |
 | `/mri-code-meta-prompt` | Turns a vague request into a precise, ready-to-use prompt. Standalone — outside the pipeline. | anytime |
 | `/mri-code-resume` | Re-reads `progress.md` and re-enters the current step. | resuming a session |
+
+## Scaffold skills
+
+One `mri-code-scaffold-*` skill per supported stack, chosen after `devplan` to match the
+constitution. New projects only; each renders its template into the repo. More can be added over
+time without changing the flow above.
+
+| Skill | Scaffolds |
+|---|---|
+| `/mri-code-scaffold-python` | A Python project — uv + ruff + pytest + mypy, `src/` layout. |
+| `/mri-code-scaffold-symfony` | A Symfony project — latest stable PHP/Symfony, PHPStan max, PHP-CS-Fixer, PHPUnit, Doctrine. |
+| `/mri-code-scaffold-symfony-hexagonal` | A Symfony project with a hexagonal (ports & adapters) layout — pure Domain / Application / Infrastructure, Doctrine XML mapping. |
 
 ## Internal sub-skills
 
