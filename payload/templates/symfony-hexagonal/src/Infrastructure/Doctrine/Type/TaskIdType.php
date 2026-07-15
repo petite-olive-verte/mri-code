@@ -24,7 +24,15 @@ final class TaskIdType extends Type
 
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?TaskId
     {
-        return null === $value ? null : new TaskId((string) $value);
+        if (null === $value || $value instanceof TaskId) {
+            return $value;
+        }
+
+        if (!\is_string($value)) {
+            throw new \InvalidArgumentException('Expected a string TaskId column value.');
+        }
+
+        return new TaskId($value);
     }
 
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
@@ -33,6 +41,14 @@ final class TaskIdType extends Type
             return null;
         }
 
-        return $value instanceof TaskId ? $value->value : (string) $value;
+        if ($value instanceof TaskId) {
+            return $value->value;
+        }
+
+        if (!\is_string($value)) {
+            throw new \InvalidArgumentException('Expected a TaskId or string.');
+        }
+
+        return $value;
     }
 }

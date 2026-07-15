@@ -80,19 +80,19 @@ and adjust the two Python-specific lines under *Structure & naming* (the `src/` 
 
 ```markdown
 ## Stack (non-negotiable)
-- **Latest stable PHP** (currently ≥ 8.4, the floor Symfony requires) with `declare(strict_types=1)` in every file.
+- **PHP ≥ 8.3** (the floor the template's language features require) with `declare(strict_types=1)` in every file.
 - **Composer** for dependencies (single source of truth: `composer.json`).
-- **Latest stable Symfony**; framework code at the edges, not in the business logic.
+- **Latest stable Symfony** (currently the 7.4 series); framework code at the edges, not in the business logic.
 - **PHPStan** at **level max** (+ strict-rules, symfony & doctrine extensions) — zero errors.
 - **PHP-CS-Fixer** (`@Symfony` + `@PSR12` + strict) for style — no manual formatting debates.
-- **PHPUnit** (+ zenstruck/foundry for fixtures) for tests.
+- **PHPUnit** for tests (add zenstruck/foundry when you need object factories/fixtures).
 - **Doctrine ORM** for persistence; migrations via doctrine-migrations.
 - Native **enums** for closed sets of states; **readonly** value objects; constructor injection only.
 ```
 
-> The template pins the current stable series in `composer.json` (`symfony/* 8.1.*`, `php >=8.4`). Before
-> scaffolding, if a newer stable Symfony minor exists, bump the `8.1.*` constraints and `extra.symfony.require`
-> to it — the template always tracks the latest stable, it does not target the LTS.
+> The template pins the current stable series in `composer.json` (`symfony/* 7.4.*`, `php >=8.3`). Before
+> scaffolding, if a newer stable Symfony minor exists, bump the `7.4.*` constraints and `extra.symfony.require`
+> to it — the template tracks the latest stable Symfony (which currently happens to also be the 7.4 LTS).
 
 For the full catalogue of conventions the implementation must follow (enums, DTO mapping, Messenger
 buses, Doctrine mapping, error handling), read **`references/php-symfony-best-practices.md`** in this skill.

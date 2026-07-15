@@ -94,7 +94,8 @@ final class PlaceOrderController
 
 - **TDD** red-green-refactor (constitution). Unit-test the pure logic without booting the kernel;
   use **`KernelTestCase`** for integration and **`WebTestCase`** for HTTP.
-- PHPUnit (latest stable) with `#[Test]` / `#[DataProvider]` attributes. **zenstruck/foundry** for test object factories.
+- PHPUnit (latest stable) with `#[Test]` / `#[DataProvider]` attributes. Add **zenstruck/foundry**
+  when you need object factories/fixtures (`composer require --dev zenstruck/foundry`).
 - The spec's **acceptance criteria become tests**; target coverage ≥ 80%; at least one functional test
   per public entry point (HTTP route / CLI command).
 - Gate every task on green: `composer check` (= `cs:check` + `stan` + `test`) before it's "done".
