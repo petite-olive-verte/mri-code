@@ -112,3 +112,31 @@ def test_install_deploys_symfony_skills_and_templates(tmp_path):
     assert (
         tmp_path / ".mri_code/templates/symfony-hexagonal/src/Domain/Model/Task.php"
     ).exists()
+
+
+# --- React support is deployed ----------------------------------------------------------------
+
+def test_install_deploys_react_skill_and_template(tmp_path):
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+
+    assert (tmp_path / ".claude/skills/mri-code-scaffold-react/SKILL.md").exists()
+    assert (tmp_path / ".agents/skills/mri-code-scaffold-react/SKILL.md").exists()
+
+    # The template lands under the data dir, ready for the scaffold skill. Hidden files
+    # (.gitignore, .env.example) must come across too — the skill copies with `cp -r`.
+    template = tmp_path / ".mri_code/templates/react"
+    assert (template / "package.json").exists()
+    # `.jsonc`, not `.json`: Biome silently ignores a `biome.json` that contains
+    # comments — the whole config would be dead with no diagnostic.
+    assert (template / "biome.jsonc").exists()
+    assert (template / ".gitignore").exists()
+    assert (template / "src/features/health/model/health-status.ts").exists()
+
+
+def test_react_template_keeps_its_placeholders_unrendered(tmp_path):
+    """The installed template is a source: tokens must survive install untouched,
+    otherwise every scaffold rendered from it would be poisoned."""
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+
+    package_json = (tmp_path / ".mri_code/templates/react/package.json").read_text()
+    assert "__PROJECT_NAME__" in package_json

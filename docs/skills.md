@@ -52,6 +52,7 @@ time without changing the flow above.
 | Skill | Scaffolds |
 |---|---|
 | `/mri-code-scaffold-python` | A Python project — uv + ruff + pytest + mypy, `src/` layout. |
+| `/mri-code-scaffold-react` | A React SPA — Vite + TypeScript strict + Vitest + Testing Library + Biome, feature-based layout. |
 | `/mri-code-scaffold-symfony` | A Symfony project — latest stable PHP/Symfony, PHPStan max, PHP-CS-Fixer, PHPUnit, Doctrine. |
 | `/mri-code-scaffold-symfony-hexagonal` | A Symfony project with a hexagonal (ports & adapters) layout — pure Domain / Application / Infrastructure, Doctrine XML mapping. |
 

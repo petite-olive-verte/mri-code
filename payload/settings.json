@@ -6,6 +6,7 @@
       "Bash(uv:*)","Bash(ruff:*)","Bash(pytest:*)","Bash(python:*)","Bash(python3:*)",
       "Bash(ty:*)","Bash(mypy:*)",
       "Bash(composer:*)","Bash(php:*)","Bash(symfony:*)","Bash(vendor/bin/:*)",
+      "Bash(pnpm:*)","Bash(node:*)","Bash(npx:*)","Bash(corepack:*)","Bash(node_modules/.bin/:*)",
       "Bash(pre-commit:*)","Bash(mkdir:*)","Bash(ls:*)","Bash(cat:*)","Bash(rg:*)"
     ],
     "deny": [

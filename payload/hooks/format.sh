@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # PostToolUse(Write|Edit): auto-format + lint-fix of the edited file.
-# Non-blocking. Dispatches on the project type: Python (pyproject.toml) or
-# Symfony/PHP (composer.json). Does nothing until one of them exists.
+# Non-blocking. Dispatches on the project type: Python (pyproject.toml),
+# Symfony/PHP (composer.json) or React/TS (package.json). Does nothing until
+# one of them exists.
 # Edit/remove freely (it's your project).
 set -uo pipefail
 cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
@@ -20,6 +21,12 @@ case "$f" in
     [ -f composer.json ] || exit 0
     [ -x vendor/bin/php-cs-fixer ] || exit 0
     vendor/bin/php-cs-fixer fix "$f" >/dev/null 2>&1 || true
+    ;;
+  *.ts|*.tsx|*.js|*.jsx|*.json|*.css)
+    [ -f package.json ] || exit 0
+    [ -x node_modules/.bin/biome ] || exit 0
+    # `check --write` = lint fixes + format + import sorting in one pass.
+    node_modules/.bin/biome check --write "$f" >/dev/null 2>&1 || true
     ;;
 esac
 exit 0
