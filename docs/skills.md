@@ -45,9 +45,11 @@ Suggested at the right moment, then you return to the flow.
 
 ## Scaffold skills
 
-One `mri-code-scaffold-*` skill per supported stack, chosen after `devplan` to match the
-constitution. New projects only; each renders its template into the repo. More can be added over
-time without changing the flow above.
+One `mri-code-scaffold-*` skill per supported stack, chosen after `devplan`. New projects only.
+Each renders its template into the repo **and seals its stack into the constitution**, whose *Stack*
+section ships empty on purpose — the stack is a conclusion of the plan, not a starting assumption.
+Adding a stack means adding a template, a `payload/stacks/<stack>.md` fragment and a skill; the flow
+above and the constitution's core never change.
 
 | Skill | Scaffolds |
 |---|---|

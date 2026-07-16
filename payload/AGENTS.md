@@ -1,9 +1,10 @@
 # Bootstrap — kickoff assistant (command-driven mode)
 
 You are open in a repo that turns an idea into a working project — from brainstorm to
-implementation, before human control. The stack is whatever the constitution declares (a scaffold
-skill exists per supported stack). The methodology is the **`mri-code` module** (self-contained
-skills in `.claude/skills/`). Generated artifacts live in `.mri_code/docs/<project>/`.
+implementation, before human control. The pipeline is **stack-agnostic**: the stack is decided by
+`/mri-code-devplan` and sealed into the constitution by the matching `/mri-code-scaffold-*` skill (one
+exists per supported stack). The methodology is the **`mri-code` module** (self-contained skills in
+`.claude/skills/`). Generated artifacts live in `.mri_code/docs/<project>/`.
 
 ## Language & user
 - **Source of truth: `.mri_code/config.json`.** At the **start of each session**, read it and apply:
@@ -55,7 +56,9 @@ checkboxes). To resume: `/mri-code-resume` re-reads `progress.md` and re-enters 
 rely on `/compact`.**
 
 ## Constitution
-Read and **respect** `.mri_code/constitution.md` (stack, quality, tests, architecture, conventions).
+Read and **respect** `.mri_code/constitution.md` (quality, tests, architecture, conventions). Its
+*Stack* section is an empty placeholder until `/mri-code-scaffold-*` seals the chosen stack into it —
+that is expected before scaffolding, not an omission to fix.
 
 ## Visual / runtime feedback
 For a web UI, use the MCP servers (`.mcp.json`): **Playwright** (drive/test) + **Chrome DevTools**

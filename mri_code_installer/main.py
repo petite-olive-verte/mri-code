@@ -25,7 +25,7 @@ DATA_DIR = ".mri_code"
 MANIFEST_NAME = ".manifest.json"
 PRESERVE_IN_DATA_DIR = ["docs"]
 SEED_ONCE_FILES = ["constitution.md", "models.md"]  # copied only if absent from the target
-REFRESH_DIRS = ["templates"]  # always removed + recopied
+REFRESH_DIRS = ["templates", "stacks"]  # always removed + recopied
 
 # (payload_sub, target_sub, mirror_target_sub, chmod_subdir) — one entry per name is deployed
 # individually, so foreign entries the user added under the same target_sub survive.

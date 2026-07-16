@@ -19,9 +19,10 @@ dependency. Prefer the plain scaffold for small CRUD apps; prefer this one when 
 logic is worth isolating and testing on its own.
 
 ## Before starting
-Follow the **same "Before starting" and constitution-alignment steps** as `mri-code-scaffold-symfony`
-(read the constitution; if it still describes the Python stack, rewrite its *Stack* section to the
-Symfony one). Then determine:
+Follow the **same "Before starting" steps** as `mri-code-scaffold-symfony`, with **one difference**:
+the stack fragment to seal into the constitution is **`.mri_code/stacks/symfony-hexagonal.md`**, not
+`symfony.md` — same tooling, but it also declares the layered layout the domain purity rules depend
+on. See *Seal the stack* in `mri-code-scaffold-symfony` for the exact procedure. Then determine:
 - `PROJECT_NAME`: Composer package name — **lowercase**, dashes ok, e.g. `todo-api`.
 - `PROJECT_DESCRIPTION`: one sentence.
 

@@ -188,9 +188,12 @@ Once the user **approves** the plan (via ExitPlanMode, or inline if plan mode wa
 2. **Commit** the plan.
 3. Hand off to the next step (name the suggested model per `.mri_code/models.md`):
    - New project still needing a skeleton → suggest the `/mri-code-scaffold-*` skill matching the
-     stack declared in `.mri_code/constitution.md` (suggested model: **Sonnet**). Pick from the
-     installed `mri-code-scaffold-*` skills; if several fit the stack, name the closest and mention
-     the alternative.
+     stack **the plan settled on** (suggested model: **Sonnet**). Pick from the installed
+     `mri-code-scaffold-*` skills; if several fit the stack, name the closest and mention the
+     alternative. The scaffold then seals that stack into `.mri_code/constitution.md`, whose *Stack*
+     section is an empty placeholder until then — so the plan must **state the stack explicitly**
+     rather than assume the constitution already names one. If the user has pre-filled that section
+     themselves, it is a constraint on the plan, not a suggestion.
    - Otherwise → "**Next step → `/mri-code-implement`** (suggested model: **Sonnet**)".
 
 `mri-code-implement` is the execution skill: a fresh subagent per task + two-stage review, driven by the

@@ -133,6 +133,34 @@ def test_install_deploys_react_skill_and_template(tmp_path):
     assert (template / "src/features/health/model/health-status.ts").exists()
 
 
+# --- the constitution is stack-agnostic -------------------------------------------------------
+
+def test_constitution_ships_agnostic_with_a_stack_placeholder(tmp_path):
+    """The core constitution must name no tool: the stack is a devplan conclusion, sealed in
+    later by a scaffold skill. A tool name leaking here would re-impose a default stack."""
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+
+    constitution = (tmp_path / ".mri_code/constitution.md").read_text()
+    assert "<!-- mri-code:stack:start -->" in constitution
+    assert "<!-- mri-code:stack:end -->" in constitution
+
+    start = constitution.index("<!-- mri-code:stack:start -->")
+    end = constitution.index("<!-- mri-code:stack:end -->")
+    outside = constitution[:start] + constitution[end:]
+    for tool in ("uv ", "ruff", "pytest", "mypy", "pyproject.toml", "snake_case", "composer", "pnpm"):
+        assert tool not in outside, f"{tool!r} leaks into the stack-agnostic core"
+
+
+def test_every_template_has_a_matching_stack_fragment(tmp_path):
+    """One fragment per template: a scaffold skill with no fragment to seal would leave the
+    constitution's Stack section empty."""
+    main.run_install([str(tmp_path), "--lang", "English", "--user", "T"])
+
+    templates = {p.name for p in (tmp_path / ".mri_code/templates").iterdir() if p.is_dir()}
+    fragments = {p.stem for p in (tmp_path / ".mri_code/stacks").glob("*.md")}
+    assert templates == fragments
+
+
 def test_react_template_keeps_its_placeholders_unrendered(tmp_path):
     """The installed template is a source: tokens must survive install untouched,
     otherwise every scaffold rendered from it would be poisoned."""

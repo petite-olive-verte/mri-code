@@ -14,7 +14,9 @@ Generate the structure of a Python project from `.mri_code/templates/python-uv/`
 ## Before starting
 1. **Read `.mri_code/constitution.md`**: apply its stack and conventions. If they differ from the template,
    the constitution wins — adapt the generated files accordingly.
-2. Determine two names (derive them from the spec, otherwise ask the user):
+2. **Fill in the constitution's Stack section** — see *Seal the stack* below. Do it **before**
+   scaffolding, so the rest of the run reads a constitution that matches what you are generating.
+3. Determine two names (derive them from the spec, otherwise ask the user):
    - `PROJECT_NAME`: distribution name (may contain dashes), e.g. `todo-api`.
    - `PACKAGE_NAME`: Python import name, `snake_case`, e.g. `todo_api`.
    - `PROJECT_DESCRIPTION`: one sentence.
@@ -69,6 +71,24 @@ uv run ruff check .     # clean lint
   whose template/skill sources keep the placeholders on purpose:
   `grep -rn '__P[A-Z_]*__' . --include='*.py' --include='*.toml' --exclude-dir=.mri_code --exclude-dir=.claude --exclude-dir=.agents --exclude-dir=.git --exclude-dir=.venv`
   must be empty.
+
+## Seal the stack (constitution)
+The constitution ships **stack-agnostic**: its principles hold for any language, and its *Stack*
+section is an empty placeholder until a scaffold fills it. Replace everything **between** the two
+markers in `.mri_code/constitution.md` with the contents of **`.mri_code/stacks/python-uv.md`**,
+keeping the markers themselves:
+
+```markdown
+## Stack (non-negotiable)
+<!-- mri-code:stack:start -->
+… contents of .mri_code/stacks/python-uv.md …
+<!-- mri-code:stack:end -->
+```
+
+Edit the file in place (do not regenerate it — the user may have amended other sections). If the
+block is already filled with this stack, leave it alone; if it is filled with a **different** stack,
+stop and ask the user — two stacks in one project is a decision they own, not a merge you perform.
+The other sections stay untouched: they are language-agnostic on purpose.
 
 ## Next
 Move on to implementation **in TDD** via **/mri-code-implement** (skill `mri-code-tdd` per task), feature by feature,

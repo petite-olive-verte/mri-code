@@ -73,7 +73,7 @@ either command, whatever flags you pass.
 ```
 my-project/
   .claude/  skills/ · hooks/            ← real files (copied, deterministic)
-  .mri_code/                            ← config.json · constitution.md · models.md · templates/ · docs/<project>/
+  .mri_code/                            ← config.json · constitution.md · models.md · templates/ · stacks/ · docs/<project>/
   .agents/skills/                       ← portable mirror (for Codex)
 ```
 

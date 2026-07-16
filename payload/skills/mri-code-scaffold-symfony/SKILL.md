@@ -18,10 +18,8 @@ Generate the structure of a Symfony project from `.mri_code/templates/symfony/`,
 ## Before starting
 1. **Read `.mri_code/constitution.md`**: apply its stack and conventions. If they differ from the template,
    the constitution wins — adapt the generated files accordingly.
-2. **If the constitution still describes the default Python stack** (it mentions `uv`/`ruff`/`pytest` and
-   no PHP), the project is going PHP: **rewrite its "Stack" section** to the Symfony one before scaffolding
-   — see *Align the constitution* below. Leave the quality/tests/architecture principles intact (they are
-   language-agnostic and already favor a testable, framework-decoupled core).
+2. **Fill in the constitution's Stack section** — see *Seal the stack* below. Do it **before**
+   scaffolding, so the rest of the run reads a constitution that matches what you are generating.
 3. Determine two names (derive them from the spec, otherwise ask the user):
    - `PROJECT_NAME`: Composer package name — **lowercase**, may contain dashes, e.g. `todo-api`
      (becomes `app/todo-api` in `composer.json`).
@@ -73,26 +71,29 @@ composer cs:check                      # PHP-CS-Fixer must report no changes nee
   `grep -rn '__P[A-Z_]*__' . --include='*.php' --include='*.json' --include='*.yaml' --exclude-dir=.mri_code --exclude-dir=.claude --exclude-dir=.agents --exclude-dir=.git --exclude-dir=vendor`
   must be empty.
 
-## Align the constitution (only if it still describes Python)
-Replace the **"Stack (non-negotiable)"** section of `.mri_code/constitution.md` with the PHP/Symfony one,
-and adjust the two Python-specific lines under *Structure & naming* (the `src/` mirror rule stays; the
-`snake_case`/`test_<module>.py` naming becomes PHP/PSR-4 naming). Suggested Stack block:
+## Seal the stack (constitution)
+The constitution ships **stack-agnostic**: its principles hold for any language, and its *Stack*
+section is an empty placeholder until a scaffold fills it. Replace everything **between** the two
+markers in `.mri_code/constitution.md` with the contents of **`.mri_code/stacks/symfony.md`**,
+keeping the markers themselves:
 
 ```markdown
 ## Stack (non-negotiable)
-- **PHP ≥ 8.3** (the floor the template's language features require) with `declare(strict_types=1)` in every file.
-- **Composer** for dependencies (single source of truth: `composer.json`).
-- **Latest stable Symfony** (currently the 7.4 series); framework code at the edges, not in the business logic.
-- **PHPStan** at **level max** (+ strict-rules, symfony & doctrine extensions) — zero errors.
-- **PHP-CS-Fixer** (`@Symfony` + `@PSR12` + strict) for style — no manual formatting debates.
-- **PHPUnit** for tests (add zenstruck/foundry when you need object factories/fixtures).
-- **Doctrine ORM** for persistence; migrations via doctrine-migrations.
-- Native **enums** for closed sets of states; **readonly** value objects; constructor injection only.
+<!-- mri-code:stack:start -->
+… contents of .mri_code/stacks/symfony.md …
+<!-- mri-code:stack:end -->
 ```
+
+Edit the file in place (do not regenerate it — the user may have amended other sections). If the
+block is already filled with this stack, leave it alone; if it is filled with a **different** stack,
+stop and ask the user — two stacks in one project is a decision they own, not a merge you perform.
+The other sections stay untouched: they are language-agnostic on purpose and already favor a
+testable, framework-decoupled core.
 
 > The template pins the current stable series in `composer.json` (`symfony/* 7.4.*`, `php >=8.3`). Before
 > scaffolding, if a newer stable Symfony minor exists, bump the `7.4.*` constraints and `extra.symfony.require`
 > to it — the template tracks the latest stable Symfony (which currently happens to also be the 7.4 LTS).
+> Keep `.mri_code/stacks/symfony.md` in sync when you do.
 
 For the full catalogue of conventions the implementation must follow (enums, DTO mapping, Messenger
 buses, Doctrine mapping, error handling), read **`references/php-symfony-best-practices.md`** in this skill.

@@ -22,10 +22,8 @@ Generate the structure of a React single-page app from `.mri_code/templates/reac
 ## Before starting
 1. **Read `.mri_code/constitution.md`**: apply its stack and conventions. If they differ from the template,
    the constitution wins — adapt the generated files accordingly.
-2. **If the constitution still describes the default Python stack** (it mentions `uv`/`ruff`/`pytest` and
-   no TypeScript), the project is going React: **rewrite its "Stack" section** to the React one before
-   scaffolding — see *Align the constitution* below. Leave the quality/tests/architecture principles
-   intact (they are language-agnostic and already favor a testable, framework-decoupled core).
+2. **Fill in the constitution's Stack section** — see *Seal the stack* below. Do it **before**
+   scaffolding, so the rest of the run reads a constitution that matches what you are generating.
 3. Determine two names (derive them from the spec, otherwise ask the user):
    - `PROJECT_NAME`: npm package name — **lowercase**, may contain dashes, e.g. `todo-ui`.
    - `PROJECT_DESCRIPTION`: one sentence.
@@ -81,26 +79,28 @@ pnpm build                             # tsc + vite build must succeed
   `grep -rn '__P[A-Z_]*__' . --include='*.ts' --include='*.tsx' --include='*.json' --include='*.html' --exclude-dir=.mri_code --exclude-dir=.claude --exclude-dir=.agents --exclude-dir=.git --exclude-dir=node_modules`
   must be empty.
 
-## Align the constitution (only if it still describes Python)
-Replace the **"Stack (non-negotiable)"** section of `.mri_code/constitution.md` with the React one, and
-adjust the Python-specific lines under *Structure & naming* (the `src/` mirror rule stays; the
-`snake_case`/`test_<module>.py` naming becomes the feature-based layout below). Suggested Stack block:
+## Seal the stack (constitution)
+The constitution ships **stack-agnostic**: its principles hold for any language, and its *Stack*
+section is an empty placeholder until a scaffold fills it. Replace everything **between** the two
+markers in `.mri_code/constitution.md` with the contents of **`.mri_code/stacks/react.md`**, keeping
+the markers themselves:
 
 ```markdown
 ## Stack (non-negotiable)
-- **Node ≥ 22.12** (the floor Vite 8 requires); **pnpm** via corepack, pinned in `packageManager`.
-- **React 19** + **Vite 8** — SPA, no meta-framework unless the spec calls for SSR.
-- **TypeScript 7**, `strict` plus `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`,
-  `verbatimModuleSyntax` and `erasableSyntaxOnly` — no `any`, no non-null assertions (`!`).
-- **Biome** for lint *and* format (one tool, one config) — no manual formatting debates.
-- **Vitest** + **Testing Library** for tests; query by accessible role, never by test id.
-- Logic lives in pure TypeScript (`model/`), free of React; hooks orchestrate; components render.
-- Organise **by feature**, not by technical role. Each feature exposes a public API via `index.ts`.
+<!-- mri-code:stack:start -->
+… contents of .mri_code/stacks/react.md …
+<!-- mri-code:stack:end -->
 ```
+
+Edit the file in place (do not regenerate it — the user may have amended other sections). If the
+block is already filled with this stack, leave it alone; if it is filled with a **different** stack,
+stop and ask the user — two stacks in one project is a decision they own, not a merge you perform.
+The other sections stay untouched: they are language-agnostic on purpose and already favor a
+testable, framework-decoupled core.
 
 > The template pins the current stable majors (React 19, Vite 8, TypeScript 7, Vitest 4, Biome 2).
 > Before scaffolding, if a newer stable major exists, bump it and re-run the verification above —
-> the template tracks latest stable.
+> the template tracks latest stable. Keep `.mri_code/stacks/react.md` in sync when you do.
 
 For the full catalogue of conventions the implementation must follow (state modelling, effects,
 data fetching, component boundaries, testing, accessibility), read
