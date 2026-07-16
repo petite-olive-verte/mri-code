@@ -1,0 +1,64 @@
+// `.jsonc`, not `.json`, so this file can carry comments: Biome silently ignores a
+// `biome.json` containing them — it loads no config, reports nothing, and quietly falls
+// back to its defaults. Renaming is the only fix; keep the extension.
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  // The lint/format scripts pass explicit paths rather than `.` on purpose: the mri-code
+  // toolbox keeps a pristine copy of this template under `.mri_code/templates/react/`,
+  // this config included, and Biome aborts when it finds a second root config while
+  // scanning. Explicit paths never reach it — and the run is faster. Without the toolbox
+  // in the tree, `biome check .` works fine.
+  "files": {
+    "includes": ["src/**", "*.ts", "*.json", "index.html"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "useExhaustiveDependencies": "error",
+        "useHookAtTopLevel": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noConsole": { "level": "warn", "options": { "allow": ["error", "warn"] } }
+      },
+      "style": {
+        "noNonNullAssertion": "error",
+        "useConst": "error",
+        "useImportType": "error"
+      },
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "warn",
+          "options": { "maxAllowedComplexity": 12 }
+        }
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  }
+}

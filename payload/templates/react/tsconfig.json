@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "types": ["vite/client", "node"],
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    // `strict` is the floor, not the ceiling. The four flags below catch the bugs
+    // `strict` alone lets through, and are far cheaper to adopt on day one than to
+    // retrofit onto a grown codebase.
+    "strict": true,
+    // `arr[0]` is `T | undefined`, not `T`. Off-by-one and empty-array bugs become
+    // type errors instead of runtime crashes.
+    "noUncheckedIndexedAccess": true,
+    // Distinguishes "absent" from "present and undefined" — matters the moment a
+    // prop or an options bag is spread or serialized.
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    // Type-only syntax must be explicit (`import type`), so a file's imports can be
+    // erased without type information. Required for correct bundler output.
+    "verbatimModuleSyntax": true,
+    // Bans TS-only runtime syntax (`enum`, constructor parameter properties,
+    // namespaces) that a type-stripping transpiler cannot erase. This is why the
+    // template models closed sets as const objects + union types, not `enum`.
+    "erasableSyntaxOnly": true,
+    "isolatedModules": true,
+
+    // Absolute imports: `@/features/health` instead of `../../../features/health`.
+    // Keep in sync with `resolve.alias` in vite.config.ts.
+    // TypeScript 7 removed `baseUrl`; `paths` targets are now resolved relative to this
+    // file and must start with `./`.
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}
