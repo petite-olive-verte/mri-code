@@ -11,4 +11,4 @@ parameters:
     # `strict_types` is enforced by PHP-CS-Fixer; PHPStan checks the type-safety.
     treatPhpDocTypesAsCertain: false
     symfony:
-        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+        containerXmlPath: var/cache/dev/App_Infrastructure_Symfony_KernelDevDebugContainer.xml
