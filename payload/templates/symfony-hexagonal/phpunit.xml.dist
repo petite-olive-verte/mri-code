@@ -15,7 +15,7 @@
         <env name="APP_ENV" value="test" force="true"/>
         <!-- KernelTestCase/WebTestCase resolve the kernel from this. Without it the
              shipped functional test throws "You must set the KERNEL_CLASS…". -->
-        <env name="KERNEL_CLASS" value="App\Kernel"/>
+        <env name="KERNEL_CLASS" value="App\Infrastructure\Symfony\Kernel"/>
         <server name="SHELL_VERBOSITY" value="-1"/>
     </php>
 

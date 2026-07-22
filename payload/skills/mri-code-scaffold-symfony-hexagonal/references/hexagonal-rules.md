@@ -26,11 +26,18 @@ Infrastructure implements it.
 ### Application — use cases, orchestration
 - `Command/` + `Query/` — immutable DTOs describing intent. **No validation attributes** here
   (validation is an edge concern; keep these pure).
-- `Handler/` — one use case per handler (`#[AsMessageHandler(bus: 'command.bus')]` /
-  `'query.bus'`). Depends **only on domain ports**, never on Doctrine or HTTP. Fully unit-testable.
+- `Handler/` — one use case per handler. Depends **only on domain ports**, never on Doctrine or
+  HTTP. Fully unit-testable. The one **accepted** framework touch outside Infrastructure is the bus
+  binding `#[AsMessageHandler(bus: 'command.bus')]` / `'query.bus'` — a pragmatic choice (the command
+  bus is an application concern); everything else in Domain/Application stays framework-free. Prefer
+  tagging the handler in `services.yaml` instead if you want the layer 100% import-clean.
 - `Port/` — outbound ports the use cases need beyond persistence (e.g. `Clock`, `Notifier`).
 
 ### Infrastructure — adapters, the only place the framework appears
+- `Symfony/Kernel.php` (`App\Infrastructure\Symfony\Kernel`) — the framework bootstrap **is** glue,
+  so it lives here, not at the `src/` root. `public/index.php`, `bin/console` and `KERNEL_CLASS`
+  point at it; `getProjectDir()` still resolves the repo root via composer.json, so `config/` is
+  unaffected. (`config/` and the DI wiring are framework glue too — conceptually Infrastructure.)
 - `Controller/` — thin driving adapters. Bind + validate an **HTTP request DTO** with
   `#[MapRequestPayload]`, translate it into an Application command/query, dispatch it, serialize the
   result. No business logic.

@@ -11,7 +11,7 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Kernel.php'
+            - '../src/Infrastructure/Symfony/Kernel.php'
             - '../src/Domain/Model/'
             - '../src/Domain/ValueObject/'
             - '../src/Domain/Exception/'
