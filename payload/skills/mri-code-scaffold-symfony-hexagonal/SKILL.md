@@ -73,6 +73,11 @@ composer cs:check                      # PHP-CS-Fixer — no changes needed
 ```
 - Fix any failure before implementing. Check no placeholder token remains in the generated project
   (see `mri-code-scaffold-symfony` for the exact `grep`).
+- **Remove Flex's flat-layout cruft.** `composer install` runs recipes (doctrine, framework) that
+  create `src/Controller/`, `src/Entity/`, `src/Repository/` (empty, just a `.gitignore`). They
+  contradict the hexagonal layout (controllers → `Infrastructure/Controller`, model → `Domain/Model`,
+  repositories → `Infrastructure/Doctrine/Repository`) and are referenced nowhere. Delete them:
+  `git rm -r src/Controller src/Entity src/Repository` (or `rm -rf` before the first commit).
 
 ## Next
 Implement **in TDD** via **/mri-code-implement** (skill `mri-code-tdd` per task): unit-test the domain
