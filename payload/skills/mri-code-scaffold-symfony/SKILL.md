@@ -66,6 +66,12 @@ composer cs:check                      # PHP-CS-Fixer must report no changes nee
 ```
 - The scripts are defined in `composer.json` (`test` → phpunit, `stan` → phpstan, `cs`/`cs:check` → php-cs-fixer).
 - If any of them fail, **fix before** moving on to implementation.
+- **`composer install` runs Symfony Flex recipes**, which generate/refresh `compose.yaml` and
+  `compose.override.yaml` (a `database` service from doctrine, a mail catcher from `symfony/mailer`)
+  in **marked `###> pkg ###` blocks**. This is the **dev-infra baseline** later steps build on: when
+  implementation needs a containerized service, **extend** these Flex blocks (pin versions via the env
+  vars they expose, e.g. `POSTGRES_VERSION`) and hand-author only what has **no** recipe (e.g. MinIO) —
+  never replace or duplicate a Flex-managed service (see the constitution's *Stack* section).
 - Check that **no** placeholder token remains in the **generated project** — exclude the toolbox dirs,
   whose template/skill sources keep the placeholders on purpose:
   `grep -rn '__P[A-Z_]*__' . --include='*.php' --include='*.json' --include='*.yaml' --exclude-dir=.mri_code --exclude-dir=.claude --exclude-dir=.agents --exclude-dir=.git --exclude-dir=vendor`

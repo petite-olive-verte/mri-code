@@ -6,6 +6,11 @@
 - **PHPUnit** for tests (`composer test`); add zenstruck/foundry when you need object factories/fixtures.
 - **Doctrine ORM** for persistence, mapped by **XML** under `src/Infrastructure/Doctrine/Mapping/` so
   the domain model carries no ORM attributes; migrations via doctrine-migrations.
+- **Dev infra = Docker, Flex-managed.** Symfony Flex owns `compose.yaml`/`compose.override.yaml`
+  through `###> pkg ###` blocks (`database` from doctrine, a mail catcher from `symfony/mailer`).
+  **Extend** those blocks — pin versions via the env vars they expose (`POSTGRES_VERSION`, …) and
+  hand-author only services with **no** recipe (e.g. MinIO). Never replace or duplicate a
+  Flex-managed service, or `composer require` will keep re-injecting it and collide.
 - Native **enums** for closed sets of states; **readonly** value objects; constructor injection only.
 - **Layout**: hexagonal (ports & adapters) — `src/Domain/` (pure PHP, zero framework),
   `src/Application/` (use cases), `src/Infrastructure/` (adapters). Ports are bound to adapters in
