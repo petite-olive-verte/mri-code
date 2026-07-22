@@ -1,0 +1,6 @@
+# HTTP routing is handled by API Platform (see config/routes/api_platform.yaml):
+# resources are declared with #[ApiResource] on the Infrastructure DTOs.
+# Add a custom controller route here only if you ever need one, e.g.:
+# controllers:
+#     resource: { path: ../src/Infrastructure/Controller/, namespace: App\Infrastructure\Controller }
+#     type: attribute

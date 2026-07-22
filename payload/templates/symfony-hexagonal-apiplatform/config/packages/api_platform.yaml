@@ -1,0 +1,11 @@
+api_platform:
+    title: Opsflow API
+    version: 1.0.0
+    # Hexagonal: API resources are Infrastructure DTOs, not the domain model.
+    mapping:
+        paths:
+            - '%kernel.project_dir%/src/Infrastructure/ApiPlatform/Resource'
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']

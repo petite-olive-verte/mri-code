@@ -1,0 +1,14 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    # `strict_types` is enforced by PHP-CS-Fixer; PHPStan checks the type-safety.
+    treatPhpDocTypesAsCertain: false
+    symfony:
+        containerXmlPath: var/cache/dev/App_Infrastructure_Symfony_KernelDevDebugContainer.xml

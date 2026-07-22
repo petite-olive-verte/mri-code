@@ -1,0 +1,11 @@
+# Client errors (4xx) are expected outcomes of the validation boundary, not
+# application faults. Log them below "error" so they don't pollute logs (and the
+# test output) — the HTTP status code is unchanged.
+framework:
+    exceptions:
+        Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException:
+            log_level: info
+            status_code: 422
+        Symfony\Component\HttpKernel\Exception\BadRequestHttpException:
+            log_level: info
+            status_code: 400

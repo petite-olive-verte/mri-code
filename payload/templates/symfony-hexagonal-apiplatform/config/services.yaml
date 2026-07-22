@@ -1,0 +1,24 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true      # inject dependencies by type-hint
+        autoconfigure: true # register commands, subscribers, message handlers, etc.
+
+    # Register App\ classes as services, but exclude what is *data*, not a
+    # service: the domain model, value objects and the command/query DTOs are
+    # constructed by handlers or Doctrine, never injected from the container.
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Infrastructure/Symfony/Kernel.php'
+            - '../src/Domain/Model/'
+            - '../src/Domain/ValueObject/'
+            - '../src/Domain/Exception/'
+            - '../src/Application/Command/'
+            - '../src/Application/Query/'
+
+    # Bind the ports (interfaces) to their driven adapters. This is the seam
+    # that keeps Domain/Application unaware of Infrastructure.
+    App\Domain\Repository\TaskRepository: '@App\Infrastructure\Doctrine\Repository\DoctrineTaskRepository'
+    App\Application\Port\Clock: '@App\Infrastructure\Clock\SystemClock'

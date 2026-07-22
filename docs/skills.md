@@ -59,6 +59,7 @@ above and the constitution's core never change.
 | `/mri-code-scaffold-react` | A React SPA — Vite + TypeScript strict + Vitest + Testing Library + Biome, feature-based layout. |
 | `/mri-code-scaffold-symfony` | A Symfony project — latest stable PHP/Symfony, PHPStan max, PHP-CS-Fixer, PHPUnit, Doctrine. |
 | `/mri-code-scaffold-symfony-hexagonal` | A Symfony project with a hexagonal (ports & adapters) layout — pure Domain / Application / Infrastructure, Doctrine XML mapping. |
+| `/mri-code-scaffold-symfony-hexagonal-apiplatform` | Hexagonal Symfony whose REST API is **API Platform 4** — resources as Infrastructure DTOs bridged to the domain by State providers/processors, domain never decorated. |
 
 ## Internal sub-skills
 

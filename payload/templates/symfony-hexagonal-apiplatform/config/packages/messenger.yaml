@@ -1,0 +1,18 @@
+framework:
+    messenger:
+        # Buses used for the command/query pattern. Handlers are autoconfigured.
+        default_bus: command.bus
+        buses:
+            command.bus:
+                middleware:
+                    - validation
+            query.bus:
+                middleware:
+                    - validation
+
+        transports:
+            async: '%env(MESSENGER_TRANSPORT_DSN)%'
+
+        routing:
+            # Route async messages here as the app grows, e.g.:
+            #   'App\Message\SomeAsyncMessage': async
