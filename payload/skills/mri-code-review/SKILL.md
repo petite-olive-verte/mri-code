@@ -130,7 +130,10 @@ gh api --method POST "repos/{owner}/{repo}/pulls/$PR/reviews" --input review.jso
 ```
 
 - **Event:** `REQUEST_CHANGES` if there is any Critical/Important issue, else `APPROVE`; use
-  `COMMENT` for a pure FYI. This mirrors a human reviewer's verdict.
+  `COMMENT` for a pure FYI. This mirrors a human reviewer's verdict. **But GitHub rejects
+  `REQUEST_CHANGES`/`APPROVE` on your *own* PR** (HTTP 422 — common for a solo dev whose token
+  authored the PR): if the PR author is the authenticated user (`gh pr view --json author` vs
+  `gh api user`), fall back to **`event: COMMENT`** and state the intended verdict in the body.
 - **Anchoring:** a `suggestion` block only works when the comment is anchored to the exact lines it
   replaces. For broader findings (architecture, missing tests) post a plain inline or summary comment
   with no suggestion.
