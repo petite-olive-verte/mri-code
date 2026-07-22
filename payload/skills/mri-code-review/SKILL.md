@@ -95,12 +95,15 @@ user accepts or rejects the suggestions on GitHub.
 
 ```bash
 BRANCH=$(git branch --show-current)
+# Integration branch, not a hardcoded main (respect a git-flow `develop`; see mri-code-finish Step 3).
+BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null \
+       || (git rev-parse --verify -q develop >/dev/null && echo develop) || echo main)
 gh pr view --json number >/dev/null 2>&1 || {
   git push -u origin "$BRANCH"
-  gh pr create --fill --body "Closes #<N>"   # <N> from progress.md ## Source
+  gh pr create --base "$BASE" --fill --body "Closes #<N>"   # <N> from progress.md ## Source
 }
 PR=$(gh pr view --json number -q .number)
-BASE_SHA=$(git merge-base origin/HEAD HEAD 2>/dev/null || git rev-parse origin/main)
+BASE_SHA=$(git merge-base "origin/$BASE" HEAD 2>/dev/null || git rev-parse "origin/$BASE")
 HEAD_SHA=$(git rev-parse HEAD)
 ```
 

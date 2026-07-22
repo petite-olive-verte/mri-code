@@ -64,12 +64,24 @@ new branch is named after it.
 
 ### Step 3: Determine Base Branch
 
+**Integrate into the project's integration branch, not a hardcoded `main`.** Many teams use a
+git-flow `develop` branch (features → `develop`; only releases → `main`). Resolve the target in this
+order and **respect it for both the local merge (Option 1) and the PR base (Option 2)**:
+
+1. The **constitution** — if `.mri_code/constitution.md` states a branch strategy (e.g. "integrate
+   through `develop`"), that wins.
+2. The repo's **default branch**: `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`
+   (GitHub default is what a PR targets; teams set it to `develop`).
+3. Fallback: `develop` if it exists (`git rev-parse --verify develop`), else `main`/`master`.
+
 ```bash
-# Try common base branches
-git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null
+BASE=$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name 2>/dev/null \
+       || (git rev-parse --verify -q develop >/dev/null && echo develop) || echo main)
+git merge-base HEAD "origin/$BASE" 2>/dev/null
 ```
 
-Or ask: "This branch split from main - is that correct?"
+Confirm with the user if unsure: "This branch integrates into `<BASE>` — correct?" **Never open the
+PR or merge into `main` when the project integrates through `develop`.**
 
 ### Step 4: Present Options
 
@@ -138,7 +150,7 @@ in Step 2, the PR was usually **already opened by `/mri-code-review`** (PR revie
 do not create a duplicate:
 
 ```bash
-gh pr view --json url,state -q .url 2>/dev/null || gh pr create --title "<title>" --body "<summary>
+gh pr view --json url,state -q .url 2>/dev/null || gh pr create --base "$BASE" --title "<title>" --body "<summary>
 
 Closes #<number>"
 ```
