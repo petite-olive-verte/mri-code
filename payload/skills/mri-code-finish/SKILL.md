@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Guide completion of development work by presenting clear options and handling chosen workflow.
 
-**Core principle:** Verify tests → Detect environment → Present options → Execute choice → Clean up.
+**Core principle:** Verify tests → Detect environment → **Reconcile docs with what shipped** → Present options → Execute choice → Clean up.
 
 **Announce at start:** "I'm using mri-code-finish to complete this work."
 
@@ -82,6 +82,40 @@ git merge-base HEAD "origin/$BASE" 2>/dev/null
 
 Confirm with the user if unsure: "This branch integrates into `<BASE>` — correct?" **Never open the
 PR or merge into `main` when the project integrates through `develop`.**
+
+### Step 3.5: Reconcile documentation with what shipped
+
+**Before integrating, make the docs tell the truth about what was actually built.** Implementations
+drift from the design — new dependencies, revised decisions, pinned versions, moved structure,
+adjusted acceptance criteria, gotchas found. Close that loop now so nothing ships stale.
+
+1. **Find the divergences.** Compare the delivered change against:
+   - the **design** — `spec.md`, or (issue-driven) the issue's `## Technical design (mri-code)` section;
+   - the **plan** — `plan.md`;
+   - the **in-repo, code-coupled docs** — README, service ADRs, OpenAPI (see `AGENTS.md` → *Documentation*).
+
+   List what actually changed vs. what was planned (deps added/removed, decisions revised, versions,
+   layout moves, acceptance-criteria tweaks). **If nothing diverged, say so and skip to Step 4** — do
+   not manufacture doc churn.
+
+2. **Update the design to as-built** (only what diverged):
+   - Idea-driven → edit `spec.md` (and `plan.md` if the task shape changed).
+   - Issue-driven → add/adjust a short **"As-built / divergences"** note in the issue's
+     `## Technical design (mri-code)` section. This is an **outward write — show the diff and get user
+     approval** before `gh issue edit`.
+
+3. **Update the in-repo code-coupled docs** (README etc.) if the change altered setup or behavior and
+   they drifted — and **commit them on this branch now**, so they integrate *with* the change (Step 5),
+   not as a forgotten afterthought.
+
+4. **If issue-driven, re-check the acceptance criteria** on the issue: tick the boxes the work now
+   satisfies (`gh issue edit` / a comment), so the issue reflects reality.
+
+5. **Record it** in `progress.md`: a one-line `as-built:` summary of the divergences (or "matched the
+   design").
+
+Cross-cutting / product docs that diverged are **not** handled here — they go to the separate doc repo
+via `/mri-code-document-sync` (suggested after the merge, below).
 
 ### Step 4: Present Options
 

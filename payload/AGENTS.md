@@ -106,6 +106,11 @@ Rule of thumb: if a doc only makes sense next to this codebase, keep it in-repo 
 spans repos or is read by other teams, it belongs in the doc repo (document-sync). Do not push
 code-coupled docs to the separate repo — they drift there.
 
+**Docs must be as-built, not as-designed.** At `/mri-code-finish`, before integrating, the design
+(`spec.md` or the issue's technical-design section) and the in-repo code-coupled docs are reconciled
+with what actually shipped — divergences (new deps, revised decisions, moved layout, tweaked
+acceptance criteria) are written back so nothing ships stale.
+
 ## Constitution
 Read and **respect** `.mri_code/constitution.md` (quality, tests, architecture, conventions). Its
 *Stack* section is an empty placeholder until `/mri-code-scaffold-*` seals the chosen stack into it —

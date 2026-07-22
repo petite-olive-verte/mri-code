@@ -26,7 +26,7 @@ writes the next.
 | `/mri-code-scaffold-*` | Scaffolds the project skeleton from a template, matching the stack in the constitution. New projects only. One skill per supported stack — see [Scaffold skills](#scaffold-skills). | `plan.md` → project skeleton |
 | `/mri-code-implement` | Executes the plan task by task with TDD and MCP visual feedback. Drives the internal sub-skills. | `plan.md` → code + tests |
 | `/mri-code-review` | Verifies the work meets the spec and plan before integration. Issue-driven journeys: reviews **on the PR** and posts findings as comments/`suggestion` blocks like a human reviewer — you accept/reject on GitHub. | code → review findings |
-| `/mri-code-finish` | Completes the work: merge, PR, or cleanup. When the journey started from an issue, the PR references and closes it (`Closes #id`). | reviewed code → integrated |
+| `/mri-code-finish` | Completes the work: reconciles the docs with what actually shipped (as-built), then merge, PR, or cleanup. When the journey started from an issue, the PR references and closes it (`Closes #id`). | reviewed code → integrated |
 
 ## On-demand skills
 
