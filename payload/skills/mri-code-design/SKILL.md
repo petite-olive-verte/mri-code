@@ -18,6 +18,13 @@ optionally hardened by `/mri-code-forge`) into a validated **technical design**,
 re-litigate it). Focus on the **technical how**: architecture, components, data flow, error handling,
 tests. Output: `.mri_code/docs/<project>/spec.md`.
 
+> **Source of truth — read `progress.md` first.** If it has a `## Source` block, this journey is
+> **issue-driven** (started by `/mri-code-issue`): the brief lives in the **GitHub issue**, not in
+> `brief.md`. Read it with `gh issue view <N>`, and on approval write the design **into the issue** —
+> append a `## Technical design (mri-code)` section to the body via `gh issue edit <N> --body-file`
+> (an **outward-facing write: get user approval first**) — instead of writing `spec.md`. Everything
+> else below is identical. See `AGENTS.md` → *Issue-driven journeys*.
+
 Communicate in the configured language and write the document in the configured document language
 (see `AGENTS.md`).
 
@@ -34,14 +41,19 @@ approval is the gate.** On approval, exit and write `spec.md` (checklist step 5)
 unavailable (non-interactive run), present the design inline and get explicit approval before writing.
 
 ## Checklist (create one task per item, in order)
-1. **Read the brief** `.mri_code/docs/<project>/brief.md` (+ project context: files, docs, recent commits).
+1. **Read the brief** `.mri_code/docs/<project>/brief.md` — **or the GitHub issue** (`gh issue view <N>`)
+   if `progress.md` has a `## Source` block (+ project context: files, docs, recent commits). **If
+   `.mri_code/assets/mockups/` holds mockups**, study them: they are the visual source of truth —
+   derive the screens, structure and UI states from them, and reflect them in the design.
 2. **Ask technical clarifying questions** — one at a time: fill the **design gaps** (do not re-explore the
    product). Technical constraints, dependencies, invariants, measurable success criteria.
 3. **Propose 2-3 technical approaches** — trade-offs + your recommendation first.
 4. **Present the design** in sections scaled to their complexity; get approval after each section.
    Cover: architecture, components, data flow, error handling, tests.
-5. **Write the design** to `.mri_code/docs/<project>/spec.md` and commit — **only after approval**
-   (ExitPlanMode, or inline approval if plan mode was unavailable).
+5. **Write the design** — **only after approval** (ExitPlanMode, or inline if plan mode was
+   unavailable). Idea-driven: to `.mri_code/docs/<project>/spec.md` and commit. **Issue-driven:**
+   append a `## Technical design (mri-code)` section to the **issue body** (`gh issue edit <N>`),
+   after showing the exact new body and getting approval; write no `spec.md`.
 6. **Spec self-review** — placeholders/TODO, internal contradictions, scope, ambiguity → fix inline.
 7. **User review** — ask the user to review the spec before proceeding.
 8. **Transition** — **suggest** the next command **`/mri-code-devplan`** (name the suggested model per
@@ -64,8 +76,8 @@ serve the current goal; no unrelated refactoring.
 4. **Ambiguity:** could a requirement be read two ways? Pick one and make it explicit.
 
 ## User review gate
-> "Spec written and committed to `<path>`. Please review it and tell me if you want any changes before
-> we write the implementation plan."
+> "Design written to `<path>` (or **into issue #N**). Please review it and tell me if you want any
+> changes before we write the implementation plan."
 Wait for the response. Changes requested → apply + re-run the self-review. Only proceed once approved.
 
 ## Visual feedback (web UI)
@@ -77,7 +89,8 @@ One question at a time · YAGNI ruthlessly · explore 2-3 approaches · incremen
 
 ## Tracking (progress.md)
 - Start: mark `design` `[~]` in `.mri_code/docs/<project>/progress.md`.
-- End: `design` `[x] → spec.md`, then: "**Next step → `/mri-code-devplan`**".
+- End: `design` `[x] → spec.md` (idea-driven) or `[x] → design in issue #N` (issue-driven), then:
+  "**Next step → `/mri-code-devplan`**".
 
 ---
 **User input:** $ARGUMENTS

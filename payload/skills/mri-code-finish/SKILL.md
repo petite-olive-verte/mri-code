@@ -57,6 +57,11 @@ This determines which menu to show and how cleanup works:
 | `GIT_DIR != GIT_COMMON`, named branch | Standard 4 options | Provenance-based (see Step 6) |
 | `GIT_DIR != GIT_COMMON`, detached HEAD | Reduced 3 options (no merge) | No cleanup (externally managed) |
 
+**Also detect an originating GitHub issue.** If the journey was started by `/mri-code-issue`, the
+`## Source` block in `.mri_code/docs/<project>/progress.md` carries the issue number, URL and
+suggested branch. Read it now: if present, the PR path (Option 2) links and closes the issue, and a
+new branch is named after it.
+
 ### Step 3: Determine Base Branch
 
 ```bash
@@ -127,6 +132,23 @@ git branch -d <feature-branch>
 # Push branch
 git push -u origin <feature-branch>
 ```
+
+**Issue-linked work (journey started by `/mri-code-issue`).** When a `## Source` block was detected
+in Step 2, the PR was usually **already opened by `/mri-code-review`** (PR review mode). Reuse it —
+do not create a duplicate:
+
+```bash
+gh pr view --json url,state -q .url 2>/dev/null || gh pr create --title "<title>" --body "<summary>
+
+Closes #<number>"
+```
+
+The PR body carries `Closes #<number>`, so **merging it closes the issue automatically** — and in the
+issue flow the merge typically happens **on GitHub**, after the user has accepted the review
+suggestions. Only merge here (`gh pr merge`) if the user explicitly asks. If the branch was created
+only at finish time (detached HEAD), name it after the issue's suggested branch
+(`issue-<number>-<slug>`) before pushing. If there is no originating issue, create the PR normally
+(`gh pr create` or the platform's PR flow) with no `Closes` line.
 
 **Do NOT clean up worktree** — user needs it alive to iterate on PR feedback.
 
@@ -243,10 +265,17 @@ git worktree prune  # Self-healing: clean up any stale registrations
 - `cd` to main repo root before worktree removal
 - Run `git worktree prune` after removal
 
+## After a successful merge — keep the docs current
+Once the work is **merged** (Option 1 locally, or the PR merged on GitHub in the issue flow),
+**suggest `/mri-code-document-sync`** (suggested model: **Sonnet**) to update the project's separate
+documentation repo so it stays in sync with the change. Do not launch it yourself. Skip the
+suggestion for Options 3 (keep as-is) and 4 (discard) — nothing was integrated.
+
 ## Tracking (progress.md)
 At the **start** of this step, mark it `[~]` in `.mri_code/docs/<project>/progress.md` (create the
 file if missing — schema in the `/mri-code-resume` command). At the **end**, set it to `[x]`. This is the
-**end of the pipeline** — the work is integrated; no further step to suggest.
+**end of the code pipeline** — the work is integrated. After a merge, the only follow-up is
+`/mri-code-document-sync` (docs), suggested above.
 
 ---
 **User input:** $ARGUMENTS

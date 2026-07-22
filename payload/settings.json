@@ -3,6 +3,7 @@
     "allow": [
       "Bash(git status:*)","Bash(git diff:*)","Bash(git add:*)","Bash(git commit:*)",
       "Bash(git log:*)","Bash(git branch:*)","Bash(git checkout:*)","Bash(git switch:*)",
+      "Bash(gh issue:*)","Bash(gh pr:*)","Bash(gh auth status:*)","Bash(gh repo:*)","Bash(gh api:*)",
       "Bash(uv:*)","Bash(ruff:*)","Bash(pytest:*)","Bash(python:*)","Bash(python3:*)",
       "Bash(ty:*)","Bash(mypy:*)",
       "Bash(composer:*)","Bash(php:*)","Bash(symfony:*)","Bash(vendor/bin/:*)",

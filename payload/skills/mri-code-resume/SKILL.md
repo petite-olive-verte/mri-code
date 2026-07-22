@@ -15,13 +15,17 @@ Resume the work in progress on this project.
 
 ## Behavior
 1. Look for the state file: `.mri_code/docs/*/progress.md` (the most recently modified if several).
-   - **Missing** → no work in progress: suggest `/mri-code-brainstorm` (new project) and stop.
+   - **Missing** → no work in progress: suggest `/mri-code-brainstorm` (new idea) or
+     `/mri-code-issue` (start from a GitHub issue) and stop.
 2. **Read `progress.md`**: report the state to the user (steps done `[x]`, in progress `[~]`, to do `[ ]`, + optional calls).
 3. **Re-enter** the **`[~]` in-progress step** (or, failing that, the first **`[ ]`** after the last `[x]`):
    reload the artifacts already on disk (`brief.md`, `spec.md`, `plan.md`…) and **run the matching
-   skill** to continue. If the step is `implement`, delegate the fine-grained detail to the checkboxes in
-   `plan.md` and to the **task ledger** `.mri_code/state/sdd/task-ledger.md` if present (tasks marked
-   complete there are DONE — do not redo them).
+   skill** to continue. **If `progress.md` has a `## Source` block, this journey is issue-driven**
+   (started by `/mri-code-issue`): the brief and technical design live in the **GitHub issue**, not in
+   `brief.md`/`spec.md` — reload them with `gh issue view <N>` (see `AGENTS.md` → *Issue-driven
+   journeys*); only `plan.md` is local. If the step is `implement`, delegate the fine-grained detail to
+   the checkboxes in `plan.md` and to the **task ledger** `.mri_code/state/sdd/task-ledger.md` if present
+   (tasks marked complete there are DONE — do not redo them).
 
 **Two levels of state (don't confuse them):** `docs/<project>/progress.md` tracks **phases**
 (brainstorm→finish) — this is what you read here. `state/sdd/task-ledger.md` tracks **tasks** inside the

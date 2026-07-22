@@ -18,14 +18,15 @@ writes the next.
 
 | Command | Does | In → out |
 |---|---|---|
+| `/mri-code-issue` | Alternate entry point: starts the flow from a **GitHub issue**. If the issue is too thin, enriches it with you and writes the refinement back to GitHub. The issue *is* the brief — nothing is duplicated locally. One issue = one journey. | issue → tracked journey |
 | `/mri-code-brainstorm` | Facilitated, challenging brainstorming — the agent draws ideas out of you, pushes on assumptions, then converges. | idea → `brief.md` |
 | `/mri-code-forge` | Pressure-tests the idea through a fixed multi-persona panel until it hardens, clarifies, or dies cheaply. | `brief.md` → *hardened* / *killed* |
 | `/mri-code-design` | The analysis→execution **bridge**: takes product intent as given and designs the architecture. Runs in plan mode. | `brief.md` → `spec.md` |
 | `/mri-code-devplan` | Breaks the spec into an ordered plan of independent, checkable tasks. Runs in plan mode. | `spec.md` → `plan.md` |
 | `/mri-code-scaffold-*` | Scaffolds the project skeleton from a template, matching the stack in the constitution. New projects only. One skill per supported stack — see [Scaffold skills](#scaffold-skills). | `plan.md` → project skeleton |
 | `/mri-code-implement` | Executes the plan task by task with TDD and MCP visual feedback. Drives the internal sub-skills. | `plan.md` → code + tests |
-| `/mri-code-review` | Verifies the work meets the spec and plan before integration. | code → review findings |
-| `/mri-code-finish` | Completes the work: merge, PR, or cleanup. | reviewed code → integrated |
+| `/mri-code-review` | Verifies the work meets the spec and plan before integration. Issue-driven journeys: reviews **on the PR** and posts findings as comments/`suggestion` blocks like a human reviewer — you accept/reject on GitHub. | code → review findings |
+| `/mri-code-finish` | Completes the work: merge, PR, or cleanup. When the journey started from an issue, the PR references and closes it (`Closes #id`). | reviewed code → integrated |
 
 ## On-demand skills
 
@@ -39,6 +40,7 @@ Suggested at the right moment, then you return to the flow.
 | `/mri-code-domain-research` | Domain/industry research: expertise, terminology, patterns, regulatory constraints. | after forge |
 | `/mri-code-technical-research` | Technical research: feasibility, architecture options, libraries, integration patterns. | after forge |
 | `/mri-code-document-project` | Documents an existing (brownfield) project — structure, stack, conventions, how to run/test — to give the agent context. | ahead of brainstorm, on an existing repo |
+| `/mri-code-document-sync` | After a merge, updates the project's **separate documentation repo** to match the change and opens a PR there. Remembers the doc repo in `.mri_code/document-sync.md`. | after `/mri-code-finish`, once merged |
 | `/mri-code-debug` | Systematic root-cause investigation before proposing fixes. | a bug or failing test |
 | `/mri-code-meta-prompt` | Turns a vague request into a precise, ready-to-use prompt. Standalone — outside the pipeline. | anytime |
 | `/mri-code-resume` | Re-reads `progress.md` and re-enters the current step. | resuming a session |
@@ -74,6 +76,13 @@ Generated artifacts are written to `.mri_code/docs/<project>/`:
 
 - `brief.md`, `spec.md`, `plan.md` — the outputs of brainstorm/design/devplan.
 - `progress.md` — the phase tracker `/mri-code-resume` reads to pick the pipeline back up.
+- `.mri_code/assets/mockups/` — mockups/designs imported at first launch (if any); the visual source of truth `design` and `implement` build against.
 
 State lives on disk, not in the conversation — so a session can end and resume cleanly. How
 this is wired into the deployed module is covered in **[architecture.md](architecture.md)**.
+
+**Issue-driven journeys are different.** When you start from `/mri-code-issue`, the **GitHub issue is
+the source of truth**: the brief and the technical design live *in the issue* (the design is written
+back as a `## Technical design (mri-code)` section), so no `brief.md`/`spec.md` is written. Only
+`progress.md` (with a `## Source` block flagging the mode) and `plan.md` stay local as operational
+state. Every skill reads `progress.md` first to know which mode it's in.

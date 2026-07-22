@@ -12,7 +12,15 @@ if [ -n "$inprogress" ]; then
   feat=$(basename "$(dirname "$inprogress")")
   resume="Work in progress detected: ${feat}. To resume → /mri-code-resume"
 else
-  resume="No work in progress → to start an idea: /mri-code-brainstorm"
+  resume="No work in progress → start an idea: /mri-code-brainstorm  ·  or from a GitHub issue: /mri-code-issue"
+fi
+
+# First launch of a fresh project (no work in progress, mockups not yet handled): the agent should
+# ask whether there are mockups/designs to import before the first command (see AGENTS.md → Mockups).
+mockups=""
+if [ -z "$inprogress" ] && [ ! -d .mri_code/assets/mockups ]; then
+  mockups="
+First launch: before the first command, ASK the user whether they have mockups/designs to import (see AGENTS.md → Mockups)."
 fi
 
 msg=" ███╗   ███╗██████╗ ██╗        ██████╗ ██████╗ ██████╗ ███████╗
@@ -24,9 +32,9 @@ msg=" ███╗   ███╗██████╗ ██╗        ██�
                         idea → shipped
 
 Command-driven mode (I wait for your commands, I auto-trigger nothing).
-Flow: /mri-code-brainstorm → /mri-code-forge → /mri-code-design → /mri-code-devplan → /mri-code-scaffold-* → /mri-code-implement → /mri-code-review → /mri-code-finish
-Optional: /mri-code-elicit · /mri-code-adversarial-review · /mri-code-market-research · /mri-code-domain-research · /mri-code-technical-research · /mri-code-document-project · /mri-code-debug · /mri-code-meta-prompt · /mri-code-resume
-${resume}"
+Flow: /mri-code-brainstorm (or /mri-code-issue) → /mri-code-forge → /mri-code-design → /mri-code-devplan → /mri-code-scaffold-* → /mri-code-implement → /mri-code-review → /mri-code-finish
+Optional: /mri-code-elicit · /mri-code-adversarial-review · /mri-code-market-research · /mri-code-domain-research · /mri-code-technical-research · /mri-code-document-project · /mri-code-document-sync · /mri-code-debug · /mri-code-meta-prompt · /mri-code-resume
+${resume}${mockups}"
 
 # Portable JSON-string encoder: jq if available, else python3, else a pure-bash fallback
 # (the message contains no " or \, so escaping backslash/quote/newline is sufficient).

@@ -6,6 +6,7 @@
 
 | Step / command | Task type | Suggested model | Why |
 |---|---|---|---|
+| `/mri-code-issue` | issue framing / enrichment | **Opus** | reads intent, closes gaps, rewrites the issue |
 | `/mri-code-brainstorm` | ideation / framing | **Opus** | open-ended reasoning, challenge |
 | `/mri-code-forge` | adversarial pressure-test | **Opus** | multi-persona argumentation |
 | `/mri-code-design` | architecture | **Opus** | multi-file design, trade-offs |
@@ -18,6 +19,7 @@
 | `/mri-code-debug` | debugging | **Sonnet** | short cycles; Opus for a stubborn cause |
 | `/mri-code-review` | code review | **Sonnet** (or **Opus** if demanding) | critical reading |
 | `/mri-code-finish` | git integration | any | mechanical |
+| `/mri-code-document-sync` | doc writing on the doc repo | **Sonnet** | summarize change, edit docs, open PR |
 
 ## Providers
 - **Opus / Sonnet**: native Claude Code — switch with `/model`.

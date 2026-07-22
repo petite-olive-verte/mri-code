@@ -31,6 +31,11 @@ internal to a single task.
 
 **Announce at start:** "I'm using mri-code-devplan to turn the spec into an implementation plan."
 
+> **Source of truth — read `progress.md` first.** If it has a `## Source` block, this journey is
+> **issue-driven**: the spec is the `## Technical design (mri-code)` section of the **GitHub issue**
+> (`gh issue view <N>`), not `spec.md`. Read it from there. `plan.md` still lives locally — the task
+> checkboxes are operational state, not a spec. See `AGENTS.md` → *Issue-driven journeys*.
+
 **Enter plan mode first.** Begin the step by entering native Claude Code plan mode (call the plan-mode
 tool yourself — the user does not toggle it). Plan mode is read-only, so no file is written while you
 reason and decompose. Present the task breakdown via ExitPlanMode — **that approval is the step's gate.**

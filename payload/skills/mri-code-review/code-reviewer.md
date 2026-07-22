@@ -94,10 +94,13 @@ Subagent (general-purpose):
     [Code style, optimization opportunities, documentation polish]
 
     For each issue:
-    - File:line reference
+    - File:line reference (precise — the exact line(s) the comment should anchor to)
     - What's wrong
     - Why it matters
     - How to fix (if not obvious)
+    - **Suggested change** (only when the fix is a concrete, single-hunk replacement of the
+      referenced lines): the exact replacement lines, fenced, so a reviewer can apply them verbatim.
+      Omit for broad findings (architecture, missing tests) that have no one-line answer.
 
     ### Recommendations
     [Improvements for code quality, architecture, or process]
