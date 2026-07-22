@@ -158,6 +158,9 @@ apply fixes, merge, or proceed. Next step after the user has handled the PR → 
 - Ignore Critical issues
 - Proceed with unfixed Important issues
 - Argue with valid technical feedback
+- Pass a change that altered public behavior/setup/API contract **without its code-coupled docs
+  updated in the same PR** (README, service ADR, OpenAPI/schema) — flag it Important. Cross-cutting
+  docs are out of scope (document-sync handles them). See `AGENTS.md` → *Documentation*.
 - **In PR review mode:** edit files, merge, or "fix and push" — post comments/suggestions only and
   let the human accept or reject on GitHub
 

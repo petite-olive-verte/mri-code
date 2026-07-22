@@ -386,6 +386,9 @@ Done!
 - Move to next task while the review has open Critical/Important issues
 - Re-dispatch a task the task ledger already marks complete — check
   the ledger (and `git log`) after any compaction or resume
+- Defer **code-coupled** doc updates (README, service ADR, OpenAPI/schema) to a separate doc
+  repo — they go in the **same commit/PR** as the change (see `AGENTS.md` → *Documentation*).
+  Only cross-cutting/product docs are left for `/mri-code-document-sync`.
 
 **If subagent asks questions:**
 - Answer clearly and completely

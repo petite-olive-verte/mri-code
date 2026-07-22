@@ -91,6 +91,21 @@ brief and the technical design — they are **not** duplicated under `.mri_code/
 - Idea-driven journeys (via `/mri-code-brainstorm`) are **unchanged** — `brief.md` / `spec.md` live
   locally as before. The mode is per-journey, decided by how it started.
 
+## Documentation — split by coupling to the code
+Decide where a doc lives by **how tightly it is coupled to the code**:
+- **Code-coupled docs** — README, setup/run, env vars, service-specific ADRs, the API schema/OpenAPI
+  generated from the code. They live **in the same repo as the code** and are updated **in the same
+  PR** as the change, never deferred. A change that alters public behavior, setup, config or an API
+  contract **must update them in the same commit**. `mri-code-implement` writes them with the code;
+  `mri-code-review` checks they were updated.
+- **Cross-cutting / product docs** — system architecture spanning services, the shared API reference
+  other repos consume, product/user guides, onboarding, glossary. They live in the **separate
+  documentation repo** and are synced **after merge** by `/mri-code-document-sync`.
+
+Rule of thumb: if a doc only makes sense next to this codebase, keep it in-repo (same PR); if it
+spans repos or is read by other teams, it belongs in the doc repo (document-sync). Do not push
+code-coupled docs to the separate repo — they drift there.
+
 ## Constitution
 Read and **respect** `.mri_code/constitution.md` (quality, tests, architecture, conventions). Its
 *Stack* section is an empty placeholder until `/mri-code-scaffold-*` seals the chosen stack into it —

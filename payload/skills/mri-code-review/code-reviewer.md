@@ -63,8 +63,14 @@ Subagent (general-purpose):
     **Production readiness:**
     - Migration strategy if schema changed?
     - Backward compatibility considered?
-    - Documentation complete?
     - No obvious bugs?
+
+    **Documentation (code-coupled, same PR):**
+    - Did the change alter public behavior, setup, config, env, or an API contract?
+      If so, are the in-repo docs it touches updated **in this same PR** (README, service
+      ADR, OpenAPI/schema)? Flag missing in-repo doc updates as Important.
+    - Cross-cutting/product docs (separate doc repo) are out of scope here — they are
+      handled after merge by document-sync; do not flag their absence.
 
     ## Calibration
 

@@ -17,6 +17,12 @@ so the docs stay current — without hand-holding. This edits **another GitHub r
 not the code repo, and opens a PR there for you to accept (same spirit as `/mri-code-review`:
 propose, don't force).
 
+**Scope — cross-cutting / product docs only.** This step handles the docs that live in the *separate*
+repo: system architecture spanning services, the shared API reference other repos consume,
+product/user guides, onboarding, glossary. **Code-coupled docs** (README, setup/run, service ADRs,
+OpenAPI/schema generated from code) are **not** this step's job — they belong *in the code PR* and
+should already be updated by `mri-code-implement`/`mri-code-review`. See `AGENTS.md` → *Documentation*.
+
 **Announce at start:** "I'm using mri-code-document-sync to update the documentation repo."
 
 Communicate in the configured language; write docs in the doc repo's own language/style (match what
@@ -47,7 +53,7 @@ The target doc repo is remembered in **`.mri_code/document-sync.md`**.
 
   Subsequent runs reuse this file — no need to ask again (edit it to change the target).
 
-## Step 2 — Determine what changed (user-facing only)
+## Step 2 — Determine what changed, and split code-coupled vs cross-cutting
 Work out what merged and what it means for the docs — **behavior, not internals**.
 
 - If this journey has a `## Source` block in `progress.md` (issue-driven), start from it: the issue
@@ -58,8 +64,15 @@ Work out what merged and what it means for the docs — **behavior, not internal
 - **Distill** the change into what a *reader of the docs* must now know: new/changed features, new
   flags or config, changed defaults, new commands, API/behavior changes, removed things. **Skip pure
   refactors, internal renames, test-only changes** — they do not touch the docs.
+- **Split the doc impact by coupling** (see `AGENTS.md` → *Documentation*):
+  - **Cross-cutting / product** (architecture, shared API reference, product/user guides,
+    onboarding) → this is what you sync to the doc repo below.
+  - **Code-coupled** (README, service ADR, OpenAPI/schema) → should already be in the merged code
+    PR. If you notice it was **missed** there, don't edit the doc repo for it — **flag it** so the
+    user fixes it in the code repo (a follow-up PR/commit), and leave it out of the doc PR.
 
-If nothing is user-facing, say so and stop — an empty doc PR is noise.
+If nothing **cross-cutting** changed, say so and stop — an empty doc PR is noise. (Missed
+code-coupled docs are reported, not synced here.)
 
 ## Step 3 — Check out the doc repo
 Work on an isolated copy of the doc repo (never the code repo's tree):
@@ -105,6 +118,8 @@ branch and report it instead of pushing.
 ## Red flags
 **Never:**
 - Edit the **code** repo here — this step only touches the doc repo.
+- Sync **code-coupled** docs (README, service ADR, OpenAPI/schema) into the doc repo — those belong
+  in the code PR. If they were missed, **report** it for a code-repo fix instead.
 - Auto-merge the doc PR (unless explicitly asked) — propose, let the user accept.
 - Document internal refactors / test-only changes as if they were features.
 - Restructure or reformat the doc repo beyond what the change needs.

@@ -35,9 +35,13 @@ Subagent (general-purpose):
     1. Implement exactly what the task specifies
     2. Write tests (following TDD if task says to)
     3. Verify implementation works
-    4. Commit your work
-    5. Self-review (see below)
-    6. Report back
+    4. Update code-coupled docs **in the same commit** — if your change alters public
+       behavior, setup, config, env, or an API contract, update the in-repo docs it
+       touches (README, service ADR, OpenAPI/schema). Do NOT defer this to a separate
+       doc repo. Cross-cutting/product docs are handled later by document-sync — not here.
+    5. Commit your work
+    6. Self-review (see below)
+    7. Report back
 
     Work from: [directory]
 
